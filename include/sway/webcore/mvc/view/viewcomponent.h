@@ -50,7 +50,11 @@ public:
 	 */
 	virtual void update() override;
 
-	void render();
+	void addChildView(ViewComponent * child);
+	void removeChildView(ViewComponent * child);
+
+	virtual void prerepaint();
+	void repaint();
 
 	/*!
 	 * \brief
@@ -81,6 +85,10 @@ private:
 class ViewComponentWrapper : public emscripten::wrapper<ViewComponent> {
 public:
 	EMSCRIPTEN_WRAPPER(ViewComponentWrapper)
+
+	void prerepaint() {
+		return call<void>("prerepaint");
+	}
 };
 
 NAMESPACE_END(view)

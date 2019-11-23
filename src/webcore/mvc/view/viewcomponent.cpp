@@ -17,6 +17,10 @@ ViewComponent::ViewComponent(const std::string & name, const ViewComponentOption
 	if (!options.classname.empty()) _domElement.addClassName(options.classname);
 }
 
+void ViewComponent::prerepaint() {
+	// Default Implementation
+}
+
 void ViewComponent::addEvent(const std::string & targetId, EventTypes_t type, emscripten::val callback) {
 	_handlers.push_back((struct EventHandler) {
 		.targetId = targetId,
@@ -28,7 +32,8 @@ void ViewComponent::addEvent(const std::string & targetId, EventTypes_t type, em
 }
 
 ViewComponent::~ViewComponent() {
-	// Empty
+	EM_ASM({console.log("DESTROY_VIEW " + UTF8ToString($0))}, getName().c_str());
+	removeAll();
 }
 
 void ViewComponent::update() {
@@ -43,17 +48,22 @@ void ViewComponent::update() {
 	}
 }
 
-void ViewComponent::render() {
-	EM_ASM({ console.log("Render: " + UTF8ToString($0)) }, getName().c_str());
+void ViewComponent::addChildView(ViewComponent * child) {
+	addChild(child);
+	repaint();
+}
 
-	if (_regionSetted) {
-		_region->detachView(this);
-		_region->attachView(this);
-	}
+void ViewComponent::removeChildView(ViewComponent * child) {
+	removeChild(child);
+	SAFE_DELETE(child);
+}
+
+void ViewComponent::repaint() {
+	prerepaint();
 
 	for (typename NodeMap_t::const_iterator iter = children.begin(); iter != children.end(); ++iter) {
 		ViewComponent * child = static_cast<ViewComponent *>(iter->second);
-		child->render();
+		child->repaint();
 	}
 }
 

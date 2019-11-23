@@ -42,6 +42,12 @@ void Region::attachView(ViewComponent * view) {
 	if (parent._val.isNull())
 		return;
 
+	EM_ASM({
+		console.groupCollapsed("ATTACH_VIEW " + UTF8ToString($0));
+		console.log(UTF8ToString($1));
+		console.groupEnd();
+	}, view->getName().c_str(), current.toString().c_str());
+
 	if (_replace) parent.replaceChild(view->getElement(), current);
 	else current.appendChild(view->getElement());
 
@@ -57,6 +63,12 @@ void Region::detachView(ViewComponent * view) {
 		dom::Element parent = current.getParentElement();
 		if (parent._val.isNull())
 			return;
+
+		EM_ASM({
+			console.groupCollapsed("DETACH_VIEW " + UTF8ToString($0));
+			console.log(UTF8ToString($1));
+			console.groupEnd();
+		}, view->getName().c_str(), current.toString().c_str());
 
 		if (_replace) parent.replaceChild(_domElement, current);
 		else current.removeChild(view->getElement());

@@ -18,9 +18,8 @@ Application::~Application() {
 }
 
 void Application::start() {
-	_view->render();
-	
-	_view->update();
+	_view->repaint();
+	//_view->update();
 }
 
 NAMESPACE_END(webcore)

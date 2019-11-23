@@ -7,14 +7,24 @@ EMSCRIPTEN_BINDINGS(event_listener) {
 		.function<void>("handleEvent", &EventListener::handleEvent);
 }
 
+EMSCRIPTEN_BINDINGS(router) {
+	emscripten::class_<router::Router>("Router")
+		.constructor()
+		.function("addRoute", &router::Router::addRoute)
+		.function("navigate", &router::Router::navigate);
+}
+
 EMSCRIPTEN_BINDINGS(view) {
 	emscripten::class_<mvc::view::TViewHierarchy<mvc::model::AbstractModel>>("THierarchy<val>")
 		.constructor<std::string>()
-		.function("getParent", &mvc::view::TViewHierarchy<mvc::model::AbstractModel>::getParent, emscripten::allow_raw_pointers())
-		.function("setParent", &mvc::view::TViewHierarchy<mvc::model::AbstractModel>::setParent, emscripten::allow_raw_pointers())
 		.function("addChild", &mvc::view::TViewHierarchy<mvc::model::AbstractModel>::addChild, emscripten::allow_raw_pointers())
 		.function("removeChild", &mvc::view::TViewHierarchy<mvc::model::AbstractModel>::removeChild, emscripten::allow_raw_pointers())
-		.function("findChild", &mvc::view::TViewHierarchy<mvc::model::AbstractModel>::findChild, emscripten::allow_raw_pointers());
+		.function("findChild", &mvc::view::TViewHierarchy<mvc::model::AbstractModel>::findChild, emscripten::allow_raw_pointers())
+		.function("getChildCount", &mvc::view::TViewHierarchy<mvc::model::AbstractModel>::getChildCount)
+		.function("getParent", &mvc::view::TViewHierarchy<mvc::model::AbstractModel>::getParent, emscripten::allow_raw_pointers())
+		.function("setParent", &mvc::view::TViewHierarchy<mvc::model::AbstractModel>::setParent, emscripten::allow_raw_pointers())
+		.function("getName", &mvc::view::TViewHierarchy<mvc::model::AbstractModel>::getName)
+		.function("setName", &mvc::view::TViewHierarchy<mvc::model::AbstractModel>::setName);
 
 	emscripten::class_<mvc::view::TAbstractView<mvc::model::AbstractModel>, emscripten::base<mvc::view::TViewHierarchy<mvc::model::AbstractModel>>>("TAbstractView<val>")
 		.constructor<std::string>()
@@ -24,10 +34,20 @@ EMSCRIPTEN_BINDINGS(view) {
 
 	emscripten::class_<mvc::view::ViewComponent, emscripten::base<mvc::view::TAbstractView<mvc::model::AbstractModel>>>("ViewComponent")
 		.property("name", &mvc::view::ViewComponent::getName)
-		.allow_subclass<mvc::view::ViewComponentWrapper>("ViewComponentWrapper", emscripten::constructor<const std::string &, const mvc::view::ViewComponentOptions &>())
+		.allow_subclass<mvc::view::ViewComponentWrapper>("ViewComponentWrapper", emscripten::constructor<std::string, mvc::view::ViewComponentOptions>())
+		.function("prerepaint", emscripten::optional_override([](mvc::view::ViewComponent & self) {
+			return self.ViewComponent::prerepaint();
+		}))
+		.function("update", &mvc::view::ViewComponent::update)
+		.function("repaint", &mvc::view::ViewComponent::repaint)
+
 		.function("getElement", &mvc::view::ViewComponent::getElement)
 		.function("getRegion", &mvc::view::ViewComponent::getRegion)
 		.function("setRegion", &mvc::view::ViewComponent::setRegion)
+
+		.function("addChildView", &mvc::view::ViewComponent::addChildView, emscripten::allow_raw_pointers())
+		.function("removeChildView", &mvc::view::ViewComponent::removeChildView, emscripten::allow_raw_pointers())
+		
 		.function("addEvent", &mvc::view::ViewComponent::addEvent, emscripten::allow_raw_pointers());
 }
 
@@ -74,10 +94,8 @@ EMSCRIPTEN_BINDINGS(jsbindings) {
 		.field("htmlString", &mvc::view::ViewComponentOptions::htmlString);
 
 	emscripten::class_<mvc::controller::AbstractController>("AbstractController")
-		//.constructor<mvc::model::ModelSmartPtr_t>()
 		.constructor<mvc::model::AbstractModel *>()
 		.function("getModel", &mvc::controller::AbstractController::getModel, emscripten::allow_raw_pointers());
-		//.function("getModel", &mvc::controller::AbstractController::getModel);
 } // EMSCRIPTEN_BINDINGS
 
 int main() {

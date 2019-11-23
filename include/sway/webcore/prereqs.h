@@ -3,13 +3,16 @@
 
 #include <sway/core.h>
 
-#include <emscripten/html5.h>
 #include <emscripten/emscripten.h>
+#include <emscripten/html5.h>
 #include <emscripten/bind.h>
 #include <emscripten/val.h>
+#include <sstream>
 #include <memory>
 #include <vector>
 #include <map>
+#include <functional>
+#include <regex.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
