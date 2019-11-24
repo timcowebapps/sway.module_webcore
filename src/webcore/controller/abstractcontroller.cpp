@@ -1,8 +1,7 @@
-#include <sway/webcore/mvc/controller/abstractcontroller.h>
+#include <sway/webcore/controller/abstractcontroller.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
-NAMESPACE_BEGIN(mvc)
 NAMESPACE_BEGIN(controller)
 
 AbstractController::AbstractController(model::AbstractModel */*model::ModelSmartPtr_t*/ model)
@@ -19,6 +18,5 @@ model::AbstractModel */*model::ModelSmartPtr_t*/ AbstractController::getModel() 
 }
 
 NAMESPACE_END(controller)
-NAMESPACE_END(mvc)
 NAMESPACE_END(webcore)
 NAMESPACE_END(sway)

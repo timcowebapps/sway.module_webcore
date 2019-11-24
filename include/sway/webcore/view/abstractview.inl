@@ -1,10 +1,9 @@
-#include <sway/webcore/mvc/view/abstractview.h>
-#include <sway/webcore/mvc/model/observable.h>
+#include <sway/webcore/view/abstractview.h>
+#include <sway/webcore/model/observable.h>
 #include <type_traits>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
-NAMESPACE_BEGIN(mvc)
 NAMESPACE_BEGIN(view)
 
 template<class OBSERVABLE_CLASS>
@@ -34,6 +33,5 @@ OBSERVABLE_CLASS * TAbstractView<OBSERVABLE_CLASS>::getModel() {
 }
 
 NAMESPACE_END(view)
-NAMESPACE_END(mvc)
 NAMESPACE_END(webcore)
 NAMESPACE_END(sway)

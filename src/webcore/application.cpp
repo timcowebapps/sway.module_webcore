@@ -3,7 +3,7 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 
-Application::Application(const std::string & elementId, mvc::view::ViewComponent * view)
+Application::Application(const std::string & elementId, view::ViewComponent * view)
 	: _view(view) {
 
 	dom::Element root = dom::Document::getElementById(elementId);

@@ -1,8 +1,7 @@
-#include <sway/webcore/mvc/model/observable.h>
+#include <sway/webcore/model/observable.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
-NAMESPACE_BEGIN(mvc)
 NAMESPACE_BEGIN(model)
 
 Observable::Observable() {
@@ -33,6 +32,5 @@ void Observable::notify() {
 }
 
 NAMESPACE_END(model)
-NAMESPACE_END(mvc)
 NAMESPACE_END(webcore)
 NAMESPACE_END(sway)

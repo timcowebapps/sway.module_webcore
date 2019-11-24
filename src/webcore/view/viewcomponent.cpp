@@ -1,14 +1,11 @@
-#include <sway/webcore/mvc/view/viewcomponent.h>
+#include <sway/webcore/view/viewcomponent.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
-NAMESPACE_BEGIN(mvc)
 NAMESPACE_BEGIN(view)
 
 ViewComponent::ViewComponent(const std::string & name, const ViewComponentOptions & options)
 	: TAbstractView<model::AbstractModel>(name)
-	, _region(nullptr)
-	, _regionSetted(false)
 	, _domElement(emscripten::val::null()) {
 
 	_domElement = dom::Document::createElement(options.tagname);
@@ -17,8 +14,8 @@ ViewComponent::ViewComponent(const std::string & name, const ViewComponentOption
 	if (!options.classname.empty()) _domElement.addClassName(options.classname);
 }
 
-void ViewComponent::prerepaint() {
-	// Default Implementation
+void ViewComponent::buildTemplate(const std::string & html) {
+	_domElement.setInnerHtml(html);
 }
 
 void ViewComponent::addEvent(const std::string & targetId, EventTypes_t type, emscripten::val callback) {
@@ -36,16 +33,27 @@ ViewComponent::~ViewComponent() {
 	removeAll();
 }
 
-void ViewComponent::update() {
-	for (int i = 0; i < _handlers.size(); ++i) {
-		EventHandler event = _handlers[i];
-		event.target->addEventListener(event.targetId, stringize(event.type));
-	}
+void ViewComponent::addRegion(const std::string & name, const RegionOptions & options) {
+	_regions.insert(std::make_pair(name, std::make_shared<Region>(/*this, */options)));
+}
 
-	for (typename NodeMap_t::const_iterator iter = children.begin(); iter != children.end(); ++iter) {
-		ViewComponent * child = static_cast<ViewComponent *>(iter->second);
-		child->update();
-	}
+RegionPtr_t ViewComponent::getRegion(const std::string & name) const {
+	RegionIterator_t iter = _regions.find(name);
+	if (iter != _regions.end())
+		return iter->second;
+
+	return nullptr;
+}
+
+RegionNameVec_t ViewComponent::getRegionNames() const {
+	RegionNameVec_t keys;
+	std::transform(_regions.begin(), _regions.end(), std::back_inserter(keys),
+		[](const RegionMap_t::value_type & pair) {
+			return pair.first;
+		}
+	);
+
+	return keys;
 }
 
 void ViewComponent::addChildView(ViewComponent * child) {
@@ -58,6 +66,22 @@ void ViewComponent::removeChildView(ViewComponent * child) {
 	SAFE_DELETE(child);
 }
 
+void ViewComponent::update() {
+	for (int i = 0; i < _handlers.size(); ++i) {
+		EventHandler event = _handlers[i];
+		event.target->addEventListener(event.targetId, stringize(event.type));
+	}
+
+	for (typename NodeMap_t::const_iterator iter = children.begin(); iter != children.end(); ++iter) {
+		ViewComponent * child = static_cast<ViewComponent *>(iter->second);
+		child->update();
+	}
+}
+
+void ViewComponent::prerepaint() {
+	// Default Implementation
+}
+
 void ViewComponent::repaint() {
 	prerepaint();
 
@@ -67,20 +91,10 @@ void ViewComponent::repaint() {
 	}
 }
 
-void ViewComponent::setRegion(RegionPtr_t region) {
-	_region = region;
-	_regionSetted = true;
-}
-
-RegionPtr_t ViewComponent::getRegion() {
-	return _region;
-}
-
 emscripten::val ViewComponent::getElement() {
 	return _domElement;
 }
 
 NAMESPACE_END(view)
-NAMESPACE_END(mvc)
 NAMESPACE_END(webcore)
 NAMESPACE_END(sway)

@@ -1,12 +1,11 @@
-#ifndef _SWAY_WEBCORE_MVC_MODEL_ABSTRACTMODEL_H
-#define _SWAY_WEBCORE_MVC_MODEL_ABSTRACTMODEL_H
+#ifndef _SWAY_WEBCORE_MODEL_ABSTRACTMODEL_H
+#define _SWAY_WEBCORE_MODEL_ABSTRACTMODEL_H
 
-#include <sway/webcore/mvc/model/observable.h>
+#include <sway/webcore/model/observable.h>
 #include <sway/webcore/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
-NAMESPACE_BEGIN(mvc)
 NAMESPACE_BEGIN(model)
 
 class AbstractModel : public Observable {
@@ -32,9 +31,9 @@ public:
 
 	#pragma region Setters / Getters
 
-	void setProperty(const std::string & key, const std::string & value);
+	void setProp(const std::string & key, const emscripten::val & value);
 
-	emscripten::val getProperties() const;
+	emscripten::val getProps() const;
 
 	#pragma endregion // Setters / Getters
 
@@ -43,8 +42,7 @@ private:
 };
 
 NAMESPACE_END(model)
-NAMESPACE_END(mvc)
 NAMESPACE_END(webcore)
 NAMESPACE_END(sway)
 
-#endif // _SWAY_WEBCORE_MVC_MODEL_ABSTRACTMODEL_H
+#endif // _SWAY_WEBCORE_MODEL_ABSTRACTMODEL_H

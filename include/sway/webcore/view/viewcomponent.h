@@ -1,21 +1,20 @@
-#ifndef _SWAY_WEBCORE_MVC_VIEW_VIEWCOMPONENT_H
-#define _SWAY_WEBCORE_MVC_VIEW_VIEWCOMPONENT_H
+#ifndef _SWAY_WEBCORE_VIEW_VIEWCOMPONENT_H
+#define _SWAY_WEBCORE_VIEW_VIEWCOMPONENT_H
 
 #include <sway/webcore/dom/document.h>
 #include <sway/webcore/dom/element.h>
 #include <sway/webcore/eventtypes.h>
 #include <sway/webcore/eventtarget.h>
 #include <sway/webcore/eventhandler.h>
-#include <sway/webcore/mvc/model/abstractmodel.h>
-#include <sway/webcore/mvc/view/abstractview.h>
-#include <sway/webcore/mvc/view/observer.h>
-#include <sway/webcore/mvc/view/region.h>
-#include <sway/webcore/mvc/view/viewcomponentoptions.h>
+#include <sway/webcore/model/abstractmodel.h>
+#include <sway/webcore/view/abstractview.h>
+#include <sway/webcore/view/observer.h>
+#include <sway/webcore/view/region.h>
+#include <sway/webcore/view/viewcomponentoptions.h>
 #include <sway/webcore/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
-NAMESPACE_BEGIN(mvc)
 NAMESPACE_BEGIN(view)
 
 class ViewComponent : public TAbstractView<model::AbstractModel> {
@@ -44,40 +43,53 @@ public:
 
 	#pragma endregion // Constructor / Destructor
 
+	void buildTemplate(const std::string & html);
+
+	/*!
+	 * \brief
+	 *    Добавляет новый регион.
+	 * 
+	 * \param[in] name
+	 *    Имя регион.
+	 * 
+	 * \param[in] options
+	 *    Опции региона.
+	 */
+	void addRegion(const std::string & name, const RegionOptions & options);
+	
+	/*!
+	 * \brief
+	 *    Возвращает регион.
+	 * 
+	 * \param[in] name
+	 *    Имя регион.
+	 */
+	RegionPtr_t getRegion(const std::string & name) const;
+
+	/*!
+	 * \brief
+	 *    Возвращает имена регионов.
+	 */
+	RegionNameVec_t getRegionNames() const;
+
+	void addEvent(const std::string & targetId, EventTypes_t type, emscripten::val callback);
+
+	void addChildView(ViewComponent * child);
+	void removeChildView(ViewComponent * child);
+
 	/**
 	 * \brief
 	 *    Обновление представения.
 	 */
 	virtual void update() override;
 
-	void addChildView(ViewComponent * child);
-	void removeChildView(ViewComponent * child);
-
 	virtual void prerepaint();
 	void repaint();
 
-	/*!
-	 * \brief
-	 *    Устанавливает регион.
-	 * 
-	 * \param[in] model
-	 *    Регион.
-	 */
-	void setRegion(RegionPtr_t region);
-
-	/*!
-	 * \brief
-	 *    Возвращает регион.
-	 */
-	RegionPtr_t getRegion();
-
 	emscripten::val getElement();
 
-	void addEvent(const std::string & targetId, EventTypes_t type, emscripten::val callback);
-
 private:
-	RegionPtr_t _region; /*!< Регион. */
-	bool _regionSetted;
+	RegionMap_t _regions; /*!< Карта регионов. */
 	dom::Element _domElement;
 	std::vector<EventHandler> _handlers;
 };
@@ -92,8 +104,7 @@ public:
 };
 
 NAMESPACE_END(view)
-NAMESPACE_END(mvc)
 NAMESPACE_END(webcore)
 NAMESPACE_END(sway)
 
-#endif // _SWAY_WEBCORE_MVC_VIEW_VIEWCOMPONENT_H
+#endif // _SWAY_WEBCORE_VIEW_VIEWCOMPONENT_H

@@ -1,9 +1,8 @@
-#include <sway/webcore/mvc/view/region.h>
-#include <sway/webcore/mvc/view/viewcomponent.h>
+#include <sway/webcore/view/region.h>
+#include <sway/webcore/view/viewcomponent.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
-NAMESPACE_BEGIN(mvc)
 NAMESPACE_BEGIN(view)
 
 RegionPtr_t Region::create(const RegionOptions & options) {
@@ -51,6 +50,7 @@ void Region::attachView(ViewComponent * view) {
 	if (_replace) parent.replaceChild(view->getElement(), current);
 	else current.appendChild(view->getElement());
 
+	//_view->addChild(view);
 	_elementAttached = true;
 }
 
@@ -78,6 +78,5 @@ void Region::detachView(ViewComponent * view) {
 }
 
 NAMESPACE_END(view)
-NAMESPACE_END(mvc)
 NAMESPACE_END(webcore)
 NAMESPACE_END(sway)

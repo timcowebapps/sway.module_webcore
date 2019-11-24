@@ -3,7 +3,7 @@
 
 #include <sway/webcore/dom/document.h>
 #include <sway/webcore/dom/element.h>
-#include <sway/webcore/mvc/view/viewcomponent.h>
+#include <sway/webcore/view/viewcomponent.h>
 #include <sway/webcore/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
@@ -19,7 +19,7 @@ public:
 	 *    Конструктор класса.
 	 *    Выполняет инициализацию нового экземпляра класса.
 	 */
-	Application(const std::string & elementId, mvc::view::ViewComponent * view);
+	Application(const std::string & elementId, view::ViewComponent * view);
 
 	/*!
 	 * \brief
@@ -32,7 +32,7 @@ public:
 	void start();
 
 private:
-	mvc::view::ViewComponent * _view; /*!< Представление. */
+	view::ViewComponent * _view; /*!< Представление. */
 };
 
 NAMESPACE_END(webcore)

@@ -1,6 +1,7 @@
 "use strict";
 
 import * as _ from "underscore";
+import * as Handlebars from "handlebars";
 import { IViewComponentOptions } from "./viewcomponentoptions";
 
 export interface IView {
@@ -42,12 +43,24 @@ export class ViewComponent implements IView {
 		// Empty
 	}
 
-	public prerepaint(): void {
-		// Empty
+	public buildTemplate(html: string, context: any): void {
+		this._wasm_viewcomponent.buildTemplate(_.template(Handlebars.compile(html)(context))());
 	}
 
-	public setRegion(region: any): void {
-		this._wasm_viewcomponent.setRegion(region);
+	public addRegion(name: string, options: any): void {
+		this._wasm_viewcomponent.addRegion(name, options);
+	}
+
+	public getRegion(name: string): any {
+		return this._wasm_viewcomponent.getRegion(name);
+	}
+
+	public getRegionNames(): any {
+		return this._wasm_viewcomponent.getRegionNames();
+	}
+
+	public prerepaint(): void {
+		// Empty
 	}
 
 	public getModel(): any {
