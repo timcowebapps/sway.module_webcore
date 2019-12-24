@@ -1,7 +1,7 @@
 #ifndef _SWAY_WEBCORE_CONTROLLER_ABSTRACTCONTROLLER_H
 #define _SWAY_WEBCORE_CONTROLLER_ABSTRACTCONTROLLER_H
 
-#include <sway/webcore/model/abstractmodel.h>
+#include <sway/webcore/model/abstractitemmodel.h>
 #include <sway/webcore/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
@@ -21,7 +21,7 @@ public:
 	 * \param[in] model
 	 *    Модель данных.
 	 */
-	AbstractController(model::AbstractModel */*model::ModelSmartPtr_t*/ model);
+	AbstractController(model::AbstractItemModel */*model::ModelSmartPtr_t*/ model);
 
 	/*!
 	 * \brief
@@ -35,11 +35,11 @@ public:
 	 * \brief
 	 *    Возвращает модель данных.
 	 */
-	model::AbstractModel */*model::ModelSmartPtr_t*/ getModel();
+	model::AbstractItemModel * getModel();
 
 private:
-	model::AbstractModel * /*model::ModelSmartPtr_t*/ _model; /*!< Модель данных. */
-	view::ViewComponent * _view; /*!< Представление. */
+	model::AbstractItemModel * _model; /*!< Модель данных. */
+	//view::ViewComponent * _view; /*!< Представление. */
 };
 
 NAMESPACE_END(controller)

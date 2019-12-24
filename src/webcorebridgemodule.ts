@@ -1,7 +1,7 @@
 "use strict";
 
 export interface IWebcoreBridgeModule {
-	AbstractModel: any;
+	AbstractItemModel: any;
 	Region: any;
 	ViewComponent: any;
 	AbstractController: any;

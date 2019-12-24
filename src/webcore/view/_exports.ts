@@ -1,5 +1,5 @@
 "use strict";
 
-export * from "./region";
-export * from "./viewcomponentoptions";
-export * from "./viewcomponent";
+export * from "./itemview";
+export * from "./itemcollectionview";
+export * from "./advanced/stackview";

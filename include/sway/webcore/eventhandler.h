@@ -9,9 +9,9 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 
 struct EventHandler {
+	std::string type; /* Тип события. */
 	std::string targetId;
 	webcore::EventTarget * target;
-	webcore::EventTypes_t type;
 };
 
 NAMESPACE_END(webcore)

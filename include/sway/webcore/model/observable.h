@@ -35,7 +35,7 @@ public:
 	 * \param[in] observer
 	 *    Наблюдатель будет добавлен в список наблюдателей.
 	 */
-	void addObserver(view::IObserver * observer);
+	void registerObserver(view::IObserver * observer);
 
 	/**
 	 * \brief
@@ -50,7 +50,7 @@ public:
 	 * \brief
 	 *    Уведомляет всех наблюдателей о том, что событие произошло.
 	 */
-	void notify();
+	void notifyPropertyChanged();
 
 private:
 	view::ObserverArray_t _observers; /*!< Массив наблюдателей, которые слушают этот наблюдаемый объект. */

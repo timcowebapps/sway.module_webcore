@@ -1,15 +1,20 @@
 #ifndef _SWAY_WEBCORE_APPLICATION_H
 #define _SWAY_WEBCORE_APPLICATION_H
 
-#include <sway/webcore/dom/document.h>
-#include <sway/webcore/dom/element.h>
-#include <sway/webcore/view/viewcomponent.h>
+#include <sway/webcore/dom/htmldocument.h>
+#include <sway/webcore/dom/htmlelement.h>
+#include <sway/core/containers/treelistener.h>
+#include <sway/webcore/base/treeupdater.h>
+#include <sway/webcore/base/treenode.h>
+#include <sway/webcore/view/itemview.h>
 #include <sway/webcore/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 
-class Application {
+class Application
+	: public core::containers::TreeListener {
+
 public:
 
 	#pragma region Constructor / Destructor
@@ -19,7 +24,7 @@ public:
 	 *    Конструктор класса.
 	 *    Выполняет инициализацию нового экземпляра класса.
 	 */
-	Application(const std::string & elementId, view::ViewComponent * view);
+	Application(const std::string & elementId);
 
 	/*!
 	 * \brief
@@ -29,10 +34,20 @@ public:
 
 	#pragma endregion // Constructor / Destructor
 
+	virtual void onNodeUpdated(core::containers::TreeNodePtr_t child);
+
+	virtual void onNodeAdded(core::containers::TreeNodePtr_t parent, core::containers::TreeNodePtr_t child);
+
+	virtual void onNodeRemoved(core::containers::TreeNodePtr_t parent, core::containers::TreeNodePtr_t child);
+
+	base::TreeNode * getRoot();
+
 	void start();
 
 private:
-	view::ViewComponent * _view; /*!< Представление. */
+	core::containers::Tree * _tree;
+	base::TreeNode * _root;
+	base::TreeUpdater * _treeUpdater;
 };
 
 NAMESPACE_END(webcore)

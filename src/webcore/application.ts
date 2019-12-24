@@ -1,9 +1,9 @@
 "use strict";
 
 export class Application {
-	public _wasm_application: any = null;
+	public wasm_module: any = null;
 
-	constructor(context: any, elementId: string, view: any) {
-		this._wasm_application = new context.module.Application(elementId, view._wasm_viewcomponent);
+	constructor(public wasm_context: any = null, elementId: string) {
+		this.wasm_module = new wasm_context.module.Application(elementId);
 	}
 };

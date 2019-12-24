@@ -10,27 +10,26 @@
 #include <sstream>
 #include <memory>
 #include <vector>
+#include <deque>
 #include <map>
 #include <functional>
 #include <regex.h>
+#include <algorithm>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 
 NAMESPACE_BEGIN(model)
 class Observable;
-class AbstractModel;
-typedef std::shared_ptr<class AbstractModel> ModelSmartPtr_t;
+class AbstractItemModel;
+typedef std::shared_ptr<class AbstractItemModel> ModelSmartPtr_t;
 NAMESPACE_END(model)
 
 NAMESPACE_BEGIN(view)
 class Region;
-class ViewComponent;
 class IObserver;
 typedef std::vector<class IObserver *> ObserverArray_t;
 typedef ObserverArray_t::const_iterator ObserverArrayIterator_t;
-typedef std::map<std::string, class ViewComponent *> ViewMap_t;
-typedef ViewMap_t::const_iterator ViewIterator_t;
 NAMESPACE_END(view)
 
 typedef std::function<void(emscripten::val)> EventCallback_t;

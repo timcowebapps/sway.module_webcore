@@ -25,7 +25,7 @@ public:
 	 * \brief
 	 *    Обновляет состояние наблюдателя.
 	 */
-    virtual void update() = 0;
+    virtual void onDataChanged() = 0;
 };
 
 NAMESPACE_END(view)

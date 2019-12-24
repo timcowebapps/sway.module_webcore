@@ -4,6 +4,13 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 NAMESPACE_BEGIN(router)
 
+void Router::registerEmscriptenClass(lpcstr_t name) {
+	emscripten::class_<Router>(name)
+		.constructor()
+		.function("addRoute", &Router::addRoute)
+		.function("navigate", &Router::navigate);
+}
+
 Router::Router() {
 	// Empty
 }

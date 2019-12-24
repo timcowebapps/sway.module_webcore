@@ -12,10 +12,8 @@ Observable::~Observable() {
 	_observers.clear();
 }
 
-void Observable::addObserver(view::IObserver * observer) {
-	view::ObserverArrayIterator_t iter = std::find(_observers.begin(), _observers.end(), observer);
-	if (iter != _observers.end())
-		_observers.push_back(observer);
+void Observable::registerObserver(view::IObserver * observer) {
+	_observers.push_back(observer);
 }
 
 void Observable::removeObserver(view::IObserver * observer) {
@@ -24,10 +22,10 @@ void Observable::removeObserver(view::IObserver * observer) {
 		_observers.erase(iter);
 }
 
-void Observable::notify() {
+void Observable::notifyPropertyChanged() {
 	for (view::IObserver * observer : _observers) {
 		if (observer != nullptr)
-			observer->update();
+			observer->onDataChanged();
 	}
 }
 

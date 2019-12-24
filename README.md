@@ -25,7 +25,7 @@ em++ --clear-cache
 Конфигурируем проект для сборки
 
 ```console
-cmake ./../
+cmake -DMODULE_CORE_EMSCRIPTEN=ON ./../
 ```
 
 Запускаем сборку

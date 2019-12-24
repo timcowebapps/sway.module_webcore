@@ -11,6 +11,12 @@ NAMESPACE_BEGIN(router)
 class Router {
 public:
 
+	#pragma region Static methods
+
+	static void registerEmscriptenClass(lpcstr_t name);
+
+	#pragma endregion // Static methods
+
 	#pragma region Constructor / Destructor
 
 	/*!

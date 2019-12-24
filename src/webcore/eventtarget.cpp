@@ -1,5 +1,5 @@
 #include <sway/webcore/eventtarget.h>
-#include <sway/webcore/dom/document.h>
+#include <sway/webcore/dom/htmldocument.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
@@ -17,7 +17,7 @@ EventTarget::~EventTarget() {
 }
 
 void EventTarget::addEventListener(const std::string & targetId, const std::string & type) {
-	emscripten::val target = dom::Document::getElementById(targetId);
+	emscripten::val target = dom::HtmlDocument::getElementById(targetId);
 	target.call<void>("addEventListener", type, _listener);
 	_events.emplace_back(target, type);
 }
