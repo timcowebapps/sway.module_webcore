@@ -44,6 +44,7 @@ public:
 	#pragma region General methods
 
 	void addItem(base::TreeNode * item);
+	void handleItemAdded(const core::containers::TreeNodeIndex & nodeIndex);
 
 	void removeItem(base::TreeNode * item);
 

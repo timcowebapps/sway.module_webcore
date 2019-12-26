@@ -31,7 +31,11 @@ void StackView::accept(base::ITreeVisitor * visitor) {
 
 void StackView::addItem(base::TreeNode * item) {
 	item->getOwned()->setVisible(false);
-	addChild(item);
+	add(item, std::bind(&StackView::handleItemAdded, this, std::placeholders::_1));
+}
+
+void StackView::handleItemAdded(const core::containers::TreeNodeIndex & nodeIndex) {
+	EM_ASM({console.log("STACK_VIEW ITEM ADDED")});
 }
 
 void StackView::removeItem(base::TreeNode * item) {
@@ -48,7 +52,7 @@ void StackView::setCurrentItem(u32_t nodeIdex) {
 	for (core::containers::TreeNodePtr_t child : getChildren())
 		static_cast<TreeNode *>(child)->getOwned()->setVisible(false);
 
-	TreeNode * item = (TreeNode *) getChild(nodeIdex);
+	TreeNode * item = getChildAt<TreeNode *>(nodeIdex);
 	item->getOwned()->setVisible(true);
 
 	for (core::containers::TreeListener * listener : getHostTree()->getListeners())

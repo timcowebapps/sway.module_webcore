@@ -33,9 +33,9 @@ void Application::onNodeUpdated(core::containers::TreeNodePtr_t child) {
 	_treeUpdater->forceUpdate();
 }
 
-void Application::onNodeAdded(core::containers::TreeNodePtr_t parent, core::containers::TreeNodePtr_t child) {
-	base::TreeNode * element = (base::TreeNode *) child;
-	EM_ASM({console.log("NODE_ID " + UTF8ToString($0))}, child->getNodeId().c_str());
+void Application::onNodeAdded(const core::containers::TreeNodeIndex & nodeIndex) {
+	base::TreeNode * element = (base::TreeNode *) _tree->find(nodeIndex.getParent());
+	EM_ASM({console.log("_NODE_ID " + UTF8ToString($0))}, nodeIndex.toString().c_str());
 
 	if (element)
 		element->accept(_treeUpdater);

@@ -36,7 +36,7 @@ public:
 
 	virtual void onNodeUpdated(core::containers::TreeNodePtr_t child);
 
-	virtual void onNodeAdded(core::containers::TreeNodePtr_t parent, core::containers::TreeNodePtr_t child);
+	virtual void onNodeAdded(const core::containers::TreeNodeIndex & nodeIndex);
 
 	virtual void onNodeRemoved(core::containers::TreeNodePtr_t parent, core::containers::TreeNodePtr_t child);
 
