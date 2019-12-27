@@ -1,7 +1,7 @@
 #ifndef _SWAY_WEBCORE_BASE_NODESYNCHRONIZER_H
 #define _SWAY_WEBCORE_BASE_NODESYNCHRONIZER_H
 
-#include <sway/webcore/dom/htmlbuilder.h>
+#include <sway/webcore/base/dom/htmlbuilder.h>
 #include <sway/webcore/base/pendingnode.h>
 #include <sway/webcore/prereqs.h>
 

@@ -1,15 +1,17 @@
-#ifndef _SWAY_WEBCORE_VIEW_ADVANCED_STACKVIEW_H
-#define _SWAY_WEBCORE_VIEW_ADVANCED_STACKVIEW_H
+#ifndef _SWAY_WEBCORE_CONTROL_LABEL_H
+#define _SWAY_WEBCORE_CONTROL_LABEL_H
 
 #include <sway/webcore/base/treenodeelement.h>
 #include <sway/webcore/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
-NAMESPACE_BEGIN(view)
-NAMESPACE_BEGIN(advanced)
+NAMESPACE_BEGIN(control)
 
-class StackView
+class Label;
+typedef std::shared_ptr<Label> LabelSmartPtr_t;
+
+class Label
 	: public base::TreeNodeElement {
 
 public:
@@ -17,6 +19,9 @@ public:
 	#pragma region Static methods
 
 	static void registerEmscriptenClass(lpcstr_t classname);
+
+	static LabelSmartPtr_t createControl(core::containers::TreeNodePtr_t parent, const std::string & nodeId,
+		const base::TreeNodeElementCreateInfo & createInfo, const std::string & content);
 
 	#pragma endregion // Static methods
 
@@ -27,45 +32,41 @@ public:
 	 *    Конструктор класса.
 	 *    Выполняет инициализацию нового экземпляра класса.
 	 */
-	StackView(core::containers::TreeNodePtr_t parent,
-		//const core::containers::TreeNodeIndex & nodeIndex,
+	Label(core::containers::TreeNodePtr_t parent,
 		const std::string & nodeId, const base::TreeNodeElementCreateInfo & createInfo);
 
 	/*!
 	 * \brief
 	 *    Виртуальный деструктор класса.
 	 */
-	virtual ~StackView() = default;
+	virtual ~Label() = default;
 
 	#pragma endregion // Constructor / Destructor
 
 	virtual void accept(base::ITreeVisitor * visitor);
 
-	#pragma region General methods
-
-	void addItem(base::TreeNodeElement * item);
-
-	void handleItemAdded(const core::containers::TreeNodeIndex & nodeIndex);
-
-	void removeItem(base::TreeNodeElement * item);
-
-	#pragma endregion // General methods
-
 	#pragma region Getters / Setters
 
-	u32_t getCurrentItem();
+	void setStyleSheet(emscripten::val styleSheet);
 
-	void setCurrentItem(u32_t nodeIdex);
+	void setFontFamily(const std::string & fontFamily);
+
+	void setColor(const std::string & color);
+
+	std::string getText() const;
+
+	void setText(const std::string & text);
 
 	#pragma endregion // Getters / Setters
 
 private:
-	u32_t _current = 0;
+	std::map<std::string, std::string> _styleSheet;
+	std::string _fontFamily;
+	std::string _color;
 };
 
-NAMESPACE_END(advanced)
-NAMESPACE_END(view)
+NAMESPACE_END(control)
 NAMESPACE_END(webcore)
 NAMESPACE_END(sway)
 
-#endif // _SWAY_WEBCORE_VIEW_ADVANCED_STACKVIEW_H
+#endif // _SWAY_WEBCORE_CONTROL_LABEL_H

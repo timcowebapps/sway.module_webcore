@@ -8,7 +8,7 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 NAMESPACE_BEGIN(base)
 
-class TreeNode;
+class TreeNodeElement;
 class RegionMixin {
 public:
 
@@ -38,9 +38,9 @@ public:
 
 	#pragma endregion // Constructor / Destructor
 
-	void attachView(TreeNode * node);
+	void attachView(TreeNodeElement * node);
 
-	void detachView(TreeNode * node);
+	void detachView(TreeNodeElement * node);
 
 	std::string getAttachedNodeId() const;
 

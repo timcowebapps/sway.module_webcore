@@ -1,6 +1,6 @@
 "use strict";
 
-export class AbstractItemCollection {
+export class AItemCollection {
 	public _module: any = null;
 
 	constructor(wasm_context: any) {

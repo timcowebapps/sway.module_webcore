@@ -8,11 +8,11 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 NAMESPACE_BEGIN(base)
 
-class TreeNode;
+class TreeNodeElement;
 class ITreeVisitor {
 public:
 	virtual ~ITreeVisitor() = default;
-	virtual void visit(TreeNode * node) = 0;
+	virtual void visit(TreeNodeElement * node) = 0;
 
 	// virtual void visitOnEnter(TreeNode * node) = 0;
 	// virtual void visitOnLeave(TreeNode * node) = 0;

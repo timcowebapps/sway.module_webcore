@@ -1,7 +1,7 @@
 #ifndef _SWAY_WEBCORE_VIEW_ABSTRACTITEMVIEW_H
 #define _SWAY_WEBCORE_VIEW_ABSTRACTITEMVIEW_H
 
-#include <sway/webcore/base/treenode.h>
+#include <sway/webcore/base/treenodeelement.h>
 #include <sway/webcore/view/observer.h>
 #include <sway/webcore/prereqs.h>
 
@@ -14,7 +14,7 @@ NAMESPACE_BEGIN(view)
  *    Абстрактное представление.
  */
 class AItemView
-	: public base::TreeNode
+	: public base::TreeNodeElement
 	, public virtual IObserver {
 public:
 
@@ -40,6 +40,7 @@ public:
 	AItemView(core::containers::TreeNodePtr_t parent,
 		//const core::containers::TreeNodeIndex & nodeIndex,
 		const std::string & nodeId, const base::TreeNodeElementCreateInfo & createInfo);
+
 	AItemView(core::containers::TreeNodePtr_t parent,
 		const core::containers::TreeNodeIndex & nodeIndex,
 		const std::string & nodeId, const base::TreeNodeElementCreateInfo & createInfo);

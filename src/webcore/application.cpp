@@ -23,19 +23,9 @@ Application::~Application() {
 	SAFE_DELETE(_treeUpdater);
 }
 
-void Application::onNodeUpdated(core::containers::TreeNodePtr_t child) {
-	base::TreeNode * element = (base::TreeNode *) child;
-	EM_ASM({console.log("NODE_UPDATE_ID " + UTF8ToString($0))}, child->getNodeId().c_str());
-
-	if (element)
-		element->accept(_treeUpdater);
-
-	_treeUpdater->forceUpdate();
-}
-
 void Application::onNodeAdded(const core::containers::TreeNodeIndex & nodeIndex) {
-	base::TreeNode * element = (base::TreeNode *) _tree->find(nodeIndex.getParent());
-	EM_ASM({console.log("_NODE_ID " + UTF8ToString($0))}, nodeIndex.toString().c_str());
+	base::TreeNodeElement * element = (base::TreeNodeElement *) _tree->find(nodeIndex.getParent());
+	EM_ASM({console.log("NODE_ID " + UTF8ToString($0))}, nodeIndex.toString().c_str());
 
 	if (element)
 		element->accept(_treeUpdater);
@@ -47,7 +37,17 @@ void Application::onNodeRemoved(core::containers::TreeNodePtr_t parent, core::co
 	// Empty
 }
 
-base::TreeNode * Application::getRoot() {
+void Application::onNodeUpdated(const core::containers::TreeNodeIndex & nodeIndex) {
+	base::TreeNodeElement * element = (base::TreeNodeElement *) _tree->find(nodeIndex.getParent());
+	EM_ASM({console.log("NODE_UPDATE_ID " + UTF8ToString($0))}, nodeIndex.toString().c_str());
+
+	if (element)
+		element->accept(_treeUpdater);
+
+	_treeUpdater->forceUpdate();
+}
+
+base::TreeNodeElement * Application::getRoot() {
 	return _root;
 }
 

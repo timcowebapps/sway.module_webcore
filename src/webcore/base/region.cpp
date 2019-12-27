@@ -1,5 +1,5 @@
 #include <sway/webcore/base/region.h>
-#include <sway/webcore/base/treenode.h>
+#include <sway/webcore/base/treenodeelement.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
@@ -24,12 +24,12 @@ RegionMixin::RegionMixin(core::containers::Tree * tree,
 	// Empty
 }
 
-void RegionMixin::attachView(TreeNode * node) {
+void RegionMixin::attachView(TreeNodeElement * node) {
 	_attachedNodeId = node->getNodeId();
 	_attached = _tree->find(_parentNodeIndex)->addChild(node).isValid();
 }
 
-void RegionMixin::detachView(TreeNode * node) {
+void RegionMixin::detachView(TreeNodeElement * node) {
 	if (_attached) {
 		_tree->find(_parentNodeIndex)->removeChild(node);
 		_attached = false;

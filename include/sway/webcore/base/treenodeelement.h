@@ -6,14 +6,24 @@
 #include <sway/webcore/eventhandler.h>
 
 #include <sway/webcore/base/treenodeelementcreateinfo.h>
+#include <sway/webcore/base/regioncreateinfo.h>
+#include <sway/webcore/base/region.h>
 #include <sway/webcore/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 NAMESPACE_BEGIN(base)
 
-class TreeNode;
-class TreeNodeElement {
+
+typedef std::shared_ptr<RegionMixin> RegionMixinPtr_t;
+typedef std::map<std::string, RegionMixinPtr_t> RegionMixinMap_t;
+typedef RegionMixinMap_t::const_iterator RegionMixinIterator_t;
+typedef std::vector<std::string> RegionMixinNameVec_t;
+
+class ITreeVisitor;
+
+class TreeNodeElement
+	: public core::containers::TreeNodeBase {
 public:
 
 	#pragma region Static methods
@@ -29,7 +39,8 @@ public:
 	 *    Конструктор класса.
 	 *    Выполняет инициализацию нового экземпляра класса.
 	 */
-	TreeNodeElement(const TreeNodeElementCreateInfo & createInfo);
+	TreeNodeElement(core::containers::TreeNodePtr_t parent, const core::containers::TreeNodeIndex & nodeIndex,
+		const std::string & nodeId, const TreeNodeElementCreateInfo & createInfo);
 
 	/*!
 	 * \brief
@@ -39,26 +50,56 @@ public:
 
 	#pragma endregion // Constructor / Destructor
 
+	#pragma region Pure virtual methods
+
+	//IVisitable
+	//virtual void accept(ITreeVisitor * visitor) = 0;
+	virtual void accept(ITreeVisitor * visitor) {
+		// Empty
+	}
+
+	#pragma endregion // Pure virtual methods
+
+	#pragma region General methods
+
+	/*!
+	 * \brief
+	 *    Добавляет новый регион.
+	 * 
+	 * \param[in] name
+	 *    Имя регион.
+	 * 
+	 * \param[in] createInfo
+	 *    Опции региона.
+	 */
+	void addRegion(const std::string & name, const RegionCreateInfo & createInfo);
+
+	/*!
+	 * \brief
+	 *    Возвращает регион.
+	 * 
+	 * \param[in] name
+	 *    Имя регион.
+	 */
+	RegionMixinPtr_t getRegion(const std::string & name) const;
+
+	RegionMixinPtr_t getRegionByNodeId(const std::string & nodeId) const;
+
+	RegionMixinMap_t getRegions();
+
+	/*!
+	 * \brief
+	 *    Возвращает имена регионов.
+	 */
+	RegionMixinNameVec_t getRegionNames() const;
+
+	#pragma endregion // General methods
+
 	void addEvent(const std::string & targetId, const std::string & type, emscripten::val callback);
 
 	void bindEvents();
 
 	#pragma region Getters / Setters
-
-	/*!
-	 * \brief
-	 *    Возвращает узел дерева.
-	 */
-	TreeNode * getTreeNode();
-
-	/*!
-	 * \brief
-	 *    Устанавливает узел дерева.
-	 * 
-	 * \param[in] node
-	 *    Узел дерева.
-	 */
-	void setTreeNode(TreeNode * node);
 
 	/*!
 	 * \brief
@@ -101,7 +142,7 @@ public:
 	#pragma endregion // Getters / Setters
 
 private:
-	TreeNode * _treenode = nullptr; /*!< Узел дерева. */
+	RegionMixinMap_t _regions; /*!< Карта регионов. */
 	std::vector<EventHandler> _handlers;
 	std::string _htmlElementTagname; /*!< Имя тега. */
 	std::string _htmlElementId; /*!< Уникальный идентификатор. */

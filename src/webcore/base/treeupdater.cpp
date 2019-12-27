@@ -1,7 +1,6 @@
 #include <sway/webcore/base/treeupdater.h>
-#include <sway/webcore/base/treenode.h>
-#include <sway/webcore/dom/htmldocument.h>
-#include <sway/webcore/dom/htmlelement.h>
+#include <sway/webcore/base/dom/htmldocument.h>
+#include <sway/webcore/base/dom/htmlelement.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
@@ -15,19 +14,19 @@ TreeUpdater::~TreeUpdater() {
 	// Empty
 }
 
-void TreeUpdater::visit(TreeNode * node) {
-	if (!node->getOwned()->hasVisibled())
+void TreeUpdater::visit(TreeNodeElement * node) {
+	if (!node->hasVisibled())
 		return;
 
-	TreeNode * parent = (TreeNode *) node->getParentNode();
-	if (!parent->getOwned()->hasVisibled())
+	TreeNodeElement * parent = (TreeNodeElement *) node->getParentNode();
+	if (!parent->hasVisibled())
 		return;
 
 	EM_ASM({console.log("NODE_INDEX " + UTF8ToString($0) + " - " + UTF8ToString($1))}, node->getNodeId().c_str(), node->getNodeIndex().toString().c_str());
 
 	if (parent) {
 		RegionMixinPtr_t region = parent->getRegionByNodeId(node->getNodeId());
-		_pendingUpdateNodes.emplace_back(parent->getOwned(), node, region);
+		_pendingUpdateNodes.emplace_back(parent, node, region);
 	}
 }
 

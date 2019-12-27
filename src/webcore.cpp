@@ -3,13 +3,14 @@
 #include <sway/webcore/model/abstractitemcollection.h>
 #include <sway/webcore/router/router.h>
 
+#include <sway/webcore/base/treeupdater.h>
 #include <sway/webcore/base/region.h>
 #include <sway/webcore/base/treenodeelement.h>
-#include <sway/webcore/base/treenode.h>
 #include <sway/webcore/view/itemview.h>
 #include <sway/webcore/view/itemcollectionview.h>
 #include <sway/webcore/view/advanced/stackview.h>
-#include <sway/webcore/base/treeupdater.h>
+#include <sway/webcore/control/layout.h>
+#include <sway/webcore/control/label.h>
 #include <sway/webcore/application.h>
 
 using namespace sway;
@@ -92,10 +93,11 @@ EMSCRIPTEN_BINDINGS(views) {
 
 	base::RegionMixin::registerEmscriptenClass("RegionMixin");
 	base::TreeNodeElement::registerEmscriptenClass("TreeNodeElement");
-	base::TreeNode::registerEmscriptenClass("TreeNode");
 	view::AItemView::registerEmscriptenClass("AItemView");
 	view::AItemCollectionView::registerEmscriptenClass("AItemCollectionView");
 	view::advanced::StackView::registerEmscriptenClass("StackView");
+	control::Layout::registerEmscriptenClass("Layout");
+	control::Label::registerEmscriptenClass("Label");
 } // views
 
 EMSCRIPTEN_BINDINGS(controllers) {

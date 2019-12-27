@@ -1,7 +1,8 @@
-#include <sway/webcore/dom/htmlelement.h>
+#include <sway/webcore/base/dom/htmlelement.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
+NAMESPACE_BEGIN(base)
 NAMESPACE_BEGIN(dom)
 
 HtmlElement::HtmlElement()
@@ -34,8 +35,12 @@ HtmlElement HtmlElement::removeChild(const HtmlElement & child) {
 	return _val.call<emscripten::val>("removeChild", child._val);
 }
 
-void HtmlElement::setInnerHtml(const std::string & content) {
-	_val.set("innerHTML", content);
+void HtmlElement::setInnerHtml(const std::string & html) {
+	_val.set("innerHTML", html);
+}
+
+void HtmlElement::setInnerContent(const std::string & content, bool dirty) {
+	_val.set(core::misc::format("inner%s", dirty ? "HTML" : "Text"), content);
 }
 
 void HtmlElement::setAttribute(const std::string & key, const std::string & value) {
@@ -51,5 +56,6 @@ std::string HtmlElement::toString() const {
 }
 
 NAMESPACE_END(dom)
+NAMESPACE_END(base)
 NAMESPACE_END(webcore)
 NAMESPACE_END(sway)

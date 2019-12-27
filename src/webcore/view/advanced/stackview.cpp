@@ -7,7 +7,7 @@ NAMESPACE_BEGIN(view)
 NAMESPACE_BEGIN(advanced)
 
 void StackView::registerEmscriptenClass(lpcstr_t classname) {
-	emscripten::class_<StackView, emscripten::base<base::TreeNode>>(classname)
+	emscripten::class_<StackView, emscripten::base<base::TreeNodeElement>>(classname)
 		.constructor<core::containers::TreeNodePtr_t, std::string, base::TreeNodeElementCreateInfo>()
 		.function("addItem", &StackView::addItem, emscripten::allow_raw_pointers())
 		.function("removeItem", &StackView::removeItem, emscripten::allow_raw_pointers())
@@ -18,7 +18,7 @@ void StackView::registerEmscriptenClass(lpcstr_t classname) {
 StackView::StackView(core::containers::TreeNodePtr_t parent,
 	//const core::containers::TreeNodeIndex & nodeIndex,
 	const std::string & nodeId, const base::TreeNodeElementCreateInfo & createInfo)
-	: base::TreeNode(parent, core::containers::TreeNodeIndex(), nodeId, createInfo) {
+	: base::TreeNodeElement(parent, core::containers::TreeNodeIndex(), nodeId, createInfo) {
 	// Empty
 }
 
@@ -29,8 +29,8 @@ void StackView::accept(base::ITreeVisitor * visitor) {
 		static_cast<StackView *>(node)->accept(visitor);
 }
 
-void StackView::addItem(base::TreeNode * item) {
-	item->getOwned()->setVisible(false);
+void StackView::addItem(base::TreeNodeElement * item) {
+	item->setVisible(false);
 	add(item, std::bind(&StackView::handleItemAdded, this, std::placeholders::_1));
 }
 
@@ -38,7 +38,7 @@ void StackView::handleItemAdded(const core::containers::TreeNodeIndex & nodeInde
 	EM_ASM({console.log("STACK_VIEW ITEM ADDED")});
 }
 
-void StackView::removeItem(base::TreeNode * item) {
+void StackView::removeItem(base::TreeNodeElement * item) {
 	removeChild(item);
 }
 
@@ -50,13 +50,13 @@ void StackView::setCurrentItem(u32_t nodeIdex) {
 	_current = nodeIdex;
 
 	for (core::containers::TreeNodePtr_t child : getChildren())
-		static_cast<TreeNode *>(child)->getOwned()->setVisible(false);
+		static_cast<TreeNodeElement *>(child)->setVisible(false);
 
-	TreeNode * item = getChildAt<TreeNode *>(nodeIdex);
-	item->getOwned()->setVisible(true);
+	TreeNodeElement * item = getChildAt<TreeNodeElement *>(nodeIdex);
+	item->setVisible(true);
 
 	for (core::containers::TreeListener * listener : getHostTree()->getListeners())
-		listener->onNodeUpdated(item);
+		listener->onNodeUpdated(item->getNodeIndex());
 }
 
 NAMESPACE_END(advanced)

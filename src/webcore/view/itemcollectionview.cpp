@@ -9,7 +9,7 @@ NAMESPACE_BEGIN(webcore)
 NAMESPACE_BEGIN(view)
 
 void AItemCollectionView::registerEmscriptenClass(lpcstr_t classname) {
-	emscripten::class_<AItemCollectionView, emscripten::base<base::TreeNode>>(classname)
+	emscripten::class_<AItemCollectionView, emscripten::base<base::TreeNodeElement>>(classname)
 		.allow_subclass<AItemCollectionViewComponentWrapper>("AItemCollectionViewComponentWrapper", emscripten::constructor<core::containers::TreeNodePtr_t, std::string, base::TreeNodeElementCreateInfo>())
 		.constructor<core::containers::TreeNodePtr_t, std::string, base::TreeNodeElementCreateInfo>()
 		.function("initialize", emscripten::optional_override([](AItemCollectionView & self) {
@@ -26,7 +26,7 @@ void AItemCollectionView::registerEmscriptenClass(lpcstr_t classname) {
 AItemCollectionView::AItemCollectionView(core::containers::TreeNodePtr_t parent,
 	//const core::containers::TreeNodeIndex & nodeIndex,
 	const std::string & nodeId, const base::TreeNodeElementCreateInfo & createInfo)
-	: base::TreeNode(parent, core::containers::TreeNodeIndex(), nodeId, createInfo)
+	: base::TreeNodeElement(parent, core::containers::TreeNodeIndex(), nodeId, createInfo)
 	, _model(nullptr) {
 	// Empty
 }
@@ -39,7 +39,7 @@ void AItemCollectionView::onDataChanged() {
 	// Empty
 }
 
-void AItemCollectionView::makeItem(u32_t index, base::TreeNode * child) {
+void AItemCollectionView::makeItem(u32_t index, base::TreeNodeElement * child) {
 	auto collection = static_cast<model::AbstractItemCollection *>(getModel());
 	auto item = static_cast<AItemView *>(child);
 	item->setNodeId(core::misc::format("%s_%i", item->getNodeId().c_str(), index));

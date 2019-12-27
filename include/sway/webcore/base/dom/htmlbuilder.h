@@ -1,24 +1,17 @@
-#ifndef _SWAY_WEBCORE_VIEW_ADVANCED_STACKVIEW_H
-#define _SWAY_WEBCORE_VIEW_ADVANCED_STACKVIEW_H
+#ifndef _SWAY_WEBCORE_BASE_DOM_HTMLBUILDER_H
+#define _SWAY_WEBCORE_BASE_DOM_HTMLBUILDER_H
 
+#include <sway/webcore/base/dom/htmlelement.h>
 #include <sway/webcore/base/treenodeelement.h>
 #include <sway/webcore/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
-NAMESPACE_BEGIN(view)
-NAMESPACE_BEGIN(advanced)
+NAMESPACE_BEGIN(base)
+NAMESPACE_BEGIN(dom)
 
-class LayoutElement
-	: public base::TreeNodeElement {
-
+class HtmlBuilder {
 public:
-
-	#pragma region Static methods
-
-	static void registerEmscriptenClass(lpcstr_t classname);
-
-	#pragma endregion // Static methods
 
 	#pragma region Constructor / Destructor
 
@@ -27,22 +20,24 @@ public:
 	 *    Конструктор класса.
 	 *    Выполняет инициализацию нового экземпляра класса.
 	 */
-	LayoutElement(const base::TreeNodeElementCreateInfo & createInfo);
+	HtmlBuilder();
 
 	/*!
 	 * \brief
 	 *    Виртуальный деструктор класса.
 	 */
-	virtual ~LayoutElement() = default;
+	virtual ~HtmlBuilder() = default;
 
 	#pragma endregion // Constructor / Destructor
+
+	HtmlElement createHtmlElement(TreeNodeElement * element);
 
 private:
 };
 
-NAMESPACE_END(advanced)
-NAMESPACE_END(view)
+NAMESPACE_END(dom)
+NAMESPACE_END(base)
 NAMESPACE_END(webcore)
 NAMESPACE_END(sway)
 
-#endif // _SWAY_WEBCORE_VIEW_ADVANCED_STACKVIEW_H
+#endif // _SWAY_WEBCORE_BASE_DOM_HTMLBUILDER_H

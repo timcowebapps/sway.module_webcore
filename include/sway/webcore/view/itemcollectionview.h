@@ -1,7 +1,7 @@
 #ifndef _SWAY_WEBCORE_VIEW_ABSTRACTITEMCOLLECTIONVIEW_H
 #define _SWAY_WEBCORE_VIEW_ABSTRACTITEMCOLLECTIONVIEW_H
 
-#include <sway/webcore/base/treenode.h>
+#include <sway/webcore/base/treenodeelement.h>
 #include <sway/webcore/view/observer.h>
 #include <sway/webcore/model/abstractitemcollection.h>
 #include <sway/webcore/prereqs.h>
@@ -15,7 +15,7 @@ NAMESPACE_BEGIN(view)
  *    Абстрактное представление.
  */
 class AItemCollectionView
-	: public base::TreeNode
+	: public base::TreeNodeElement
 	, public virtual IObserver {
 public:
 
@@ -50,7 +50,7 @@ public:
 
 	#pragma endregion // Constructor / Destructor
 
-	void makeItem(u32_t index, base::TreeNode * child);
+	void makeItem(u32_t index, base::TreeNodeElement * child);
 
 	virtual void accept(base::ITreeVisitor * visitor);
 

@@ -8,7 +8,7 @@ NAMESPACE_BEGIN(webcore)
 NAMESPACE_BEGIN(view)
 
 void AItemView::registerEmscriptenClass(lpcstr_t classname) {
-	emscripten::class_<AItemView, emscripten::base<base::TreeNode>>(classname)
+	emscripten::class_<AItemView, emscripten::base<base::TreeNodeElement>>(classname)
 		.allow_subclass<AItemViewComponentWrapper>("AItemViewComponentWrapper", emscripten::constructor<core::containers::TreeNodePtr_t, std::string, base::TreeNodeElementCreateInfo>())
 		.constructor<core::containers::TreeNodePtr_t, std::string, base::TreeNodeElementCreateInfo>()
 		.function("initialize", emscripten::optional_override([](AItemView & self) {
@@ -24,7 +24,7 @@ void AItemView::registerEmscriptenClass(lpcstr_t classname) {
 AItemView::AItemView(core::containers::TreeNodePtr_t parent,
 	//const core::containers::TreeNodeIndex & nodeIndex,
 	const std::string & nodeId, const base::TreeNodeElementCreateInfo & createInfo)
-	: base::TreeNode(parent, core::containers::TreeNodeIndex(), nodeId, createInfo)
+	: base::TreeNodeElement(parent, core::containers::TreeNodeIndex(), nodeId, createInfo)
 	, _model(nullptr) {
 	// Empty
 }
@@ -32,7 +32,7 @@ AItemView::AItemView(core::containers::TreeNodePtr_t parent,
 AItemView::AItemView(core::containers::TreeNodePtr_t parent,
 	const core::containers::TreeNodeIndex & nodeIndex,
 	const std::string & nodeId, const base::TreeNodeElementCreateInfo & createInfo)
-	: base::TreeNode(parent, nodeIndex, nodeId, createInfo)
+	: base::TreeNodeElement(parent, nodeIndex, nodeId, createInfo)
 	, _model(nullptr) {
 	// Empty
 }

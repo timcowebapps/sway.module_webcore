@@ -1,10 +1,11 @@
-#ifndef _SWAY_WEBCORE_DOM_HTMLELEMENT_H
-#define _SWAY_WEBCORE_DOM_HTMLELEMENT_H
+#ifndef _SWAY_WEBCORE_BASE_DOM_HTMLELEMENT_H
+#define _SWAY_WEBCORE_BASE_DOM_HTMLELEMENT_H
 
 #include <sway/webcore/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
+NAMESPACE_BEGIN(base)
 NAMESPACE_BEGIN(dom)
 
 class HtmlElement {
@@ -37,7 +38,9 @@ public:
 
 	HtmlElement removeChild(const HtmlElement & child);
 
-	void setInnerHtml(const std::string & content);
+	void setInnerHtml(const std::string & html);
+
+	void setInnerContent(const std::string & content, bool dirty = true);
 
 	void setAttribute(const std::string & key, const std::string & value);
 
@@ -51,7 +54,8 @@ public:
 };
 
 NAMESPACE_END(dom)
+NAMESPACE_END(base)
 NAMESPACE_END(webcore)
 NAMESPACE_END(sway)
 
-#endif // _SWAY_WEBCORE_DOM_HTMLELEMENT_H
+#endif // _SWAY_WEBCORE_BASE_DOM_HTMLELEMENT_H

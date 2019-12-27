@@ -9,7 +9,7 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 NAMESPACE_BEGIN(base)
 
-class TreeNode;
+class TreeNodeElement;
 class TreeUpdater
 	: public ITreeVisitor {
 public:
@@ -33,7 +33,7 @@ public:
 
 	#pragma region ITreeVisitor implementation
 
-	virtual void visit(TreeNode * node);
+	virtual void visit(TreeNodeElement * node);
 
 	#pragma endregion // ITreeVisitor implementation
 

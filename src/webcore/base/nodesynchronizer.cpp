@@ -1,8 +1,8 @@
 #include <sway/webcore/base/nodesynchronizer.h>
 #include <sway/webcore/base/region.h>
-#include <sway/webcore/dom/htmldocument.h>
-#include <sway/webcore/dom/htmlelement.h>
-#include <sway/webcore/dom/htmlbuilder.h>
+#include <sway/webcore/base/dom/htmldocument.h>
+#include <sway/webcore/base/dom/htmlelement.h>
+#include <sway/webcore/base/dom/htmlbuilder.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
