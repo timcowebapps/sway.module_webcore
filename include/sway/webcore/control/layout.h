@@ -13,20 +13,20 @@ class Layout
 
 public:
 
-	#pragma region Static methods
+#pragma region "Static methods"
 
 	static void registerEmscriptenClass(lpcstr_t classname);
 
-	#pragma endregion // Static methods
+#pragma endregion // Static methods
 
-	#pragma region Constructor / Destructor
+#pragma region "Constructor / Destructor"
 
 	/*!
 	 * \brief
 	 *    Конструктор класса.
 	 *    Выполняет инициализацию нового экземпляра класса.
 	 */
-	Layout(core::containers::TreeNodePtr_t parent,
+	Layout(core::containers::HierarchyNodePtr_t parent,
 		const std::string & nodeId, const base::TreeNodeElementCreateInfo & createInfo);
 
 	/*!
@@ -35,7 +35,7 @@ public:
 	 */
 	virtual ~Layout() = default;
 
-	#pragma endregion // Constructor / Destructor
+#pragma endregion // Constructor / Destructor
 
 private:
 };

@@ -13,7 +13,7 @@ public:
 	EMSCRIPTEN_WRAPPER(AItemCollectionViewComponentWrapper)
 
 	void initialize();
-	void onDataChanged();
+	void update();
 };
 
 NAMESPACE_END(view)

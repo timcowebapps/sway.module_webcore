@@ -14,7 +14,7 @@ TreeUpdater::~TreeUpdater() {
 	// Empty
 }
 
-void TreeUpdater::visit(TreeNodeElement * node) {
+void TreeUpdater::visitOnEnter(TreeNodeElement * node) {
 	if (!node->hasVisibled())
 		return;
 
@@ -28,6 +28,10 @@ void TreeUpdater::visit(TreeNodeElement * node) {
 		RegionMixinPtr_t region = parent->getRegionByNodeId(node->getNodeId());
 		_pendingUpdateNodes.emplace_back(parent, node, region);
 	}
+}
+
+void TreeUpdater::visitOnLeave(TreeNodeElement * node) {
+	// Empty
 }
 
 void TreeUpdater::forceUpdate() {

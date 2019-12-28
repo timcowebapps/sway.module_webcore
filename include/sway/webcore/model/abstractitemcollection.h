@@ -1,23 +1,22 @@
 #ifndef _SWAY_WEBCORE_MODEL_ABSTRACTITEMCOLLECTION_H
 #define _SWAY_WEBCORE_MODEL_ABSTRACTITEMCOLLECTION_H
 
-#include <sway/webcore/model/observable.h>
 #include <sway/webcore/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 NAMESPACE_BEGIN(model)
 
-class AbstractItemCollection : public Observable {
+class AbstractItemCollection : public core::utilities::Observable {
 public:
 
-	#pragma region Static methods
+#pragma region "Static methods"
 
 	static void registerEmscriptenClass(lpcstr_t name);
 
-	#pragma endregion // Static methods
+#pragma endregion // Static methods
 
-	#pragma region Constructor / Destructor
+#pragma region "Constructor / Destructor"
 
 	/*!
 	 * \brief
@@ -32,11 +31,11 @@ public:
 	 */
 	virtual ~AbstractItemCollection();
 
-	#pragma endregion // Constructor / Destructor
+#pragma endregion // Constructor / Destructor
 
 	u32_t getCountItems() const;
 
-	#pragma region Getters / Setters
+#pragma region "Getters / Setters"
 
 	AbstractItemModel * getItem(u32_t index) const;
 
@@ -48,7 +47,7 @@ public:
 
 	void setItems(const emscripten::val & value);
 
-	#pragma endregion // Getters / Setters
+#pragma endregion // Getters / Setters
 
 private:
 	std::vector<AbstractItemModel *> _items;

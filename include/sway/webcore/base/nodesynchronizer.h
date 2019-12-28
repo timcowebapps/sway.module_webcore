@@ -12,7 +12,7 @@ NAMESPACE_BEGIN(base)
 class NodeSynchronizer {
 public:
 
-	#pragma region Constructor / Destructor
+	#pragma region "Constructor / Destructor"
 
 	/*!
 	 * \brief

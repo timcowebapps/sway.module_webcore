@@ -39,7 +39,7 @@ emscripten::val AbstractItemModel::getProperty(const std::string & key) const {
 
 void AbstractItemModel::setProperty(const std::string & key, const emscripten::val & value) {
 	_properties.set(key, value);
-	notifyPropertyChanged();
+	notify();
 }
 
 emscripten::val AbstractItemModel::getProperties() const {

@@ -8,24 +8,24 @@ NAMESPACE_BEGIN(advanced)
 
 void StackView::registerEmscriptenClass(lpcstr_t classname) {
 	emscripten::class_<StackView, emscripten::base<base::TreeNodeElement>>(classname)
-		.constructor<core::containers::TreeNodePtr_t, std::string, base::TreeNodeElementCreateInfo>()
+		.constructor<core::containers::HierarchyNodePtr_t, std::string, base::TreeNodeElementCreateInfo>()
 		.function("addItem", &StackView::addItem, emscripten::allow_raw_pointers())
 		.function("removeItem", &StackView::removeItem, emscripten::allow_raw_pointers())
 		.function("getCurrentItem", &StackView::getCurrentItem)
 		.function("setCurrentItem", &StackView::setCurrentItem);
 }
 
-StackView::StackView(core::containers::TreeNodePtr_t parent,
-	//const core::containers::TreeNodeIndex & nodeIndex,
+StackView::StackView(core::containers::HierarchyNodePtr_t parent,
+	//const core::containers::HierarchyNodeIndex & nodeIndex,
 	const std::string & nodeId, const base::TreeNodeElementCreateInfo & createInfo)
-	: base::TreeNodeElement(parent, core::containers::TreeNodeIndex(), nodeId, createInfo) {
+	: base::TreeNodeElement(parent, core::containers::HierarchyNodeIndex(), nodeId, createInfo) {
 	// Empty
 }
 
 void StackView::accept(base::ITreeVisitor * visitor) {
-	visitor->visit(this);
+	visitor->visitOnEnter(this);
 
-	for (core::containers::TreeNodePtr_t node : getChildren())
+	for (core::containers::HierarchyNodePtr_t node : getChildren())
 		static_cast<StackView *>(node)->accept(visitor);
 }
 
@@ -34,7 +34,7 @@ void StackView::addItem(base::TreeNodeElement * item) {
 	add(item, std::bind(&StackView::handleItemAdded, this, std::placeholders::_1));
 }
 
-void StackView::handleItemAdded(const core::containers::TreeNodeIndex & nodeIndex) {
+void StackView::handleItemAdded(const core::containers::HierarchyNodeIndex & nodeIndex) {
 	EM_ASM({console.log("STACK_VIEW ITEM ADDED")});
 }
 
@@ -49,13 +49,13 @@ u32_t StackView::getCurrentItem() {
 void StackView::setCurrentItem(u32_t nodeIdex) {
 	_current = nodeIdex;
 
-	for (core::containers::TreeNodePtr_t child : getChildren())
+	for (core::containers::HierarchyNodePtr_t child : getChildren())
 		static_cast<TreeNodeElement *>(child)->setVisible(false);
 
 	TreeNodeElement * item = getChildAt<TreeNodeElement *>(nodeIdex);
 	item->setVisible(true);
 
-	for (core::containers::TreeListener * listener : getHostTree()->getListeners())
+	for (core::containers::HierarchyListener * listener : getHostTree()->getListeners())
 		listener->onNodeUpdated(item->getNodeIndex());
 }
 

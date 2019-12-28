@@ -38,8 +38,6 @@ public:
 
 	HtmlElement removeChild(const HtmlElement & child);
 
-	void setInnerHtml(const std::string & html);
-
 	void setInnerContent(const std::string & content, bool dirty = true);
 
 	void setAttribute(const std::string & key, const std::string & value);

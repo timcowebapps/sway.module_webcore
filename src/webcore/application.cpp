@@ -5,10 +5,10 @@ NAMESPACE_BEGIN(webcore)
 
 Application::Application(const std::string & elementId) {
 	_treeUpdater = new base::TreeUpdater();
-	_tree = new core::containers::Tree();
+	_tree = new core::containers::Hierarchy();
 	_tree->attachListener(this);
 	_tree->setRootNode(
-		_root = new view::AItemView(nullptr, core::containers::TreeNodeIndex({ 0 }), elementId,
+		_root = new view::AItemView(nullptr, core::containers::HierarchyNodeIndex({ 0 }), elementId,
 			(base::TreeNodeElementCreateInfo) {
 				.tagname = "div",
 				.id = elementId
@@ -23,7 +23,7 @@ Application::~Application() {
 	SAFE_DELETE(_treeUpdater);
 }
 
-void Application::onNodeAdded(const core::containers::TreeNodeIndex & nodeIndex) {
+void Application::onNodeAdded(const core::containers::HierarchyNodeIndex & nodeIndex) {
 	base::TreeNodeElement * element = (base::TreeNodeElement *) _tree->find(nodeIndex.getParent());
 	EM_ASM({console.log("NODE_ID " + UTF8ToString($0))}, nodeIndex.toString().c_str());
 
@@ -33,11 +33,11 @@ void Application::onNodeAdded(const core::containers::TreeNodeIndex & nodeIndex)
 	_treeUpdater->forceUpdate();
 }
 
-void Application::onNodeRemoved(core::containers::TreeNodePtr_t parent, core::containers::TreeNodePtr_t child) {
+void Application::onNodeRemoved(core::containers::HierarchyNodePtr_t parent, core::containers::HierarchyNodePtr_t child) {
 	// Empty
 }
 
-void Application::onNodeUpdated(const core::containers::TreeNodeIndex & nodeIndex) {
+void Application::onNodeUpdated(const core::containers::HierarchyNodeIndex & nodeIndex) {
 	base::TreeNodeElement * element = (base::TreeNodeElement *) _tree->find(nodeIndex.getParent());
 	EM_ASM({console.log("NODE_UPDATE_ID " + UTF8ToString($0))}, nodeIndex.toString().c_str());
 

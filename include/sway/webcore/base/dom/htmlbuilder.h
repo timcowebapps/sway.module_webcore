@@ -13,7 +13,7 @@ NAMESPACE_BEGIN(dom)
 class HtmlBuilder {
 public:
 
-	#pragma region Constructor / Destructor
+	#pragma region "Constructor / Destructor"
 
 	/*!
 	 * \brief

@@ -11,7 +11,7 @@ NAMESPACE_BEGIN(controller)
 class AbstractController {
 public:
 
-	#pragma region Constructor / Destructor
+#pragma region "Constructor / Destructor"
 
 	/*!
 	 * \brief
@@ -29,7 +29,7 @@ public:
 	 */
 	~AbstractController();
 
-	#pragma endregion // Constructor / Destructor
+#pragma endregion // Constructor / Destructor
 
 	/*!
 	 * \brief

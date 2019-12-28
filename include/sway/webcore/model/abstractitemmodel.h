@@ -1,25 +1,24 @@
 #ifndef _SWAY_WEBCORE_MODEL_ABSTRACTITEMMODEL_H
 #define _SWAY_WEBCORE_MODEL_ABSTRACTITEMMODEL_H
 
-#include <sway/webcore/model/observable.h>
 #include <sway/webcore/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 NAMESPACE_BEGIN(model)
 
-class AbstractItemModel : public Observable {
+class AbstractItemModel : public core::utilities::Observable {
 public:
 
-	#pragma region Static methods
+#pragma region "Static methods"
 
 	static void registerEmscriptenClass(lpcstr_t name);
 
 	static ModelSmartPtr_t create();
 
-	#pragma endregion // Static methods
+#pragma endregion // Static methods
 
-	#pragma region Constructor / Destructor
+#pragma region "Constructor / Destructor"
 
 	/*!
 	 * \brief
@@ -36,9 +35,9 @@ public:
 	 */
 	virtual ~AbstractItemModel();
 
-	#pragma endregion // Constructor / Destructor
+#pragma endregion // Constructor / Destructor
 
-	#pragma region Getters / Setters
+#pragma region "Getters / Setters"
 
 	emscripten::val getProperty(const std::string & key) const;
 
@@ -58,7 +57,7 @@ public:
 
 	void setProperties(emscripten::val value);
 
-	#pragma endregion // Getters / Setters
+#pragma endregion // Getters / Setters
 
 private:
 	emscripten::val _properties;

@@ -25,7 +25,7 @@ export class AItemCollectionView {
 					this.__parent.__destruct.call(this);
 				},
 				initialize: _.bind(self.initialize, self),
-				onDataChanged: _.bind(self.onDataChanged, self)
+				update: _.bind(self.update, self)
 			});
 
 			return new AItemCollectionViewObject(wasm_parent, nodeId, nodeCreateInfo);
@@ -36,7 +36,7 @@ export class AItemCollectionView {
 		// Empty
 	}
 
-	public onDataChanged(): void {
+	public update(): void {
 		// Empty
 	}
 };

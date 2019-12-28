@@ -14,7 +14,7 @@ class TreeUpdater
 	: public ITreeVisitor {
 public:
 
-	#pragma region Constructor / Destructor
+	#pragma region "Constructor / Destructor"
 
 	/*!
 	 * \brief
@@ -33,7 +33,8 @@ public:
 
 	#pragma region ITreeVisitor implementation
 
-	virtual void visit(TreeNodeElement * node);
+	virtual void visitOnEnter(TreeNodeElement * node);
+	virtual void visitOnLeave(TreeNodeElement * node);
 
 	#pragma endregion // ITreeVisitor implementation
 

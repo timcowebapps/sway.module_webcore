@@ -18,7 +18,7 @@ public:
 
 	#pragma endregion // Static methods
 
-	#pragma region Constructor / Destructor
+	#pragma region "Constructor / Destructor"
 
 	/*!
 	 * \brief
@@ -28,7 +28,7 @@ public:
 	 * \param[in] options
 	 *    Опции представления.
 	 */
-	RegionMixin(core::containers::Tree * tree, const core::containers::TreeNodeIndex & parentNodeIndex, const RegionCreateInfo & createInfo);
+	RegionMixin(core::containers::Hierarchy * tree, const core::containers::HierarchyNodeIndex & parentNodeIndex, const RegionCreateInfo & createInfo);
 
 	/*!
 	 * \brief
@@ -50,8 +50,8 @@ public:
 	bool hasAttached() const;
 
 private:
-	core::containers::Tree * _tree;
-	core::containers::TreeNodeIndex _parentNodeIndex;
+	core::containers::Hierarchy * _tree;
+	core::containers::HierarchyNodeIndex _parentNodeIndex;
 	std::string _htmlElementId;
 	std::string _attachedNodeId;
 	bool _htmlElementReplace;

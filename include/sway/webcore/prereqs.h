@@ -20,16 +20,12 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 
 NAMESPACE_BEGIN(model)
-class Observable;
 class AbstractItemModel;
 typedef std::shared_ptr<class AbstractItemModel> ModelSmartPtr_t;
 NAMESPACE_END(model)
 
 NAMESPACE_BEGIN(view)
 class Region;
-class IObserver;
-typedef std::vector<class IObserver *> ObserverArray_t;
-typedef ObserverArray_t::const_iterator ObserverArrayIterator_t;
 NAMESPACE_END(view)
 
 typedef std::function<void(emscripten::val)> EventCallback_t;

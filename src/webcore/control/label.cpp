@@ -7,7 +7,7 @@ NAMESPACE_BEGIN(control)
 
 void Label::registerEmscriptenClass(lpcstr_t classname) {
 	emscripten::class_<Label, emscripten::base<base::TreeNodeElement>>(classname)
-		.constructor<core::containers::TreeNodePtr_t, std::string, base::TreeNodeElementCreateInfo>()
+		.constructor<core::containers::HierarchyNodePtr_t, std::string, base::TreeNodeElementCreateInfo>()
 		.smart_ptr<LabelSmartPtr_t>("LabelSmartPtr_t")
 		.class_function("createControl", &Label::createControl, emscripten::allow_raw_pointers())
 		.function("setStyleSheet", &Label::setStyleSheet)
@@ -17,23 +17,26 @@ void Label::registerEmscriptenClass(lpcstr_t classname) {
 		.function("setText", &Label::setText);
 }
 
-LabelSmartPtr_t Label::createControl(core::containers::TreeNodePtr_t parent,
-	const std::string & nodeId, const base::TreeNodeElementCreateInfo & createInfo, const std::string & content) {
+LabelSmartPtr_t Label::createControl(core::containers::HierarchyNodePtr_t parent, const std::string & nodeId,
+	const base::TreeNodeElementCreateInfo & createInfo, emscripten::val styleSheet, const std::string & content) {
+
 	auto instance = std::make_shared<Label>(parent, nodeId, createInfo);
+	instance->setStyleSheet(styleSheet);
 	instance->setHtmlContent(content);
 	parent->addChild(instance.get());
 	return instance;
 }
 
-Label::Label(core::containers::TreeNodePtr_t parent,
+Label::Label(core::containers::HierarchyNodePtr_t parent,
 	const std::string & nodeId, const base::TreeNodeElementCreateInfo & createInfo)
-	: base::TreeNodeElement(parent, core::containers::TreeNodeIndex(), nodeId, createInfo) {
+	: base::TreeNodeElement(parent, core::containers::HierarchyNodeIndex(), nodeId, createInfo) {
 	// Empty
 }
 
 void Label::accept(base::ITreeVisitor * visitor) {
-	visitor->visit(this);
-	for (core::containers::TreeNodePtr_t node : getChildren())
+	visitor->visitOnEnter(this);
+
+	for (core::containers::HierarchyNodePtr_t node : getChildren())
 		static_cast<Label *>(node)->accept(visitor);
 }
 
@@ -48,7 +51,7 @@ void Label::setStyleSheet(emscripten::val styleSheet) {
 		return;
 
 	_styleSheet.insert(std::make_pair("label", styleSheet["label"].as<std::string>()));
-	EM_ASM({console.log(UTF8ToString($0))}, _styleSheet["label"].c_str());
+	setHtmlElementClasses(_styleSheet["label"]);
 }
 
 void Label::setFontFamily(const std::string & fontFamily) {
@@ -68,7 +71,7 @@ void Label::setText(const std::string & text) {
 		return;
 
 	setHtmlContent(text);
-	for (core::containers::TreeListener * listener : getHostTree()->getListeners())
+	for (core::containers::HierarchyListener * listener : getHostTree()->getListeners())
 		listener->onNodeUpdated(getNodeIndex());
 }
 

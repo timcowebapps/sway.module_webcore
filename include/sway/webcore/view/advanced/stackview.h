@@ -14,21 +14,21 @@ class StackView
 
 public:
 
-	#pragma region Static methods
+#pragma region "Static methods"
 
 	static void registerEmscriptenClass(lpcstr_t classname);
 
-	#pragma endregion // Static methods
+#pragma endregion // Static methods
 
-	#pragma region Constructor / Destructor
+#pragma region "Constructor / Destructor"
 
 	/*!
 	 * \brief
 	 *    Конструктор класса.
 	 *    Выполняет инициализацию нового экземпляра класса.
 	 */
-	StackView(core::containers::TreeNodePtr_t parent,
-		//const core::containers::TreeNodeIndex & nodeIndex,
+	StackView(core::containers::HierarchyNodePtr_t parent,
+		//const core::containers::HierarchyNodeIndex & nodeIndex,
 		const std::string & nodeId, const base::TreeNodeElementCreateInfo & createInfo);
 
 	/*!
@@ -37,27 +37,31 @@ public:
 	 */
 	virtual ~StackView() = default;
 
-	#pragma endregion // Constructor / Destructor
+#pragma endregion // Constructor / Destructor
+
+#pragma region "IVisitable > HierarchyNode > TreeNodeElement implementation"
 
 	virtual void accept(base::ITreeVisitor * visitor);
 
-	#pragma region General methods
+#pragma endregion // IVisitable > HierarchyNode > TreeNodeElement implementation
+
+#pragma region "General methods"
 
 	void addItem(base::TreeNodeElement * item);
 
-	void handleItemAdded(const core::containers::TreeNodeIndex & nodeIndex);
+	void handleItemAdded(const core::containers::HierarchyNodeIndex & nodeIndex);
 
 	void removeItem(base::TreeNodeElement * item);
 
-	#pragma endregion // General methods
+#pragma endregion // General methods
 
-	#pragma region Getters / Setters
+#pragma region "Getters / Setters"
 
 	u32_t getCurrentItem();
 
 	void setCurrentItem(u32_t nodeIdex);
 
-	#pragma endregion // Getters / Setters
+#pragma endregion // Getters / Setters
 
 private:
 	u32_t _current = 0;

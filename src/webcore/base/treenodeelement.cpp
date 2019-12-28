@@ -7,7 +7,7 @@ NAMESPACE_BEGIN(webcore)
 NAMESPACE_BEGIN(base)
 
 void TreeNodeElement::registerEmscriptenClass(lpcstr_t classname) {
-	emscripten::class_<TreeNodeElement, emscripten::base<core::containers::TreeNodeBase>>(classname)
+	emscripten::class_<TreeNodeElement, emscripten::base<core::containers::HierarchyNode>>(classname)
 		//.constructor<TreeNodeElementCreateInfo>()
 		.function("accept", &TreeNodeElement::accept, emscripten::allow_raw_pointers(), emscripten::pure_virtual())
 		.function("addRegion", &TreeNodeElement::addRegion)
@@ -17,19 +17,25 @@ void TreeNodeElement::registerEmscriptenClass(lpcstr_t classname) {
 		.function("bindEvents", &TreeNodeElement::bindEvents)
 		.function("getHtmlElementTagname", &TreeNodeElement::getHtmlElementTagname)
 		.function("setHtmlElementTagname", &TreeNodeElement::setHtmlElementTagname)
+		.function("getHtmlElementClasses", &TreeNodeElement::getHtmlElementClasses)
+		.function("setHtmlElementClasses", &TreeNodeElement::setHtmlElementClasses)
 		.function("getHtmlElementId", &TreeNodeElement::getHtmlElementId)
 		.function("setHtmlElementId", &TreeNodeElement::setHtmlElementId)
 		.function("getHtmlContent", &TreeNodeElement::getHtmlContent)
 		.function("setHtmlContent", &TreeNodeElement::setHtmlContent);
 }
 
-TreeNodeElement::TreeNodeElement(core::containers::TreeNodePtr_t parent,
-	const core::containers::TreeNodeIndex & nodeIndex,
+TreeNodeElement::TreeNodeElement(core::containers::HierarchyNodePtr_t parent,
+	const core::containers::HierarchyNodeIndex & nodeIndex,
 	const std::string & nodeId, const TreeNodeElementCreateInfo & createInfo)
-	: core::containers::TreeNodeBase(parent, nodeIndex, nodeId)
+	: core::containers::HierarchyNode(parent, nodeIndex, nodeId)
 	, _htmlElementTagname(createInfo.tagname)
 	, _htmlElementId(createInfo.id)
 	, _visibled(true) {
+	// Empty
+}
+
+void TreeNodeElement::accept(ITreeVisitor * visitor) {
 	// Empty
 }
 
@@ -94,6 +100,14 @@ std::string TreeNodeElement::getHtmlElementTagname() const {
 
 void TreeNodeElement::setHtmlElementTagname(const std::string & tagname) {
 	_htmlElementTagname = tagname;
+}
+
+std::string TreeNodeElement::getHtmlElementClasses() const {
+	return _htmlElementClasses;
+}
+
+void TreeNodeElement::setHtmlElementClasses(const std::string & classes) {
+	_htmlElementClasses = classes;
 }
 
 std::string TreeNodeElement::getHtmlElementId() const {

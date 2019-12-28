@@ -25,7 +25,7 @@ export class AItemView {
 					this.__parent.__destruct.call(this);
 				},
 				initialize: _.bind(self.initialize, self),
-				onDataChanged: _.bind(self.onDataChanged, self)
+				update: _.bind(self.update, self)
 			});
 
 			return new AItemViewObject(wasm_parent, nodeId, nodeCreateInfo);
@@ -36,7 +36,7 @@ export class AItemView {
 		// Empty
 	}
 
-	public onDataChanged(): void {
+	public update(): void {
 		// Empty
 	}
 };

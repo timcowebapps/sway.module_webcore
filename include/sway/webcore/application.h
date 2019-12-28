@@ -1,7 +1,7 @@
 #ifndef _SWAY_WEBCORE_APPLICATION_H
 #define _SWAY_WEBCORE_APPLICATION_H
 
-#include <sway/core/containers/treelistener.h>
+#include <sway/core/containers/hierarchylistener.h>
 #include <sway/webcore/base/dom/htmldocument.h>
 #include <sway/webcore/base/dom/htmlelement.h>
 #include <sway/webcore/base/treeupdater.h>
@@ -13,11 +13,11 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 
 class Application
-	: public core::containers::TreeListener {
+	: public core::containers::HierarchyListener {
 
 public:
 
-	#pragma region Constructor / Destructor
+	#pragma region "Constructor / Destructor"
 
 	/*!
 	 * \brief
@@ -34,18 +34,18 @@ public:
 
 	#pragma endregion // Constructor / Destructor
 
-	virtual void onNodeAdded(const core::containers::TreeNodeIndex & nodeIndex);
+	virtual void onNodeAdded(const core::containers::HierarchyNodeIndex & nodeIndex);
 
-	virtual void onNodeRemoved(core::containers::TreeNodePtr_t parent, core::containers::TreeNodePtr_t child);
+	virtual void onNodeRemoved(core::containers::HierarchyNodePtr_t parent, core::containers::HierarchyNodePtr_t child);
 
-	virtual void onNodeUpdated(const core::containers::TreeNodeIndex & nodeIndex);
+	virtual void onNodeUpdated(const core::containers::HierarchyNodeIndex & nodeIndex);
 
 	base::TreeNodeElement * getRoot();
 
 	void start();
 
 private:
-	core::containers::Tree * _tree;
+	core::containers::Hierarchy * _tree;
 	base::TreeNodeElement * _root;
 	base::TreeUpdater * _treeUpdater;
 };

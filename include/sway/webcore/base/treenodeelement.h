@@ -23,23 +23,23 @@ typedef std::vector<std::string> RegionMixinNameVec_t;
 class ITreeVisitor;
 
 class TreeNodeElement
-	: public core::containers::TreeNodeBase {
+	: public core::containers::HierarchyNode {
 public:
 
-	#pragma region Static methods
+#pragma region "Static methods"
 
 	static void registerEmscriptenClass(lpcstr_t classname);
 
-	#pragma endregion // Static methods
+#pragma endregion // Static methods
 
-	#pragma region Constructor / Destructor
+#pragma region "Constructor / Destructor"
 
 	/*!
 	 * \brief
 	 *    Конструктор класса.
 	 *    Выполняет инициализацию нового экземпляра класса.
 	 */
-	TreeNodeElement(core::containers::TreeNodePtr_t parent, const core::containers::TreeNodeIndex & nodeIndex,
+	TreeNodeElement(core::containers::HierarchyNodePtr_t parent, const core::containers::HierarchyNodeIndex & nodeIndex,
 		const std::string & nodeId, const TreeNodeElementCreateInfo & createInfo);
 
 	/*!
@@ -48,19 +48,17 @@ public:
 	 */
 	virtual ~TreeNodeElement() = default;
 
-	#pragma endregion // Constructor / Destructor
+#pragma endregion // Constructor / Destructor
 
-	#pragma region Pure virtual methods
+#pragma region "IVisitable > HierarchyNode implementation"
 
-	//IVisitable
-	//virtual void accept(ITreeVisitor * visitor) = 0;
-	virtual void accept(ITreeVisitor * visitor) {
-		// Empty
-	}
+	using core::containers::HierarchyNode::accept;
 
-	#pragma endregion // Pure virtual methods
+	virtual void accept(ITreeVisitor * visitor);
 
-	#pragma region General methods
+#pragma endregion // IVisitable > HierarchyNode
+
+#pragma region "General methods"
 
 	/*!
 	 * \brief
@@ -93,13 +91,13 @@ public:
 	 */
 	RegionMixinNameVec_t getRegionNames() const;
 
-	#pragma endregion // General methods
+#pragma endregion // General methods
 
 	void addEvent(const std::string & targetId, const std::string & type, emscripten::val callback);
 
 	void bindEvents();
 
-	#pragma region Getters / Setters
+#pragma region "Getters / Setters"
 
 	/*!
 	 * \brief
@@ -115,6 +113,10 @@ public:
 	 *    Имя тега.
 	 */
 	void setHtmlElementTagname(const std::string & tagname);
+
+	std::string getHtmlElementClasses() const;
+
+	void setHtmlElementClasses(const std::string & classes);
 
 	/*!
 	 * \brief
@@ -139,12 +141,13 @@ public:
 
 	void setVisible(bool value);
 
-	#pragma endregion // Getters / Setters
+#pragma endregion // Getters / Setters
 
 private:
 	RegionMixinMap_t _regions; /*!< Карта регионов. */
 	std::vector<EventHandler> _handlers;
 	std::string _htmlElementTagname; /*!< Имя тега. */
+	std::string _htmlElementClasses;
 	std::string _htmlElementId; /*!< Уникальный идентификатор. */
 	std::string _htmlContent;
 	bool _visibled;

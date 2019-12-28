@@ -2,7 +2,6 @@
 #define _SWAY_WEBCORE_VIEW_ABSTRACTITEMCOLLECTIONVIEW_H
 
 #include <sway/webcore/base/treenodeelement.h>
-#include <sway/webcore/view/observer.h>
 #include <sway/webcore/model/abstractitemcollection.h>
 #include <sway/webcore/prereqs.h>
 
@@ -16,16 +15,16 @@ NAMESPACE_BEGIN(view)
  */
 class AItemCollectionView
 	: public base::TreeNodeElement
-	, public virtual IObserver {
+	, public virtual core::utilities::IObserver {
 public:
 
-	#pragma region Static methods
+#pragma region "Static methods"
 
 	static void registerEmscriptenClass(lpcstr_t classname);
 
-	#pragma endregion // Static methods
+#pragma endregion // Static methods
 
-	#pragma region Constructor / Destructor
+#pragma region "Constructor / Destructor"
 
 	/*!
 	 * \brief
@@ -38,8 +37,8 @@ public:
 	 * \param[in] options
 	 *    Опции представления.
 	 */
-	AItemCollectionView(core::containers::TreeNodePtr_t parent,
-		//const core::containers::TreeNodeIndex & nodeIndex,
+	AItemCollectionView(core::containers::HierarchyNodePtr_t parent,
+		//const core::containers::HierarchyNodeIndex & nodeIndex,
 		const std::string & nodeId, const base::TreeNodeElementCreateInfo & createInfo);
 
 	/*!
@@ -48,31 +47,35 @@ public:
 	 */
 	virtual ~AItemCollectionView() = default;
 
-	#pragma endregion // Constructor / Destructor
+#pragma endregion // Constructor / Destructor
 
 	void makeItem(u32_t index, base::TreeNodeElement * child);
 
-	virtual void accept(base::ITreeVisitor * visitor);
+#pragma region "IVisitable > HierarchyNode > TreeNodeElement implementation"
+
+	virtual void accept(base::ITreeVisitor * visitor) override;
+
+#pragma endregion // IVisitable > HierarchyNode > TreeNodeElement
 
 	virtual void initialize();
 
-	#pragma region IObserver implementation
+#pragma region "IObserver implementation"
 
 	/*!
 	 * \brief
 	 *    Обновляет состояние наблюдателя.
 	 */
-	virtual void onDataChanged() override;
+	virtual void update() override;
 
-	#pragma endregion // IObserver implementation
+#pragma endregion // IObserver implementation
 
-	#pragma region Getters / Setters
+#pragma region "Getters / Setters"
 
 	/*!
 	 * \brief
 	 *    Возвращает модель данных.
 	 */
-	model::Observable * getModel();
+	core::utilities::Observable * getModel();
 
 	/*!
 	 * \brief
@@ -81,12 +84,12 @@ public:
 	 * \param[in] model
 	 *    Модель данных.
 	 */
-	void setModel(model::Observable * model);
+	void setModel(core::utilities::Observable * model);
 
-	#pragma endregion // Getters / Setters
+#pragma endregion // Getters / Setters
 
 private:
-	model::Observable * _model; /*!< Модель данных. */
+	core::utilities::Observable * _model; /*!< Модель данных. */
 };
 
 NAMESPACE_END(view)

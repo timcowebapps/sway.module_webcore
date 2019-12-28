@@ -20,19 +20,19 @@ public:
 
 	static void registerEmscriptenClass(lpcstr_t classname);
 
-	static LabelSmartPtr_t createControl(core::containers::TreeNodePtr_t parent, const std::string & nodeId,
-		const base::TreeNodeElementCreateInfo & createInfo, const std::string & content);
+	static LabelSmartPtr_t createControl(core::containers::HierarchyNodePtr_t parent, const std::string & nodeId,
+		const base::TreeNodeElementCreateInfo & createInfo, emscripten::val styleSheet, const std::string & content);
 
 	#pragma endregion // Static methods
 
-	#pragma region Constructor / Destructor
+	#pragma region "Constructor / Destructor"
 
 	/*!
 	 * \brief
 	 *    Конструктор класса.
 	 *    Выполняет инициализацию нового экземпляра класса.
 	 */
-	Label(core::containers::TreeNodePtr_t parent,
+	Label(core::containers::HierarchyNodePtr_t parent,
 		const std::string & nodeId, const base::TreeNodeElementCreateInfo & createInfo);
 
 	/*!

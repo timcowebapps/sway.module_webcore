@@ -13,6 +13,7 @@ HtmlBuilder::HtmlBuilder() {
 
 HtmlElement HtmlBuilder::createHtmlElement(TreeNodeElement * element) {
 	auto htmlElement = HtmlDocument::createElement(element->getHtmlElementTagname());
+	htmlElement.addClassName(element->getHtmlElementClasses());
 	htmlElement.setAttribute("id", element->getHtmlElementId());
 	htmlElement.setInnerContent(element->getHtmlContent());
 	return htmlElement;

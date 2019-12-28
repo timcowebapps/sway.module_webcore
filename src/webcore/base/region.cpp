@@ -7,15 +7,15 @@ NAMESPACE_BEGIN(base)
 
 void RegionMixin::registerEmscriptenClass(lpcstr_t classname) {
 	emscripten::class_<RegionMixin>(classname)
-		.constructor<core::containers::Tree *, core::containers::TreeNodeIndex, RegionCreateInfo>()
+		.constructor<core::containers::Hierarchy *, core::containers::HierarchyNodeIndex, RegionCreateInfo>()
 		.smart_ptr<RegionMixinPtr_t>(core::misc::format("%sSmartPtr", classname).c_str())
 		.function("attachView", &RegionMixin::attachView, emscripten::allow_raw_pointers())
 		.function("detachView", &RegionMixin::detachView, emscripten::allow_raw_pointers())
 		.function("getHtmlElementId", &RegionMixin::getHtmlElementId);
 }
 
-RegionMixin::RegionMixin(core::containers::Tree * tree,
-	const core::containers::TreeNodeIndex & parentNodeIndex, const RegionCreateInfo & createInfo)
+RegionMixin::RegionMixin(core::containers::Hierarchy * tree,
+	const core::containers::HierarchyNodeIndex & parentNodeIndex, const RegionCreateInfo & createInfo)
 	: _tree(tree)
 	, _parentNodeIndex(parentNodeIndex)
 	, _htmlElementId(createInfo.id)

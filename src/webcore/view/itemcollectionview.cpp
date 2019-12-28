@@ -10,23 +10,23 @@ NAMESPACE_BEGIN(view)
 
 void AItemCollectionView::registerEmscriptenClass(lpcstr_t classname) {
 	emscripten::class_<AItemCollectionView, emscripten::base<base::TreeNodeElement>>(classname)
-		.allow_subclass<AItemCollectionViewComponentWrapper>("AItemCollectionViewComponentWrapper", emscripten::constructor<core::containers::TreeNodePtr_t, std::string, base::TreeNodeElementCreateInfo>())
-		.constructor<core::containers::TreeNodePtr_t, std::string, base::TreeNodeElementCreateInfo>()
+		.allow_subclass<AItemCollectionViewComponentWrapper>("AItemCollectionViewComponentWrapper", emscripten::constructor<core::containers::HierarchyNodePtr_t, std::string, base::TreeNodeElementCreateInfo>())
+		.constructor<core::containers::HierarchyNodePtr_t, std::string, base::TreeNodeElementCreateInfo>()
 		.function("initialize", emscripten::optional_override([](AItemCollectionView & self) {
 			return self.AItemCollectionView::initialize();
 		}))
-		.function("onDataChanged", emscripten::optional_override([](AItemCollectionView & self) {
-			return self.AItemCollectionView::onDataChanged();
+		.function("update", emscripten::optional_override([](AItemCollectionView & self) {
+			return self.AItemCollectionView::update();
 		}))
 		.function("makeItem", &AItemCollectionView::makeItem, emscripten::allow_raw_pointers())
 		.function("getModel", &AItemCollectionView::getModel, emscripten::allow_raw_pointers())
 		.function("setModel", &AItemCollectionView::setModel, emscripten::allow_raw_pointers());
 }
 
-AItemCollectionView::AItemCollectionView(core::containers::TreeNodePtr_t parent,
-	//const core::containers::TreeNodeIndex & nodeIndex,
+AItemCollectionView::AItemCollectionView(core::containers::HierarchyNodePtr_t parent,
+	//const core::containers::HierarchyNodeIndex & nodeIndex,
 	const std::string & nodeId, const base::TreeNodeElementCreateInfo & createInfo)
-	: base::TreeNodeElement(parent, core::containers::TreeNodeIndex(), nodeId, createInfo)
+	: base::TreeNodeElement(parent, core::containers::HierarchyNodeIndex(), nodeId, createInfo)
 	, _model(nullptr) {
 	// Empty
 }
@@ -35,7 +35,7 @@ void AItemCollectionView::initialize() {
 	// Empty
 }
 
-void AItemCollectionView::onDataChanged() {
+void AItemCollectionView::update() {
 	// Empty
 }
 
@@ -49,16 +49,17 @@ void AItemCollectionView::makeItem(u32_t index, base::TreeNodeElement * child) {
 }
 
 void AItemCollectionView::accept(base::ITreeVisitor * visitor) {
-	visitor->visit(this);
-	for (core::containers::TreeNodePtr_t node : getChildren())
+	visitor->visitOnEnter(this);
+
+	for (core::containers::HierarchyNodePtr_t node : getChildren())
 		static_cast<AItemCollectionView *>(node)->accept(visitor);
 }
 
-model::Observable * AItemCollectionView::getModel() {
+core::utilities::Observable * AItemCollectionView::getModel() {
 	return _model;
 }
 
-void AItemCollectionView::setModel(model::Observable * model) {
+void AItemCollectionView::setModel(core::utilities::Observable * model) {
 	_model = model;
 	_model->registerObserver(this);
 }

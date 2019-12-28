@@ -35,10 +35,6 @@ HtmlElement HtmlElement::removeChild(const HtmlElement & child) {
 	return _val.call<emscripten::val>("removeChild", child._val);
 }
 
-void HtmlElement::setInnerHtml(const std::string & html) {
-	_val.set("innerHTML", html);
-}
-
 void HtmlElement::setInnerContent(const std::string & content, bool dirty) {
 	_val.set(core::misc::format("inner%s", dirty ? "HTML" : "Text"), content);
 }
@@ -47,8 +43,11 @@ void HtmlElement::setAttribute(const std::string & key, const std::string & valu
 	_val.call<void>("setAttribute", emscripten::val(key), emscripten::val(value));
 }
 
-void HtmlElement::addClassName(const std::string & name) {
-	_val["classList"].call<void>("add", emscripten::val(name));
+void HtmlElement::addClassName(const std::string & classes) {
+	if (classes.empty())
+		return;
+
+	_val["classList"].call<void>("add", emscripten::val(classes));
 }
 
 std::string HtmlElement::toString() const {

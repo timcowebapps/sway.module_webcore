@@ -9,13 +9,14 @@ NAMESPACE_BEGIN(webcore)
 NAMESPACE_BEGIN(base)
 
 class TreeNodeElement;
-class ITreeVisitor {
+class ITreeVisitor
+	: public core::utilities::Visitor {
+
 public:
 	virtual ~ITreeVisitor() = default;
-	virtual void visit(TreeNodeElement * node) = 0;
 
-	// virtual void visitOnEnter(TreeNode * node) = 0;
-	// virtual void visitOnLeave(TreeNode * node) = 0;
+	virtual void visitOnEnter(TreeNodeElement * node) = 0;
+	virtual void visitOnLeave(TreeNodeElement * node) = 0;
 };
 
 NAMESPACE_END(base)

@@ -11,13 +11,13 @@ NAMESPACE_BEGIN(router)
 class Router {
 public:
 
-	#pragma region Static methods
+#pragma region "Static methods"
 
 	static void registerEmscriptenClass(lpcstr_t name);
 
-	#pragma endregion // Static methods
+#pragma endregion // Static methods
 
-	#pragma region Constructor / Destructor
+#pragma region "Constructor / Destructor"
 
 	/*!
 	 * \brief
@@ -32,15 +32,15 @@ public:
 	 */
 	~Router();
 
-	#pragma endregion // Constructor / Destructor
+#pragma endregion // Constructor / Destructor
 
-	#pragma region Public Methods
+#pragma region "Public Methods"
 
 	void addRoute(const std::string & route, emscripten::val callback);
 
 	void navigate(const std::string & fragment);
 
-	#pragma endregion // Public Methods
+#pragma endregion // Public Methods
 
 private:
 	std::vector<HttpRoute> _routes;

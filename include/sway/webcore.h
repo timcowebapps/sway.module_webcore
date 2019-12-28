@@ -8,7 +8,6 @@
 #include <sway/webcore/eventlistener.h>
 #include <sway/webcore/eventtarget.h>
 #include <sway/webcore/eventhandler.h>
-#include <sway/webcore/model/observable.h>
 #include <sway/webcore/model/abstractitemmodel.h>
 #include <sway/webcore/model/abstractitemcollection.h>
 #include <sway/webcore/controller/abstractcontroller.h>

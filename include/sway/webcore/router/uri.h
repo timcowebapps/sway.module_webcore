@@ -13,7 +13,7 @@ class Uri {
 
 public:
 
-	#pragma region Constructor / Destructor
+#pragma region "Constructor / Destructor"
 
 	/*!
 	 * \brief
@@ -28,7 +28,7 @@ public:
 	 */
 	~Uri();
 
-	#pragma endregion // Constructor / Destructor
+#pragma endregion // Constructor / Destructor
 
 	const std::string getPath() const;
 

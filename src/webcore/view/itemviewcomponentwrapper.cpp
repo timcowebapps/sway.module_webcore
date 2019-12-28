@@ -8,8 +8,8 @@ void AItemViewComponentWrapper::initialize() {
 	return call<void>("initialize");
 }
 
-void AItemViewComponentWrapper::onDataChanged() {
-	return call<void>("onDataChanged");
+void AItemViewComponentWrapper::update() {
+	return call<void>("update");
 }
 
 NAMESPACE_END(view)

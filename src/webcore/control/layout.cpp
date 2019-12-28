@@ -7,12 +7,12 @@ NAMESPACE_BEGIN(control)
 
 void Layout::registerEmscriptenClass(lpcstr_t classname) {
 	emscripten::class_<Layout, emscripten::base<base::TreeNodeElement>>(classname)
-		.constructor<core::containers::TreeNodePtr_t, std::string, base::TreeNodeElementCreateInfo>();
+		.constructor<core::containers::HierarchyNodePtr_t, std::string, base::TreeNodeElementCreateInfo>();
 }
 
-Layout::Layout(core::containers::TreeNodePtr_t parent,
+Layout::Layout(core::containers::HierarchyNodePtr_t parent,
 	const std::string & nodeId, const base::TreeNodeElementCreateInfo & createInfo)
-	: base::TreeNodeElement(parent, core::containers::TreeNodeIndex(), nodeId, createInfo) {
+	: base::TreeNodeElement(parent, core::containers::HierarchyNodeIndex(), nodeId, createInfo) {
 	// Empty
 }
 

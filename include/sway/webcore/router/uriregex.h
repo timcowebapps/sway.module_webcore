@@ -12,7 +12,7 @@ public:
 
 	static lpcstr_t const expression;
 
-	#pragma region Constructor / Destructor
+#pragma region "Constructor / Destructor"
 
 	/*!
 	 * \brief
@@ -27,7 +27,7 @@ public:
 	 */
 	~UriRegex();
 
-	#pragma endregion // Constructor / Destructor
+#pragma endregion // Constructor / Destructor
 
 	int exec(lpcstr_t str, size_t nmatch, regmatch_t pmatch[], int eflags);
 
