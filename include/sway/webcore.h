@@ -1,5 +1,5 @@
-#ifndef SWAY_WEBCORE_H
-#define SWAY_WEBCORE_H
+#ifndef _SWAY_WEBCORE_H
+#define _SWAY_WEBCORE_H
 
 #include <sway/webcore/router/uriregex.h>
 #include <sway/webcore/router/uri.h>
@@ -12,4 +12,4 @@
 #include <sway/webcore/model/abstractitemcollection.h>
 #include <sway/webcore/controller/abstractcontroller.h>
 
-#endif // SWAY_WEBCORE_H
+#endif // _SWAY_WEBCORE_H

@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.14.3 FATAL_ERROR)
 
 # Мета-информация о проекте
-set(META_PROJECT_NAME sway.module_webcore)
+set(META_PROJECT_NAME module_webcore)
 set(META_LIB_NAME lib${META_PROJECT_NAME})
 set(META_VERSION_MAJOR 0)
 set(META_VERSION_MINOR 1)
@@ -15,10 +15,7 @@ project(${META_PROJECT_NAME} VERSION ${META_VERSION} LANGUAGES ${META_LANGUAGES}
 add_subdirectory(modules/sway.module_core)
 
 set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_COMPILER "em++")
-set(CMAKE_CXX_FLAGS "--bind -O2 -Wall -Wno-unknown-pragmas -Wno-unicode-whitespace")
-#set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -s WASM=1 -s ASSERTIONS=1 -s MODULARIZE=1")
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -s WASM=1 -s ASSERTIONS=2 -s MODULARIZE=1 -s EMULATE_FUNCTION_POINTER_CASTS=1")
+set(CMAKE_CXX_COMPILER "emcc")
 
 # Определяем каталог вывода по умолчанию
 if(CMAKE_BUILD_TYPE MATCHES Debug)
@@ -40,6 +37,10 @@ include_directories(${MODULE_DIR}/modules/sway.module_core/include)
 file(GLOB_RECURSE MODULE_HEADERS ${MODULE_DIR}/include/*.*)
 file(GLOB_RECURSE MODULE_SOURCES ${MODULE_DIR}/src/*.*)
 
-add_executable(${META_LIB_NAME} ${MODULE_SOURCES})
-set_target_properties(${META_LIB_NAME} PROPERTIES OUTPUT_NAME ${META_PROJECT_NAME} SUFFIX ".js")
+# Добавляем в проект цель для сборки статической библиотеки
+add_library(${META_LIB_NAME} STATIC ${MODULE_SOURCES})
+set_target_properties(${META_LIB_NAME} PROPERTIES OUTPUT_NAME ${META_PROJECT_NAME})
+set_target_properties(${META_LIB_NAME} PROPERTIES PREFIX "")
+set_target_properties(${META_LIB_NAME} PROPERTIES SUFFIX ".a.${META_VERSION}")
+
 target_link_libraries(${META_LIB_NAME} libmodule_core)
