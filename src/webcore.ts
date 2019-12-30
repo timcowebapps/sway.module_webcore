@@ -1,7 +1,7 @@
 "use strict";
 
-import * as sway from "./_exports";
+import * as webcore from "./webcore/_exports";
 
 export {
-	sway
+	webcore
 };
