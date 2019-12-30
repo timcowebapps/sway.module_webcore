@@ -12,7 +12,9 @@ set(META_LANGUAGES C CXX)
 
 project(${META_PROJECT_NAME} VERSION ${META_VERSION} LANGUAGES ${META_LANGUAGES})
 
-add_subdirectory(modules/sway.module_core)
+if (NOT TARGET libmodule_core)
+	add_subdirectory(modules/sway.module_core)
+endif()
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_COMPILER "emcc")
