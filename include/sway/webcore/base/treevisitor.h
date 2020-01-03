@@ -1,7 +1,6 @@
 #ifndef _SWAY_WEBCORE_BASE_NODEVISITOR_H
 #define _SWAY_WEBCORE_BASE_NODEVISITOR_H
 
-#include <sway/webcore/view/advanced/stackview.h>
 #include <sway/webcore/prereqs.h>
 
 NAMESPACE_BEGIN(sway)

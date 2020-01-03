@@ -19,15 +19,6 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 
-NAMESPACE_BEGIN(model)
-class AbstractItemModel;
-typedef std::shared_ptr<class AbstractItemModel> ModelSmartPtr_t;
-NAMESPACE_END(model)
-
-NAMESPACE_BEGIN(view)
-class Region;
-NAMESPACE_END(view)
-
 typedef std::function<void(emscripten::val)> EventCallback_t;
 typedef std::pair<emscripten::val, std::string> TargetEventPair_t;
 typedef std::vector<TargetEventPair_t> TargetEventVec_t;

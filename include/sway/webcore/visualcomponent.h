@@ -1,19 +1,17 @@
-#ifndef _SWAY_WEBCORE_VIEW_ABSTRACTITEMCOLLECTIONVIEW_H
-#define _SWAY_WEBCORE_VIEW_ABSTRACTITEMCOLLECTIONVIEW_H
+#ifndef _SWAY_WEBCORE_VISUALCOMPONENT_H
+#define _SWAY_WEBCORE_VISUALCOMPONENT_H
 
 #include <sway/webcore/base/treenodeelement.h>
-#include <sway/webcore/model/abstractitemcollection.h>
 #include <sway/webcore/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
-NAMESPACE_BEGIN(view)
 
 /*!
  * \brief
  *    Абстрактное представление.
  */
-class AItemCollectionView
+class AVisualComponent
 	: public base::TreeNodeElement
 	, public virtual core::utilities::IObserver {
 public:
@@ -37,25 +35,23 @@ public:
 	 * \param[in] options
 	 *    Опции представления.
 	 */
-	AItemCollectionView(core::containers::HierarchyNodePtr_t parent,
-		//const core::containers::HierarchyNodeIndex & nodeIndex,
+	AVisualComponent(core::containers::HierarchyNodePtr_t parent,
+		const core::containers::HierarchyNodeIndex & nodeIndex,
 		const std::string & nodeId, const base::TreeNodeElementCreateInfo & createInfo);
 
 	/*!
 	 * \brief
 	 *    Виртуальный деструктор класса.
 	 */
-	virtual ~AItemCollectionView() = default;
+	virtual ~AVisualComponent() = default;
 
 #pragma endregion // Constructor / Destructor
-
-	void makeItem(u32_t index, base::TreeNodeElement * child);
 
 #pragma region "IVisitable > HierarchyNode > TreeNodeElement implementation"
 
 	virtual void accept(base::ITreeVisitor * visitor) override;
 
-#pragma endregion // IVisitable > HierarchyNode > TreeNodeElement
+#pragma endregion // IVisitable > HierarchyNode > TreeNodeElement implementation
 
 	virtual void initialize();
 
@@ -89,11 +85,10 @@ public:
 #pragma endregion // Getters / Setters
 
 private:
-	core::utilities::Observable * _model; /*!< Модель данных. */
+	core::utilities::Observable * _model = nullptr; /*!< Модель данных. */
 };
 
-NAMESPACE_END(view)
 NAMESPACE_END(webcore)
 NAMESPACE_END(sway)
 
-#endif // _SWAY_WEBCORE_VIEW_ABSTRACTITEMCOLLECTIONVIEW_H
+#endif // _SWAY_WEBCORE_VISUALCOMPONENT_H

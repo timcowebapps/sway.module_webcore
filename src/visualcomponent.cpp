@@ -1,9 +1,8 @@
-#include <sway/webcore/view/visualcomponent.h>
+#include <sway/webcore/visualcomponent.h>
 #include <sway/webcore/base/treeupdater.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
-NAMESPACE_BEGIN(view)
 
 void AVisualComponent::registerEmscriptenClass(lpcstr_t classname) {
 	emscripten::class_<AVisualComponent, emscripten::base<base::TreeNodeElement>>(classname)
@@ -44,6 +43,5 @@ void AVisualComponent::setModel(core::utilities::Observable * model) {
 	_model->registerObserver(this);
 }
 
-NAMESPACE_END(base)
 NAMESPACE_END(webcore)
 NAMESPACE_END(sway)
