@@ -7,11 +7,9 @@ NAMESPACE_BEGIN(webcore)
 
 void TreeNodeElement::registerEmscriptenClass(lpcstr_t classname) {
 	emscripten::class_<TreeNodeElement, emscripten::base<core::containers::HierarchyNode>>(classname)
-		//.constructor<TreeNodeElementCreateInfo>()
 		.function("accept", &TreeNodeElement::accept, emscripten::allow_raw_pointers(), emscripten::pure_virtual())
 		.function("addRegion", &TreeNodeElement::addRegion)
 		.function("getRegion", &TreeNodeElement::getRegion, emscripten::allow_raw_pointers())
-		.function("getRegionNames", &TreeNodeElement::getRegionNames)
 		.function("addEvent", &TreeNodeElement::addEvent, emscripten::allow_raw_pointers())
 		.function("bindEvents", &TreeNodeElement::bindEvents)
 		.function("getHtmlElementTagname", &TreeNodeElement::getHtmlElementTagname)
@@ -31,7 +29,9 @@ TreeNodeElement::TreeNodeElement(core::containers::HierarchyNodePtr_t parent,
 	, _htmlElementTagname(createInfo.tagname)
 	, _htmlElementId(createInfo.id)
 	, _visibled(true) {
-	// Empty
+
+	_selectorGroup.push_back(Selector(
+		core::detail::toUnderlying(SelectorTypes_t::kId), createInfo.id));
 }
 
 void TreeNodeElement::accept(ITreeVisitor * visitor) {
@@ -43,17 +43,17 @@ void TreeNodeElement::addRegion(const std::string & name, const RegionCreateInfo
 		std::make_shared<RegionMixin>(getHostTree(), getNodeIndex(), createInfo)));
 }
 
-RegionMixinPtr_t TreeNodeElement::getRegion(const std::string & name) const {
-	RegionMixinIterator_t iter = _regions.find(name);
+RegionPtr_t TreeNodeElement::getRegion(const std::string & name) const {
+	RegionMapIterator_t iter = _regions.find(name);
 	if (iter != _regions.end())
 		return iter->second;
 
 	return nullptr;
 }
 
-RegionMixinPtr_t TreeNodeElement::getRegionByNodeId(const std::string & nodeId) const {
+RegionPtr_t TreeNodeElement::getRegionByNodeId(const std::string & nodeId) const {
 	for (auto iter = _regions.begin(); iter != _regions.end(); ++iter) {
-		RegionMixinPtr_t region = iter->second;
+		RegionPtr_t region = iter->second;
 		if (region->getAttachedNodeId() == nodeId)
 			return region;
 	}
@@ -61,19 +61,12 @@ RegionMixinPtr_t TreeNodeElement::getRegionByNodeId(const std::string & nodeId) 
 	return nullptr;
 }
 
-RegionMixinMap_t TreeNodeElement::getRegions() {
+RegionMap_t TreeNodeElement::getRegions() {
 	return _regions;
 }
 
-RegionMixinNameVec_t TreeNodeElement::getRegionNames() const {
-	RegionMixinNameVec_t keys;
-	std::transform(_regions.begin(), _regions.end(), std::back_inserter(keys),
-		[](const RegionMixinMap_t::value_type & pair) {
-			return pair.first;
-		}
-	);
-
-	return keys;
+SelectorGroup_t TreeNodeElement::getSelectorGroup() {
+	return _selectorGroup;
 }
 
 void TreeNodeElement::addEvent(const std::string & targetId, const std::string & type, emscripten::val callback) {

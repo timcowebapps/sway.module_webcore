@@ -4,16 +4,16 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 
-void RegionMixin::registerEmscriptenClass(lpcstr_t classname) {
-	emscripten::class_<RegionMixin>(classname)
+void Region::registerEmscriptenClass(lpcstr_t classname) {
+	emscripten::class_<Region>(classname)
 		.constructor<core::containers::Hierarchy *, core::containers::HierarchyNodeIndex, RegionCreateInfo>()
-		.smart_ptr<RegionMixinPtr_t>(core::misc::format("%sSmartPtr", classname).c_str())
-		.function("attachView", &RegionMixin::attachView, emscripten::allow_raw_pointers())
-		.function("detachView", &RegionMixin::detachView, emscripten::allow_raw_pointers())
-		.function("getHtmlElementId", &RegionMixin::getHtmlElementId);
+		.smart_ptr<RegionPtr_t>(core::misc::format("%sSmartPtr", classname).c_str())
+		.function("attachView", &Region::attachView, emscripten::allow_raw_pointers())
+		.function("detachView", &Region::detachView, emscripten::allow_raw_pointers())
+		.function("getHtmlElementId", &Region::getHtmlElementId);
 }
 
-RegionMixin::RegionMixin(core::containers::Hierarchy * tree,
+Region::Region(core::containers::Hierarchy * tree,
 	const core::containers::HierarchyNodeIndex & parentNodeIndex, const RegionCreateInfo & createInfo)
 	: _tree(tree)
 	, _parentNodeIndex(parentNodeIndex)
@@ -23,31 +23,31 @@ RegionMixin::RegionMixin(core::containers::Hierarchy * tree,
 	// Empty
 }
 
-void RegionMixin::attachView(TreeNodeElement * node) {
+void Region::attachView(TreeNodeElement * node) {
 	_attachedNodeId = node->getNodeId();
 	_attached = _tree->find(_parentNodeIndex)->addChild(node).isValid();
 }
 
-void RegionMixin::detachView(TreeNodeElement * node) {
+void Region::detachView(TreeNodeElement * node) {
 	if (_attached) {
 		_tree->find(_parentNodeIndex)->removeChild(node);
 		_attached = false;
 	}
 }
 
-std::string RegionMixin::getAttachedNodeId() const {
+std::string Region::getAttachedNodeId() const {
 	return _attachedNodeId;
 }
 
-std::string RegionMixin::getHtmlElementId() const {
+std::string Region::getHtmlElementId() const {
 	return _htmlElementId;
 }
 
-bool RegionMixin::hasHtmlElementReplaced() const {
+bool Region::hasHtmlElementReplaced() const {
 	return _htmlElementReplace;
 }
 
-bool RegionMixin::hasAttached() const {
+bool Region::hasAttached() const {
 	return _attached;
 }
 

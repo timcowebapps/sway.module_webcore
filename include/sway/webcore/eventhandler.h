@@ -1,7 +1,6 @@
 #ifndef _SWAY_WEBCORE_EVENTHANDLER_H
 #define _SWAY_WEBCORE_EVENTHANDLER_H
 
-#include <sway/webcore/eventtypes.h>
 #include <sway/webcore/eventtarget.h>
 #include <sway/webcore/prereqs.h>
 

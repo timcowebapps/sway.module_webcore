@@ -12,9 +12,9 @@ NAMESPACE_BEGIN(webcore)
 struct PendingNode {
 	std::pair<std::string, TreeNodeElement *> element;
 	TreeNodeElement * parentElement;
-	RegionMixinPtr_t region;
+	RegionPtr_t region;
 
-	PendingNode(TreeNodeElement * parent, TreeNodeElement * node, RegionMixinPtr_t region)
+	PendingNode(TreeNodeElement * parent, TreeNodeElement * node, RegionPtr_t region)
 		: element(std::make_pair(node->getNodeId(), node))
 		, parentElement(parent)
 		, region(region) {

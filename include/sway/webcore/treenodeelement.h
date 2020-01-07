@@ -3,7 +3,7 @@
 
 #include <sway/webcore/eventtarget.h>
 #include <sway/webcore/eventhandler.h>
-
+#include <sway/webcore/selector.h>
 #include <sway/webcore/treenodeelementcreateinfo.h>
 #include <sway/webcore/regioncreateinfo.h>
 #include <sway/webcore/region.h>
@@ -12,10 +12,9 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 
-typedef std::shared_ptr<RegionMixin> RegionMixinPtr_t;
-typedef std::map<std::string, RegionMixinPtr_t> RegionMixinMap_t;
-typedef RegionMixinMap_t::const_iterator RegionMixinIterator_t;
-typedef std::vector<std::string> RegionMixinNameVec_t;
+typedef std::shared_ptr<Region> RegionPtr_t;
+typedef std::map<std::string, RegionPtr_t> RegionMap_t;
+typedef RegionMap_t::const_iterator RegionMapIterator_t;
 
 class ITreeVisitor;
 
@@ -76,17 +75,13 @@ public:
 	 * \param[in] name
 	 *    Имя регион.
 	 */
-	RegionMixinPtr_t getRegion(const std::string & name) const;
+	RegionPtr_t getRegion(const std::string & name) const;
 
-	RegionMixinPtr_t getRegionByNodeId(const std::string & nodeId) const;
+	RegionPtr_t getRegionByNodeId(const std::string & nodeId) const;
 
-	RegionMixinMap_t getRegions();
+	RegionMap_t getRegions();
 
-	/*!
-	 * \brief
-	 *    Возвращает имена регионов.
-	 */
-	RegionMixinNameVec_t getRegionNames() const;
+	SelectorGroup_t getSelectorGroup();
 
 #pragma endregion
 
@@ -141,7 +136,8 @@ public:
 #pragma endregion
 
 private:
-	RegionMixinMap_t _regions; /*!< Карта регионов. */
+	RegionMap_t _regions; /*!< Карта регионов. */
+	SelectorGroup_t _selectorGroup;
 	std::vector<EventHandler> _handlers;
 	std::string _htmlElementTagname; /*!< Имя тега. */
 	std::vector<std::string> _htmlElementClasses;

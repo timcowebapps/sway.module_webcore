@@ -1,5 +1,6 @@
 #include <sway/webcore/visualcomponent.h>
 #include <sway/webcore/treeupdater.h>
+#include <sway/webcore/selector.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
@@ -16,7 +17,9 @@ AVisualComponent::AVisualComponent(core::containers::HierarchyNodePtr_t parent,
 	const core::containers::HierarchyNodeIndex & nodeIndex,
 	const std::string & nodeId, const TreeNodeElementCreateInfo & createInfo)
 	: TreeNodeElement(parent, nodeIndex, nodeId, createInfo) {
-	// Empty
+
+	//addSelector(Selector(SelectorTypes_t::kId, createInfo.id));
+	//addSelector(Selector(SelectorTypes_t::kClass, createInfo.classes));
 }
 
 void AVisualComponent::accept(ITreeVisitor * visitor) {

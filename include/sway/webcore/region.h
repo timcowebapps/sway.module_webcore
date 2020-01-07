@@ -8,7 +8,7 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 
 class TreeNodeElement;
-class RegionMixin {
+class Region {
 public:
 
 	#pragma region Static methods
@@ -27,13 +27,13 @@ public:
 	 * \param[in] options
 	 *    Опции представления.
 	 */
-	RegionMixin(core::containers::Hierarchy * tree, const core::containers::HierarchyNodeIndex & parentNodeIndex, const RegionCreateInfo & createInfo);
+	Region(core::containers::Hierarchy * tree, const core::containers::HierarchyNodeIndex & parentNodeIndex, const RegionCreateInfo & createInfo);
 
 	/*!
 	 * \brief
 	 *    Виртуальный деструктор класса.
 	 */
-	virtual ~RegionMixin() = default;
+	virtual ~Region() = default;
 
 	#pragma endregion
 

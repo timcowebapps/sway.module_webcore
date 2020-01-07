@@ -24,7 +24,7 @@ void TreeUpdater::visitOnEnter(TreeNodeElement * node) {
 	EM_ASM({console.log("NODE_INDEX " + UTF8ToString($0) + " - " + UTF8ToString($1))}, node->getNodeId().c_str(), node->getNodeIndex().toString().c_str());
 
 	if (parent) {
-		RegionMixinPtr_t region = parent->getRegionByNodeId(node->getNodeId());
+		RegionPtr_t region = parent->getRegionByNodeId(node->getNodeId());
 		_pendingUpdateNodes.emplace_back(parent, node, region);
 	}
 }
