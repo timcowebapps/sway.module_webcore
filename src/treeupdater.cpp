@@ -1,10 +1,9 @@
-#include <sway/webcore/base/treeupdater.h>
-#include <sway/webcore/base/dom/htmldocument.h>
-#include <sway/webcore/base/dom/htmlelement.h>
+#include <sway/webcore/treeupdater.h>
+#include <sway/webcore/dom/htmldocument.h>
+#include <sway/webcore/dom/htmlelement.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
-NAMESPACE_BEGIN(base)
 
 TreeUpdater::TreeUpdater() {
 	// Empty
@@ -52,6 +51,5 @@ void TreeUpdater::forceUpdate() {
 	}
 }
 
-NAMESPACE_END(base)
 NAMESPACE_END(webcore)
 NAMESPACE_END(sway)

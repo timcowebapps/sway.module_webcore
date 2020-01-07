@@ -1,12 +1,11 @@
-#include <sway/webcore/base/nodesynchronizer.h>
-#include <sway/webcore/base/region.h>
-#include <sway/webcore/base/dom/htmldocument.h>
-#include <sway/webcore/base/dom/htmlelement.h>
-#include <sway/webcore/base/dom/htmlbuilder.h>
+#include <sway/webcore/nodesynchronizer.h>
+#include <sway/webcore/region.h>
+#include <sway/webcore/dom/htmldocument.h>
+#include <sway/webcore/dom/htmlelement.h>
+#include <sway/webcore/dom/htmlbuilder.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
-NAMESPACE_BEGIN(base)
 
 NodeSynchronizer::NodeSynchronizer() {
 	_htmlBuilder = new dom::HtmlBuilder();
@@ -76,6 +75,5 @@ void NodeSynchronizer::applyPendingUpdate(PendingNode node) {
 	insertNode(node);
 }
 
-NAMESPACE_END(base)
 NAMESPACE_END(webcore)
 NAMESPACE_END(sway)

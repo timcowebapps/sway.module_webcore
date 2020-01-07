@@ -1,12 +1,11 @@
-#ifndef _SWAY_WEBCORE_BASE_REGION_H
-#define _SWAY_WEBCORE_BASE_REGION_H
+#ifndef _SWAY_WEBCORE_REGION_H
+#define _SWAY_WEBCORE_REGION_H
 
-#include <sway/webcore/base/regioncreateinfo.h>
+#include <sway/webcore/regioncreateinfo.h>
 #include <sway/webcore/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
-NAMESPACE_BEGIN(base)
 
 class TreeNodeElement;
 class RegionMixin {
@@ -16,7 +15,7 @@ public:
 
 	static void registerEmscriptenClass(lpcstr_t classname);
 
-	#pragma endregion // Static methods
+	#pragma endregion
 
 	#pragma region "Constructor / Destructor"
 
@@ -36,7 +35,7 @@ public:
 	 */
 	virtual ~RegionMixin() = default;
 
-	#pragma endregion // Constructor / Destructor
+	#pragma endregion
 
 	void attachView(TreeNodeElement * node);
 
@@ -58,8 +57,7 @@ private:
 	bool _attached;
 };
 
-NAMESPACE_END(base)
 NAMESPACE_END(webcore)
 NAMESPACE_END(sway)
 
-#endif // _SWAY_WEBCORE_BASE_REGION_H
+#endif // _SWAY_WEBCORE_REGION_H

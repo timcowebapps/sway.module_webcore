@@ -1,7 +1,7 @@
 #ifndef _SWAY_WEBCORE_VISUALCOMPONENT_H
 #define _SWAY_WEBCORE_VISUALCOMPONENT_H
 
-#include <sway/webcore/base/treenodeelement.h>
+#include <sway/webcore/treenodeelement.h>
 #include <sway/webcore/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
@@ -12,7 +12,7 @@ NAMESPACE_BEGIN(webcore)
  *    Абстрактное представление.
  */
 class AVisualComponent
-	: public base::TreeNodeElement
+	: public TreeNodeElement
 	, public virtual core::utilities::IObserver {
 public:
 
@@ -20,7 +20,7 @@ public:
 
 	static void registerEmscriptenClass(lpcstr_t classname);
 
-#pragma endregion // Static methods
+#pragma endregion
 
 #pragma region "Constructor / Destructor"
 
@@ -37,7 +37,7 @@ public:
 	 */
 	AVisualComponent(core::containers::HierarchyNodePtr_t parent,
 		const core::containers::HierarchyNodeIndex & nodeIndex,
-		const std::string & nodeId, const base::TreeNodeElementCreateInfo & createInfo);
+		const std::string & nodeId, const TreeNodeElementCreateInfo & createInfo);
 
 	/*!
 	 * \brief
@@ -45,13 +45,13 @@ public:
 	 */
 	virtual ~AVisualComponent() = default;
 
-#pragma endregion // Constructor / Destructor
+#pragma endregion
 
 #pragma region "IVisitable > HierarchyNode > TreeNodeElement implementation"
 
-	virtual void accept(base::ITreeVisitor * visitor) override;
+	virtual void accept(ITreeVisitor * visitor) override;
 
-#pragma endregion // IVisitable > HierarchyNode > TreeNodeElement implementation
+#pragma endregion
 
 	virtual void initialize();
 
@@ -63,7 +63,7 @@ public:
 	 */
 	virtual void update() override;
 
-#pragma endregion // IObserver implementation
+#pragma endregion
 
 #pragma region "Getters / Setters"
 
@@ -82,7 +82,7 @@ public:
 	 */
 	void setModel(core::utilities::Observable * model);
 
-#pragma endregion // Getters / Setters
+#pragma endregion
 
 private:
 	core::utilities::Observable * _model = nullptr; /*!< Модель данных. */

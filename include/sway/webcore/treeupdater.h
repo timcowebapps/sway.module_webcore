@@ -1,13 +1,12 @@
-#ifndef _SWAY_WEBCORE_BASE_TREEUPDATER_H
-#define _SWAY_WEBCORE_BASE_TREEUPDATER_H
+#ifndef _SWAY_WEBCORE_TREEUPDATER_H
+#define _SWAY_WEBCORE_TREEUPDATER_H
 
-#include <sway/webcore/base/treevisitor.h>
-#include <sway/webcore/base/nodesynchronizer.h>
+#include <sway/webcore/treevisitor.h>
+#include <sway/webcore/nodesynchronizer.h>
 #include <sway/webcore/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
-NAMESPACE_BEGIN(base)
 
 class TreeNodeElement;
 class TreeUpdater
@@ -29,28 +28,27 @@ public:
 	 */
 	virtual ~TreeUpdater();
 
-	#pragma endregion // Constructor / Destructor
+	#pragma endregion
 
 	#pragma region ITreeVisitor implementation
 
 	virtual void visitOnEnter(TreeNodeElement * node);
 	virtual void visitOnLeave(TreeNodeElement * node);
 
-	#pragma endregion // ITreeVisitor implementation
+	#pragma endregion
 
 	#pragma region General methods
 
 	void forceUpdate();
 
-	#pragma endregion // General methods
+	#pragma endregion
 
 private:
 	NodeSynchronizer _synchronizer;
 	PendingList _pendingUpdateNodes;
 };
 
-NAMESPACE_END(base)
 NAMESPACE_END(webcore)
 NAMESPACE_END(sway)
 
-#endif // _SWAY_WEBCORE_BASE_TREEUPDATER_H
+#endif // _SWAY_WEBCORE_TREEUPDATER_H

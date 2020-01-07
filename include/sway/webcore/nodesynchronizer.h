@@ -1,13 +1,12 @@
-#ifndef _SWAY_WEBCORE_BASE_NODESYNCHRONIZER_H
-#define _SWAY_WEBCORE_BASE_NODESYNCHRONIZER_H
+#ifndef _SWAY_WEBCORE_NODESYNCHRONIZER_H
+#define _SWAY_WEBCORE_NODESYNCHRONIZER_H
 
-#include <sway/webcore/base/dom/htmlbuilder.h>
-#include <sway/webcore/base/pendingnode.h>
+#include <sway/webcore/dom/htmlbuilder.h>
+#include <sway/webcore/pendingnode.h>
 #include <sway/webcore/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
-NAMESPACE_BEGIN(base)
 
 class NodeSynchronizer {
 public:
@@ -27,7 +26,7 @@ public:
 	 */
 	virtual ~NodeSynchronizer();
 
-	#pragma endregion // Constructor / Destructor
+	#pragma endregion
 
 	void insertNode(PendingNode node);
 
@@ -39,8 +38,7 @@ private:
 	dom::HtmlBuilder * _htmlBuilder;
 };
 
-NAMESPACE_END(base)
 NAMESPACE_END(webcore)
 NAMESPACE_END(sway)
 
-#endif // _SWAY_WEBCORE_BASE_NODESYNCHRONIZER_H
+#endif // _SWAY_WEBCORE_NODESYNCHRONIZER_H

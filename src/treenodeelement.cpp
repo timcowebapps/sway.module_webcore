@@ -1,10 +1,9 @@
-#include <sway/webcore/base/treenodeelement.h>
-#include <sway/webcore/base/treeupdater.h>
-#include <sway/webcore/base/treevisitor.h>
+#include <sway/webcore/treenodeelement.h>
+#include <sway/webcore/treeupdater.h>
+#include <sway/webcore/treevisitor.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
-NAMESPACE_BEGIN(base)
 
 void TreeNodeElement::registerEmscriptenClass(lpcstr_t classname) {
 	emscripten::class_<TreeNodeElement, emscripten::base<core::containers::HierarchyNode>>(classname)
@@ -102,11 +101,11 @@ void TreeNodeElement::setHtmlElementTagname(const std::string & tagname) {
 	_htmlElementTagname = tagname;
 }
 
-std::string TreeNodeElement::getHtmlElementClasses() const {
+std::vector<std::string> TreeNodeElement::getHtmlElementClasses() const {
 	return _htmlElementClasses;
 }
 
-void TreeNodeElement::setHtmlElementClasses(const std::string & classes) {
+void TreeNodeElement::setHtmlElementClasses(const std::vector<std::string> & classes) {
 	_htmlElementClasses = classes;
 }
 
@@ -134,6 +133,5 @@ void TreeNodeElement::setVisible(bool value) {
 	_visibled = value;
 }
 
-NAMESPACE_END(base)
 NAMESPACE_END(webcore)
 NAMESPACE_END(sway)

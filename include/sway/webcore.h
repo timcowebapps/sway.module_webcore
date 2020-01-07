@@ -4,7 +4,6 @@
 #include <sway/webcore/router/uriregex.h>
 #include <sway/webcore/router/uri.h>
 #include <sway/webcore/router/router.h>
-#include <sway/webcore/eventtypes.h>
 #include <sway/webcore/eventlistener.h>
 #include <sway/webcore/eventtarget.h>
 #include <sway/webcore/eventhandler.h>

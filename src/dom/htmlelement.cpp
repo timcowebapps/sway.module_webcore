@@ -1,8 +1,7 @@
-#include <sway/webcore/base/dom/htmlelement.h>
+#include <sway/webcore/dom/htmlelement.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
-NAMESPACE_BEGIN(base)
 NAMESPACE_BEGIN(dom)
 
 HtmlElement::HtmlElement()
@@ -43,11 +42,11 @@ void HtmlElement::setAttribute(const std::string & key, const std::string & valu
 	_val.call<void>("setAttribute", emscripten::val(key), emscripten::val(value));
 }
 
-void HtmlElement::addClassName(const std::string & classes) {
-	if (classes.empty())
+void HtmlElement::addClassName(const std::string & className) {
+	if (className.empty())
 		return;
 
-	_val["classList"].call<void>("add", emscripten::val(classes));
+	_val["classList"].call<void>("add", emscripten::val(className));
 }
 
 std::string HtmlElement::toString() const {
@@ -55,6 +54,5 @@ std::string HtmlElement::toString() const {
 }
 
 NAMESPACE_END(dom)
-NAMESPACE_END(base)
 NAMESPACE_END(webcore)
 NAMESPACE_END(sway)

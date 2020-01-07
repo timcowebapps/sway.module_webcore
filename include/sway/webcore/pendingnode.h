@@ -1,14 +1,13 @@
-#ifndef _SWAY_WEBCORE_BASE_PENDINGNODE_H
-#define _SWAY_WEBCORE_BASE_PENDINGNODE_H
+#ifndef _SWAY_WEBCORE_PENDINGNODE_H
+#define _SWAY_WEBCORE_PENDINGNODE_H
 
-#include <sway/webcore/base/treenodeelementupdatekind.h>
-#include <sway/webcore/base/treenodeelement.h>
-#include <sway/webcore/base/region.h>
+#include <sway/webcore/treenodeelementupdatekind.h>
+#include <sway/webcore/treenodeelement.h>
+#include <sway/webcore/region.h>
 #include <sway/webcore/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
-NAMESPACE_BEGIN(base)
 
 struct PendingNode {
 	std::pair<std::string, TreeNodeElement *> element;
@@ -25,8 +24,7 @@ struct PendingNode {
 
 typedef std::deque<PendingNode> PendingList;
 
-NAMESPACE_END(base)
 NAMESPACE_END(webcore)
 NAMESPACE_END(sway)
 
-#endif // _SWAY_WEBCORE_BASE_PENDINGNODE_H
+#endif // _SWAY_WEBCORE_PENDINGNODE_H

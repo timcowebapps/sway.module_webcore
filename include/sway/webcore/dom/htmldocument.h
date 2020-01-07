@@ -1,12 +1,11 @@
-#ifndef _SWAY_WEBCORE_BASE_DOM_HTMLDOCUMENT_H
-#define _SWAY_WEBCORE_BASE_DOM_HTMLDOCUMENT_H
+#ifndef _SWAY_WEBCORE_DOM_HTMLDOCUMENT_H
+#define _SWAY_WEBCORE_DOM_HTMLDOCUMENT_H
 
-#include <sway/webcore/base/dom/htmlelement.h>
+#include <sway/webcore/dom/htmlelement.h>
 #include <sway/webcore/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
-NAMESPACE_BEGIN(base)
 NAMESPACE_BEGIN(dom)
 
 class HtmlDocument {
@@ -25,8 +24,7 @@ public:
 };
 
 NAMESPACE_END(dom)
-NAMESPACE_END(base)
 NAMESPACE_END(webcore)
 NAMESPACE_END(sway)
 
-#endif // _SWAY_WEBCORE_BASE_DOM_HTMLDOCUMENT_H
+#endif // _SWAY_WEBCORE_DOM_HTMLDOCUMENT_H

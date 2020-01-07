@@ -1,9 +1,8 @@
-#include <sway/webcore/base/region.h>
-#include <sway/webcore/base/treenodeelement.h>
+#include <sway/webcore/region.h>
+#include <sway/webcore/treenodeelement.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
-NAMESPACE_BEGIN(base)
 
 void RegionMixin::registerEmscriptenClass(lpcstr_t classname) {
 	emscripten::class_<RegionMixin>(classname)
@@ -52,6 +51,5 @@ bool RegionMixin::hasAttached() const {
 	return _attached;
 }
 
-NAMESPACE_END(base)
 NAMESPACE_END(webcore)
 NAMESPACE_END(sway)

@@ -1,19 +1,16 @@
-#ifndef _SWAY_WEBCORE_BASE_TREENODEELEMENT_H
-#define _SWAY_WEBCORE_BASE_TREENODEELEMENT_H
+#ifndef _SWAY_WEBCORE_TREENODEELEMENT_H
+#define _SWAY_WEBCORE_TREENODEELEMENT_H
 
-#include <sway/webcore/eventtypes.h>
 #include <sway/webcore/eventtarget.h>
 #include <sway/webcore/eventhandler.h>
 
-#include <sway/webcore/base/treenodeelementcreateinfo.h>
-#include <sway/webcore/base/regioncreateinfo.h>
-#include <sway/webcore/base/region.h>
+#include <sway/webcore/treenodeelementcreateinfo.h>
+#include <sway/webcore/regioncreateinfo.h>
+#include <sway/webcore/region.h>
 #include <sway/webcore/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
-NAMESPACE_BEGIN(base)
-
 
 typedef std::shared_ptr<RegionMixin> RegionMixinPtr_t;
 typedef std::map<std::string, RegionMixinPtr_t> RegionMixinMap_t;
@@ -30,7 +27,7 @@ public:
 
 	static void registerEmscriptenClass(lpcstr_t classname);
 
-#pragma endregion // Static methods
+#pragma endregion
 
 #pragma region "Constructor / Destructor"
 
@@ -48,7 +45,7 @@ public:
 	 */
 	virtual ~TreeNodeElement() = default;
 
-#pragma endregion // Constructor / Destructor
+#pragma endregion
 
 #pragma region "IVisitable > HierarchyNode implementation"
 
@@ -56,7 +53,7 @@ public:
 
 	virtual void accept(ITreeVisitor * visitor);
 
-#pragma endregion // IVisitable > HierarchyNode
+#pragma endregion
 
 #pragma region "General methods"
 
@@ -91,7 +88,7 @@ public:
 	 */
 	RegionMixinNameVec_t getRegionNames() const;
 
-#pragma endregion // General methods
+#pragma endregion
 
 	void addEvent(const std::string & targetId, const std::string & type, emscripten::val callback);
 
@@ -114,9 +111,9 @@ public:
 	 */
 	void setHtmlElementTagname(const std::string & tagname);
 
-	std::string getHtmlElementClasses() const;
+	std::vector<std::string> getHtmlElementClasses() const;
 
-	void setHtmlElementClasses(const std::string & classes);
+	void setHtmlElementClasses(const std::vector<std::string> & classes);
 
 	/*!
 	 * \brief
@@ -141,20 +138,19 @@ public:
 
 	void setVisible(bool value);
 
-#pragma endregion // Getters / Setters
+#pragma endregion
 
 private:
 	RegionMixinMap_t _regions; /*!< Карта регионов. */
 	std::vector<EventHandler> _handlers;
 	std::string _htmlElementTagname; /*!< Имя тега. */
-	std::string _htmlElementClasses;
+	std::vector<std::string> _htmlElementClasses;
 	std::string _htmlElementId; /*!< Уникальный идентификатор. */
 	std::string _htmlContent;
 	bool _visibled;
 };
 
-NAMESPACE_END(base)
 NAMESPACE_END(webcore)
 NAMESPACE_END(sway)
 
-#endif // _SWAY_WEBCORE_BASE_TREENODEELEMENT_H
+#endif // _SWAY_WEBCORE_TREENODEELEMENT_H
