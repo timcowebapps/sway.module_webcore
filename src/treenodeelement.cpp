@@ -29,9 +29,7 @@ TreeNodeElement::TreeNodeElement(core::containers::HierarchyNodePtr_t parent,
 	, _htmlElementTagname(createInfo.tagname)
 	, _htmlElementId(createInfo.id)
 	, _visibled(true) {
-
-	_selectorGroup.push_back(Selector(
-		core::detail::toUnderlying(SelectorTypes_t::kId), createInfo.id));
+	// Empty
 }
 
 void TreeNodeElement::accept(ITreeVisitor * visitor) {
@@ -40,7 +38,7 @@ void TreeNodeElement::accept(ITreeVisitor * visitor) {
 
 void TreeNodeElement::addRegion(const std::string & name, const RegionCreateInfo & createInfo) {
 	_regions.insert(std::make_pair(name,
-		std::make_shared<RegionMixin>(getHostTree(), getNodeIndex(), createInfo)));
+		std::make_shared<Region>(getHostTree(), getNodeIndex(), createInfo)));
 }
 
 RegionPtr_t TreeNodeElement::getRegion(const std::string & name) const {
@@ -63,10 +61,6 @@ RegionPtr_t TreeNodeElement::getRegionByNodeId(const std::string & nodeId) const
 
 RegionMap_t TreeNodeElement::getRegions() {
 	return _regions;
-}
-
-SelectorGroup_t TreeNodeElement::getSelectorGroup() {
-	return _selectorGroup;
 }
 
 void TreeNodeElement::addEvent(const std::string & targetId, const std::string & type, emscripten::val callback) {

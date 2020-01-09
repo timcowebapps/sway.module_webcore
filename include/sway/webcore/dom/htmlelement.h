@@ -27,7 +27,7 @@ public:
 	 * \brief
 	 *    Деструктор класса.
 	 */
-	~HtmlElement();
+	~HtmlElement() = default;
 
 	HtmlElement getParentElement() const;
 

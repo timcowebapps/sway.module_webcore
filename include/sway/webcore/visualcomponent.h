@@ -1,6 +1,7 @@
 #ifndef _SWAY_WEBCORE_VISUALCOMPONENT_H
 #define _SWAY_WEBCORE_VISUALCOMPONENT_H
 
+#include <sway/webcore/css/stylesheet.h>
 #include <sway/webcore/treenodeelement.h>
 #include <sway/webcore/prereqs.h>
 
@@ -67,6 +68,14 @@ public:
 
 #pragma region "Getters / Setters"
 
+	void setStyleSheet(const emscripten::val & mapper);
+	
+	void appendStyle();
+
+	void addSelector(css::SelectorSmartPtr_t selector);
+	
+	css::SelectorVec_t getSelectors();
+
 	/*!
 	 * \brief
 	 *    Возвращает модель данных.
@@ -85,6 +94,8 @@ public:
 #pragma endregion
 
 private:
+	css::StyleSheet _styleSheet;
+	css::SelectorVec_t _selectors;
 	core::utilities::Observable * _model = nullptr; /*!< Модель данных. */
 };
 

@@ -1,23 +1,18 @@
-#ifndef _SWAY_WEBCORE_SELECTOR_H
-#define _SWAY_WEBCORE_SELECTOR_H
+#ifndef _SWAY_WEBCORE_CSS_SELECTOR_H
+#define _SWAY_WEBCORE_CSS_SELECTOR_H
 
-#include <sway/webcore/selectortypes.h>
+#include <sway/webcore/css/selectortypes.h>
 #include <sway/webcore/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
+NAMESPACE_BEGIN(css)
 
-typedef std::vector<class Selector> SelectorGroup_t;
+typedef std::shared_ptr<class Selector> SelectorSmartPtr_t;
+typedef std::vector<SelectorSmartPtr_t> SelectorVec_t;
 
 class Selector {
 public:
-
-#pragma region "Static variables"
-
-	static std::string SelectorPrefix_Id;
-	static std::string SelectorPrefix_Class;
-
-#pragma endregion
 
 #pragma region "Constructor / Destructor"
 
@@ -26,7 +21,7 @@ public:
 	 *    Конструктор класса.
 	 *    Выполняет инициализацию нового экземпляра класса.
 	 */
-	Selector(u32_t type, const std::string & name);
+	Selector(SelectorTypes_t type);
 
 	/*!
 	 * \brief
@@ -38,20 +33,21 @@ public:
 
 #pragma region "Getters / Setters"
 
-	u32_t getType() const;
+	SelectorTypes_t getType() const;
 
 	std::string getName() const;
 
+	void setName(const std::string & name);
+
 #pragma endregion
 
-	std::string toString() const;
-
 private:
-	u32_t _type;
+	SelectorTypes_t _type;
 	std::string _name;
 };
 
+NAMESPACE_END(css)
 NAMESPACE_END(webcore)
 NAMESPACE_END(sway)
 
-#endif // _SWAY_WEBCORE_SELECTOR_H
+#endif // _SWAY_WEBCORE_CSS_SELECTOR_H

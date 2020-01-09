@@ -1,5 +1,5 @@
-#ifndef _SWAY_WEBCORE_STYLESHEET_H
-#define _SWAY_WEBCORE_STYLESHEET_H
+#ifndef _SWAY_WEBCORE_CSS_STYLESHEET_H
+#define _SWAY_WEBCORE_CSS_STYLESHEET_H
 
 #include <sway/webcore/prereqs.h>
 
@@ -13,8 +13,16 @@ public:
 	}
 };
 
+NAMESPACE_BEGIN(css)
+
 class StyleSheet {
 public:
+
+#pragma region "Static methods"
+
+	static void registerEmscriptenClass(lpcstr_t classname);
+
+#pragma endregion
 
 #pragma region "Constructor / Destructor"
 
@@ -23,19 +31,19 @@ public:
 	 *    Конструктор класса.
 	 *    Выполняет инициализацию нового экземпляра класса.
 	 */
-	StyleSheet(const emscripten::val & mapper);
+	StyleSheet(const emscripten::val & mapper = emscripten::val::null());
 
 	/*!
 	 * \brief
-	 *    Виртуальный деструктор класса.
+	 *    Деструктор класса.
 	 */
-	virtual ~StyleSheet() = default;
+	~StyleSheet() = default;
 
 #pragma endregion
 
 #pragma region "Getters / Setters"
 
-	std::string getClassName(lpcstr_t style) const;
+	std::string getClassName(const std::string & classnameKey) const;
 
 #pragma endregion
 
@@ -43,7 +51,8 @@ private:
 	emscripten::val _mapper;
 };
 
+NAMESPACE_END(css)
 NAMESPACE_END(webcore)
 NAMESPACE_END(sway)
 
-#endif // _SWAY_WEBCORE_STYLESHEET_H
+#endif // _SWAY_WEBCORE_CSS_STYLESHEET_H

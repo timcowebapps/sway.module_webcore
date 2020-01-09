@@ -1,9 +1,9 @@
 #ifndef _SWAY_WEBCORE_TREENODEELEMENT_H
 #define _SWAY_WEBCORE_TREENODEELEMENT_H
 
+#include <sway/webcore/css/selector.h>
 #include <sway/webcore/eventtarget.h>
 #include <sway/webcore/eventhandler.h>
-#include <sway/webcore/selector.h>
 #include <sway/webcore/treenodeelementcreateinfo.h>
 #include <sway/webcore/regioncreateinfo.h>
 #include <sway/webcore/region.h>
@@ -81,8 +81,6 @@ public:
 
 	RegionMap_t getRegions();
 
-	SelectorGroup_t getSelectorGroup();
-
 #pragma endregion
 
 	void addEvent(const std::string & targetId, const std::string & type, emscripten::val callback);
@@ -137,7 +135,6 @@ public:
 
 private:
 	RegionMap_t _regions; /*!< Карта регионов. */
-	SelectorGroup_t _selectorGroup;
 	std::vector<EventHandler> _handlers;
 	std::string _htmlElementTagname; /*!< Имя тега. */
 	std::vector<std::string> _htmlElementClasses;

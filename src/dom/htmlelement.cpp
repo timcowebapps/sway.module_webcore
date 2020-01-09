@@ -14,10 +14,6 @@ HtmlElement::HtmlElement(const emscripten::val & value)
 	// Empty
 }
 
-HtmlElement::~HtmlElement() {
-	// Empty
-}
-
 HtmlElement HtmlElement::getParentElement() const {
 	return _val["parentElement"].as<emscripten::val>();
 }

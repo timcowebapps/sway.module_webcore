@@ -1,6 +1,9 @@
 #include <sway/webcore/visualcomponent.h>
 #include <sway/webcore/treeupdater.h>
-#include <sway/webcore/selector.h>
+#include <sway/webcore/css/selectors/cnselectorchain.h>
+#include <sway/webcore/css/selectors/cnselectordescription.h>
+#include <sway/webcore/css/selectors/idselector.h>
+#include <sway/webcore/css/selectors/cnselector.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
@@ -9,6 +12,8 @@ void AVisualComponent::registerEmscriptenClass(lpcstr_t classname) {
 	emscripten::class_<AVisualComponent, emscripten::base<TreeNodeElement>>(classname)
 		.constructor<core::containers::HierarchyNodePtr_t,
 			core::containers::HierarchyNodeIndex, std::string, TreeNodeElementCreateInfo>()
+		.function("setStyleSheet", &AVisualComponent::setStyleSheet)
+		.function("appendStyle", &AVisualComponent::appendStyle)
 		.function("getModel", &AVisualComponent::getModel, emscripten::allow_raw_pointers())
 		.function("setModel", &AVisualComponent::setModel, emscripten::allow_raw_pointers());
 }
@@ -18,8 +23,11 @@ AVisualComponent::AVisualComponent(core::containers::HierarchyNodePtr_t parent,
 	const std::string & nodeId, const TreeNodeElementCreateInfo & createInfo)
 	: TreeNodeElement(parent, nodeIndex, nodeId, createInfo) {
 
-	//addSelector(Selector(SelectorTypes_t::kId, createInfo.id));
-	//addSelector(Selector(SelectorTypes_t::kClass, createInfo.classes));
+	addSelector(std::make_shared<css::IdSelector>(createInfo.id));
+
+	auto classes = emscripten::vecFromJSArray<css::CnSelectorDescription>(createInfo.classes);
+	for (css::CnSelectorDescription desc : classes)
+		addSelector(std::make_shared<css::CnSelector>(desc.chain));
 }
 
 void AVisualComponent::accept(ITreeVisitor * visitor) {
@@ -35,6 +43,35 @@ void AVisualComponent::initialize() {
 
 void AVisualComponent::update() {
 	// Empty
+}
+
+void AVisualComponent::setStyleSheet(const emscripten::val & mapper) {
+	_styleSheet = css::StyleSheet(mapper);
+}
+
+void AVisualComponent::appendStyle() {
+	std::vector<std::string> classnameList;
+	for (css::SelectorSmartPtr_t selector : getSelectors()) {
+		if (selector->getType() == css::SelectorTypes_t::kCn) {
+			css::CnSelector * cnSelector = (css::CnSelector *) selector.get();
+			classnameList.push_back(_styleSheet.getClassName(cnSelector->getName()));
+
+			for (std::string mod : cnSelector->getMods()) {
+				classnameList.push_back(_styleSheet.getClassName(
+					core::misc::format("%s--%s", cnSelector->getName().c_str(), mod.c_str())));
+			}
+		}
+	}
+
+	setHtmlElementClasses(classnameList);
+}
+
+void AVisualComponent::addSelector(css::SelectorSmartPtr_t selector) {
+	_selectors.push_back(selector);
+}
+
+css::SelectorVec_t AVisualComponent::getSelectors() {
+	return _selectors;
 }
 
 core::utilities::Observable * AVisualComponent::getModel() {

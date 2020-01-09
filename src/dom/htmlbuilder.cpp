@@ -1,6 +1,7 @@
 #include <sway/webcore/dom/htmlbuilder.h>
 #include <sway/webcore/dom/htmldocument.h>
 #include <sway/webcore/dom/htmlelement.h>
+#include <sway/webcore/css/selectors/cnselector.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
@@ -12,10 +13,10 @@ HtmlBuilder::HtmlBuilder() {
 
 HtmlElement HtmlBuilder::createHtmlElement(TreeNodeElement * element) {
 	auto htmlElement = HtmlDocument::createElement(element->getHtmlElementTagname());
-	for (u32_t i = 0; i < element->getHtmlElementClasses().size(); ++i)
-		htmlElement.addClassName(element->getHtmlElementClasses()[i]);
-
 	htmlElement.setAttribute("id", element->getHtmlElementId());
+	for (std::string cn : element->getHtmlElementClasses())
+		htmlElement.addClassName(cn);
+
 	htmlElement.setInnerContent(element->getHtmlContent());
 	return htmlElement;
 }
