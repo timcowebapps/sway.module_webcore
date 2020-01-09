@@ -1,7 +1,7 @@
 #include <sway/webcore/visualcomponent.h>
 #include <sway/webcore/treeupdater.h>
 #include <sway/webcore/css/selectors/cnselectorchain.h>
-#include <sway/webcore/css/selectors/cnselectordescription.h>
+#include <sway/webcore/css/selectors/cnselectordescriptor.h>
 #include <sway/webcore/css/selectors/idselector.h>
 #include <sway/webcore/css/selectors/cnselector.h>
 
@@ -25,8 +25,8 @@ AVisualComponent::AVisualComponent(core::containers::HierarchyNodePtr_t parent,
 
 	addSelector(std::make_shared<css::IdSelector>(createInfo.id));
 
-	auto classes = emscripten::vecFromJSArray<css::CnSelectorDescription>(createInfo.classes);
-	for (css::CnSelectorDescription desc : classes)
+	auto classes = emscripten::vecFromJSArray<css::CnSelectorDescriptor>(createInfo.classes);
+	for (css::CnSelectorDescriptor desc : classes)
 		addSelector(std::make_shared<css::CnSelector>(desc.chain));
 }
 

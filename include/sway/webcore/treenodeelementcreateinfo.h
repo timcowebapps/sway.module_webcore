@@ -10,13 +10,13 @@ struct TreeNodeElementCreateInfo {
 	std::string tagname; /*!< Имя тега. */
 	std::string id; /*!< Уникальный идентификатор. */
 	emscripten::val stylesheet; /*!< Ассоциативный массив стилей. */
-	emscripten::val classes; /*!< std::vector<css::CnSelectorDescription> */
+	emscripten::val classes; /*!< std::vector<css::CnSelectorDescriptor> */
 
 	TreeNodeElementCreateInfo(std::string tagname = std::string(""), std::string id = std::string(""))
 		: tagname(tagname)
 		, id(id)
-		, stylesheet(emscripten::val::object())
-		, classes(emscripten::val::array()) {
+		, stylesheet(emscripten::val::null())
+		, classes(emscripten::val::null()) {
 		// Empty
 	}
 };
