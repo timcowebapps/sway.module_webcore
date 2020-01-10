@@ -15,7 +15,7 @@ struct CnSelectorChain {
 	CnSelectorChain(std::string block = "", std::string elem = "")
 		: block(block)
 		, elem(elem)
-		, mods(emscripten::val::null()) {
+		, mods(emscripten::val::array()) {
 		// Empty
 	}
 };

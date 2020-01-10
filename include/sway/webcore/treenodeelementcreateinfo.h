@@ -15,8 +15,8 @@ struct TreeNodeElementCreateInfo {
 	TreeNodeElementCreateInfo(std::string tagname = std::string(""), std::string id = std::string(""))
 		: tagname(tagname)
 		, id(id)
-		, stylesheet(emscripten::val::null())
-		, classes(emscripten::val::null()) {
+		, stylesheet(emscripten::val::object())
+		, classes(emscripten::val::array()) {
 		// Empty
 	}
 };

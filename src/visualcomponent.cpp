@@ -28,6 +28,14 @@ AVisualComponent::AVisualComponent(core::containers::HierarchyNodePtr_t parent,
 	auto classes = emscripten::vecFromJSArray<css::CnSelectorDescriptor>(createInfo.classes);
 	for (css::CnSelectorDescriptor desc : classes)
 		addSelector(std::make_shared<css::CnSelector>(desc.chain));
+
+	if (EmscriptenUtil::isNone(createInfo.stylesheet)) {
+		EM_ASM({console.warn("'stylesheet' must be not null")});
+	}
+	else {
+		setStyleSheet(createInfo.stylesheet);
+		appendStyle();
+	}
 }
 
 void AVisualComponent::accept(ITreeVisitor * visitor) {
@@ -56,10 +64,9 @@ void AVisualComponent::appendStyle() {
 			css::CnSelector * cnSelector = (css::CnSelector *) selector.get();
 			classnameList.push_back(_styleSheet.getClassName(cnSelector->getName()));
 
-			for (std::string mod : cnSelector->getMods()) {
+			for (std::string mod : cnSelector->getMods())
 				classnameList.push_back(_styleSheet.getClassName(
 					core::misc::format("%s--%s", cnSelector->getName().c_str(), mod.c_str())));
-			}
 		}
 	}
 
