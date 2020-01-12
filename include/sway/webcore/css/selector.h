@@ -14,6 +14,12 @@ typedef std::vector<SelectorSmartPtr_t> SelectorVec_t;
 class Selector {
 public:
 
+#pragma region "Static methods"
+
+	static void registerEmscriptenClass(lpcstr_t classname);
+
+#pragma endregion
+
 #pragma region "Constructor / Destructor"
 
 	/*!

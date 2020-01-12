@@ -16,6 +16,12 @@ class CnSelector
 	: public Selector {
 public:
 
+#pragma region "Static methods"
+
+	static void registerEmscriptenClass(lpcstr_t classname);
+
+#pragma endregion
+
 #pragma region "Constructor / Destructor"
 
 	/*!

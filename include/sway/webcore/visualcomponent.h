@@ -68,6 +68,8 @@ public:
 
 #pragma region "Getters / Setters"
 
+	css::StyleSheet getStyleSheet() const;
+
 	void setStyleSheet(const emscripten::val & mapper);
 	
 	void appendStyle();

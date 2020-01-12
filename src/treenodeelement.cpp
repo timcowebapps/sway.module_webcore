@@ -74,10 +74,8 @@ void TreeNodeElement::addEvent(const std::string & targetId, const std::string &
 }
 
 void TreeNodeElement::bindEvents() {
-	for (int i = 0; i < _handlers.size(); ++i) {
-		EventHandler event = _handlers[i];
-		event.target->addEventListener(event.targetId, event.type/*stringize(event.type)*/);
-	}
+	for (EventHandler event : _handlers)
+		event.target->addEventListener(event.targetId, event.type);
 }
 
 std::string TreeNodeElement::getHtmlElementTagname() const {

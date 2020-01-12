@@ -4,6 +4,8 @@
 #include <sway/webcore/router/uriregex.h>
 #include <sway/webcore/router/uri.h>
 #include <sway/webcore/router/router.h>
+#include <sway/webcore/css/selectors/idselector.h>
+#include <sway/webcore/css/selectors/cnselector.h>
 #include <sway/webcore/css/selectors/cnselectorchain.h>
 #include <sway/webcore/css/selectors/cnselectordescriptor.h>
 #include <sway/webcore/css/stylesheet.h>

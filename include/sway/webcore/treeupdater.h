@@ -26,7 +26,7 @@ public:
 	 * \brief
 	 *    Виртуальный деструктор класса.
 	 */
-	virtual ~TreeUpdater();
+	virtual ~TreeUpdater() = default;
 
 	#pragma endregion
 

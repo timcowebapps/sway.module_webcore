@@ -15,7 +15,9 @@ void AVisualComponent::registerEmscriptenClass(lpcstr_t classname) {
 		.function("setStyleSheet", &AVisualComponent::setStyleSheet)
 		.function("appendStyle", &AVisualComponent::appendStyle)
 		.function("getModel", &AVisualComponent::getModel, emscripten::allow_raw_pointers())
-		.function("setModel", &AVisualComponent::setModel, emscripten::allow_raw_pointers());
+		.function("setModel", &AVisualComponent::setModel, emscripten::allow_raw_pointers())
+		.function("addSelector", &AVisualComponent::addSelector, emscripten::allow_raw_pointers())
+		.function("getSelectors", &AVisualComponent::getSelectors, emscripten::allow_raw_pointers());
 }
 
 AVisualComponent::AVisualComponent(core::containers::HierarchyNodePtr_t parent,
@@ -51,6 +53,10 @@ void AVisualComponent::initialize() {
 
 void AVisualComponent::update() {
 	// Empty
+}
+
+css::StyleSheet AVisualComponent::getStyleSheet() const {
+	return _styleSheet;
 }
 
 void AVisualComponent::setStyleSheet(const emscripten::val & mapper) {

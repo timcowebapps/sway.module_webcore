@@ -4,6 +4,11 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 NAMESPACE_BEGIN(css)
 
+void IdSelector::registerEmscriptenClass(lpcstr_t classname) {
+	emscripten::class_<IdSelector, emscripten::base<Selector>>(classname)
+		.constructor<std::string>();
+}
+
 IdSelector::IdSelector(const std::string & name) : Selector(SelectorTypes_t::kId) {
 	setName(name);
 }

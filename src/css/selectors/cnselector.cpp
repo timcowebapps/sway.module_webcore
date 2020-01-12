@@ -4,6 +4,12 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 NAMESPACE_BEGIN(css)
 
+void CnSelector::registerEmscriptenClass(lpcstr_t classname) {
+	emscripten::class_<CnSelector, emscripten::base<Selector>>(classname)
+		.constructor<CnSelectorChain>()
+		.function("getMods", &CnSelector::getMods);
+}
+
 CnSelector::CnSelector(const CnSelectorChain & chain) : Selector(SelectorTypes_t::kCn)
 	, _chain(chain) {
 

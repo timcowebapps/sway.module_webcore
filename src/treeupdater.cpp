@@ -9,10 +9,6 @@ TreeUpdater::TreeUpdater() {
 	// Empty
 }
 
-TreeUpdater::~TreeUpdater() {
-	// Empty
-}
-
 void TreeUpdater::visitOnEnter(TreeNodeElement * node) {
 	if (!node->hasVisibled())
 		return;
