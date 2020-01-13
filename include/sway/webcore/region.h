@@ -7,6 +7,10 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 
+typedef std::shared_ptr<class Region> RegionPtr_t;
+typedef std::map<std::string, RegionPtr_t> RegionMap_t;
+typedef RegionMap_t::const_iterator RegionMapIterator_t;
+
 class TreeNodeElement;
 class Region {
 public:

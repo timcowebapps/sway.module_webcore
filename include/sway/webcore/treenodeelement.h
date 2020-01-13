@@ -12,9 +12,6 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 
-typedef std::shared_ptr<Region> RegionPtr_t;
-typedef std::map<std::string, RegionPtr_t> RegionMap_t;
-typedef RegionMap_t::const_iterator RegionMapIterator_t;
 
 class ITreeVisitor;
 
@@ -83,9 +80,13 @@ public:
 
 #pragma endregion
 
+#pragma region "Events"
+
 	void addEvent(const std::string & targetId, const std::string & type, emscripten::val callback);
 
 	void bindEvents();
+
+#pragma endregion
 
 #pragma region "Getters / Setters"
 
