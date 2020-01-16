@@ -1,6 +1,10 @@
 # Запрашиваем минимальную версию CMake
 cmake_minimum_required(VERSION 3.14.3 FATAL_ERROR)
 
+function(custom_enable_cxx17 TARGET)
+	target_compile_features(${TARGET} PUBLIC cxx_std_17)
+endfunction(custom_enable_cxx17)
+
 # Мета-информация о проекте
 set(META_PROJECT_NAME module_webcore)
 set(META_LIB_NAME lib${META_PROJECT_NAME})
@@ -12,12 +16,16 @@ set(META_LANGUAGES C CXX)
 
 project(${META_PROJECT_NAME} VERSION ${META_VERSION} LANGUAGES ${META_LANGUAGES})
 
+set(EMSCRIPTEN_PREFIX "/home/bonus85/Documents/emsdk/emscripten/incoming")
+set(EMSCRIPTEN_TOOLCHAIN_PATH "${EMSCRIPTEN_PREFIX}/system")
+
 if (NOT TARGET libmodule_core)
 	add_subdirectory(modules/sway.module_core)
 endif()
 
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_COMPILER "emcc")
+set(CMAKE_CXX_COMPILER "${EMSCRIPTEN_PREFIX}/em++")
+set(CMAKE_CXX_FLAGS_INIT "-s WASM=0")
+set(CMAKE_CXX_FLAGS_RELEASE_INIT "-DNDEBUG -O3")
 
 # Определяем каталог вывода по умолчанию
 if(CMAKE_BUILD_TYPE MATCHES Debug)
@@ -31,7 +39,7 @@ endif()
 set(MODULE_DIR ${CMAKE_CURRENT_LIST_DIR})
 
 # Добавляем пути для поиска хедеров
-include_directories("/home/bonus85/emsdk/emscripten/incoming/system/include")
+include_directories("${EMSCRIPTEN_TOOLCHAIN_PATH}/include")
 include_directories(${MODULE_DIR}/include)
 include_directories(${MODULE_DIR}/modules/sway.module_core/include)
 
@@ -44,5 +52,7 @@ add_library(${META_LIB_NAME} STATIC ${MODULE_SOURCES})
 set_target_properties(${META_LIB_NAME} PROPERTIES OUTPUT_NAME ${META_PROJECT_NAME})
 set_target_properties(${META_LIB_NAME} PROPERTIES PREFIX "")
 set_target_properties(${META_LIB_NAME} PROPERTIES SUFFIX ".a.${META_VERSION}")
+
+custom_enable_cxx17(${META_LIB_NAME})
 
 target_link_libraries(${META_LIB_NAME} libmodule_core)
