@@ -71,6 +71,7 @@ void NodeSynchronizer::removeNode(PendingNode node) {
 }
 
 void NodeSynchronizer::applyPendingUpdate(PendingNode node) {
+	// remove and re-insert the node
 	removeNode(node);
 	insertNode(node);
 }

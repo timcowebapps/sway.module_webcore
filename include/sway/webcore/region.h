@@ -15,13 +15,13 @@ class TreeNodeElement;
 class Region {
 public:
 
-	#pragma region Static methods
+#pragma region Static methods
 
 	static void registerEmscriptenClass(lpcstr_t classname);
 
-	#pragma endregion
+#pragma endregion
 
-	#pragma region "Constructor / Destructor"
+#pragma region "Constructor / Destructor"
 
 	/*!
 	 * \brief
@@ -31,7 +31,7 @@ public:
 	 * \param[in] options
 	 *    Опции представления.
 	 */
-	Region(core::containers::Hierarchy * tree, const core::containers::HierarchyNodeIndex & parentNodeIndex, const RegionCreateInfo & createInfo);
+	Region(core::containers::Hierarchy * tree, const core::containers::HierarchyNodeIdx & parentNodeIndex, const RegionCreateInfo & createInfo);
 
 	/*!
 	 * \brief
@@ -39,7 +39,7 @@ public:
 	 */
 	virtual ~Region() = default;
 
-	#pragma endregion
+#pragma endregion
 
 	void attachView(TreeNodeElement * node);
 
@@ -54,7 +54,7 @@ public:
 
 private:
 	core::containers::Hierarchy * _tree;
-	core::containers::HierarchyNodeIndex _parentNodeIndex;
+	core::containers::HierarchyNodeIdx _parentNodeIndex;
 	std::string _htmlElementId;
 	std::string _attachedNodeId;
 	bool _htmlElementReplace;

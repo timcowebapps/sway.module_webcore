@@ -11,7 +11,7 @@ NAMESPACE_BEGIN(webcore)
 class NodeSynchronizer {
 public:
 
-	#pragma region "Constructor / Destructor"
+#pragma region "Constructor / Destructor"
 
 	/*!
 	 * \brief
@@ -26,7 +26,7 @@ public:
 	 */
 	virtual ~NodeSynchronizer();
 
-	#pragma endregion
+#pragma endregion
 
 	void insertNode(PendingNode node);
 

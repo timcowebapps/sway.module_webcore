@@ -25,7 +25,7 @@ em++ --clear-cache
 Конфигурируем проект для сборки
 
 ```console
-cmake -DMODULE_CORE_EMSCRIPTEN=ON -GNinja ./..
+cmake -DMODULE_CORE_EMSCRIPTEN:BOOL=ON -GNinja ./..
 ```
 
 Запускаем сборку

@@ -17,7 +17,9 @@ StyleSheet::StyleSheet(const emscripten::val & mapper)
 
 std::string StyleSheet::getClassName(const std::string & classnameKey) const {
 	if (EmscriptenUtil::isNone(_mapper) || EmscriptenUtil::isNone(_mapper[classnameKey.c_str()])) {
-		EM_ASM({console.warn("'" + UTF8ToString($0) + "' must be not null")}, classnameKey.c_str());
+		EM_ASM({
+			console.warn("'" + UTF8ToString($0) + "' must be not null");
+		}, classnameKey.c_str());
 		return "";
 	}
 

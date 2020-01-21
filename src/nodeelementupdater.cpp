@@ -1,35 +1,34 @@
-#include <sway/webcore/treeupdater.h>
+#include <sway/webcore/nodeelementupdater.h>
 #include <sway/webcore/dom/htmldocument.h>
 #include <sway/webcore/dom/htmlelement.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 
-TreeUpdater::TreeUpdater() {
+NodeElementUpdater::NodeElementUpdater() {
 	// Empty
 }
 
-void TreeUpdater::visitOnEnter(TreeNodeElement * node) {
-	if (!node->hasVisibled())
-		return;
-
+core::containers::TraversalAction_t NodeElementUpdater::visit(core::containers::HierarchyNode * node) {
 	TreeNodeElement * parent = (TreeNodeElement *) node->getParentNode();
-	if (!parent->hasVisibled())
-		return;
+	// if (!parent)
+	// 	return core::containers::TraversalAction_t::Abort;
 
-	EM_ASM({console.log("NODE_INDEX " + UTF8ToString($0) + " - " + UTF8ToString($1))}, node->getNodeId().c_str(), node->getNodeIndex().toString().c_str());
+	EM_ASM({
+		console.groupCollapsed("ELEMENT " + UTF8ToString($0));
+		console.log("NODE_INDEX " + UTF8ToString($1));
+		console.groupEnd();
+	}, node->getNodeUid().c_str(), std::to_string<core::containers::HierarchyNodeIdx>(node->getNodeIdx()).c_str());
 
 	if (parent) {
-		RegionPtr_t region = parent->getRegionByNodeId(node->getNodeId());
-		_pendingUpdateNodes.emplace_back(parent, node, region);
+		RegionPtr_t region = parent->getRegionByNodeId(node->getNodeUid());
+		_pendingUpdateNodes.emplace_back(parent, (TreeNodeElement *) node, region);
 	}
+
+	return core::containers::TraversalAction_t::Continue;
 }
 
-void TreeUpdater::visitOnLeave(TreeNodeElement * node) {
-	// Empty
-}
-
-void TreeUpdater::forceUpdate() {
+void NodeElementUpdater::forceUpdate() {
 	const size_t numUpdates = _pendingUpdateNodes.size();
 	if (numUpdates == 0)
 		return;

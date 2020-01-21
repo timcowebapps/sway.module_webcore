@@ -4,16 +4,13 @@
 #include <sway/webcore/css/selector.h>
 #include <sway/webcore/eventtarget.h>
 #include <sway/webcore/eventhandler.h>
-#include <sway/webcore/treenodeelementcreateinfo.h>
+#include <sway/webcore/treenodeelementdescriptor.h>
 #include <sway/webcore/regioncreateinfo.h>
 #include <sway/webcore/region.h>
 #include <sway/webcore/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
-
-
-class ITreeVisitor;
 
 class TreeNodeElement
 	: public core::containers::HierarchyNode {
@@ -32,22 +29,14 @@ public:
 	 *    Конструктор класса.
 	 *    Выполняет инициализацию нового экземпляра класса.
 	 */
-	TreeNodeElement(core::containers::HierarchyNodePtr_t parent, const core::containers::HierarchyNodeIndex & nodeIndex,
-		const std::string & nodeId, const TreeNodeElementCreateInfo & createInfo);
+	TreeNodeElement(core::containers::HierarchyNode * parent,
+		const core::containers::HierarchyNodeIdx & nodeIdx, const TreeNodeElementDescriptor & createInfo);
 
 	/*!
 	 * \brief
 	 *    Виртуальный деструктор класса.
 	 */
 	virtual ~TreeNodeElement() = default;
-
-#pragma endregion
-
-#pragma region "IVisitable > HierarchyNode implementation"
-
-	using core::containers::HierarchyNode::accept;
-
-	virtual void accept(ITreeVisitor * visitor);
 
 #pragma endregion
 
@@ -128,10 +117,6 @@ public:
 
 	void setHtmlContent(const std::string & content);
 
-	bool hasVisibled() const;
-
-	void setVisible(bool value);
-
 #pragma endregion
 
 private:
@@ -141,7 +126,6 @@ private:
 	std::vector<std::string> _htmlElementClasses;
 	std::string _htmlElementId; /*!< Уникальный идентификатор. */
 	std::string _htmlContent;
-	bool _visibled;
 };
 
 NAMESPACE_END(webcore)

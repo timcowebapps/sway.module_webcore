@@ -1,9 +1,8 @@
 # Запрашиваем минимальную версию CMake
 cmake_minimum_required(VERSION 3.14.3 FATAL_ERROR)
 
-function(custom_enable_cxx17 TARGET)
-	target_compile_features(${TARGET} PUBLIC cxx_std_17)
-endfunction(custom_enable_cxx17)
+include(${CMAKE_CURRENT_SOURCE_DIR}/modules/sway.module_core/cmakehelpers/custom_add_subdirectory.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/modules/sway.module_core/cmakehelpers/custom_enable_cxx17.cmake)
 
 # Мета-информация о проекте
 set(META_PROJECT_NAME module_webcore)
@@ -19,13 +18,11 @@ project(${META_PROJECT_NAME} VERSION ${META_VERSION} LANGUAGES ${META_LANGUAGES}
 set(EMSCRIPTEN_PREFIX "/home/bonus85/Documents/emsdk/emscripten/incoming")
 set(EMSCRIPTEN_TOOLCHAIN_PATH "${EMSCRIPTEN_PREFIX}/system")
 
-if (NOT TARGET libmodule_core)
-	add_subdirectory(modules/sway.module_core)
-endif()
+custom_add_subdirectory(core)
 
-set(CMAKE_CXX_COMPILER "${EMSCRIPTEN_PREFIX}/em++")
-set(CMAKE_CXX_FLAGS_INIT "-s WASM=0")
-set(CMAKE_CXX_FLAGS_RELEASE_INIT "-DNDEBUG -O3")
+set(CMAKE_CXX_COMPILER "${EMSCRIPTEN_PREFIX}/emcc")
+# set(CMAKE_CXX_FLAGS_INIT "-s WASM=1")
+# set(CMAKE_CXX_FLAGS_RELEASE_INIT "-DNDEBUG -O3")
 
 # Определяем каталог вывода по умолчанию
 if(CMAKE_BUILD_TYPE MATCHES Debug)

@@ -1,13 +1,11 @@
 #include <sway/webcore/treenodeelement.h>
-#include <sway/webcore/treeupdater.h>
-#include <sway/webcore/treevisitor.h>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 
 void TreeNodeElement::registerEmscriptenClass(lpcstr_t classname) {
 	emscripten::class_<TreeNodeElement, emscripten::base<core::containers::HierarchyNode>>(classname)
-		.function("accept", &TreeNodeElement::accept, emscripten::allow_raw_pointers(), emscripten::pure_virtual())
+		.constructor<core::containers::HierarchyNode *, core::containers::HierarchyNodeIdx, TreeNodeElementDescriptor>()
 		.function("addRegion", &TreeNodeElement::addRegion)
 		.function("getRegion", &TreeNodeElement::getRegion, emscripten::allow_raw_pointers())
 		.function("addEvent", &TreeNodeElement::addEvent, emscripten::allow_raw_pointers())
@@ -22,23 +20,17 @@ void TreeNodeElement::registerEmscriptenClass(lpcstr_t classname) {
 		.function("setHtmlContent", &TreeNodeElement::setHtmlContent);
 }
 
-TreeNodeElement::TreeNodeElement(core::containers::HierarchyNodePtr_t parent,
-	const core::containers::HierarchyNodeIndex & nodeIndex,
-	const std::string & nodeId, const TreeNodeElementCreateInfo & createInfo)
-	: core::containers::HierarchyNode(parent, nodeIndex, nodeId)
+TreeNodeElement::TreeNodeElement(core::containers::HierarchyNode * parent,
+	const core::containers::HierarchyNodeIdx & nodeIdx, const TreeNodeElementDescriptor & createInfo)
+	: core::containers::HierarchyNode(parent, nodeIdx, core::misc::genUid({ 8, 4, 4, 12 }))
 	, _htmlElementTagname(createInfo.tagname)
-	, _htmlElementId(createInfo.id)
-	, _visibled(true) {
-	// Empty
-}
-
-void TreeNodeElement::accept(ITreeVisitor * visitor) {
+	, _htmlElementId(createInfo.id) {
 	// Empty
 }
 
 void TreeNodeElement::addRegion(const std::string & name, const RegionCreateInfo & createInfo) {
 	_regions.insert(std::make_pair(name,
-		std::make_shared<Region>(getHostTree(), getNodeIndex(), createInfo)));
+		std::make_shared<Region>(getHostTree(), getNodeIdx(), createInfo)));
 }
 
 RegionPtr_t TreeNodeElement::getRegion(const std::string & name) const {
@@ -108,14 +100,6 @@ std::string TreeNodeElement::getHtmlContent() const {
 
 void TreeNodeElement::setHtmlContent(const std::string & content) {
 	_htmlContent = content;
-}
-
-bool TreeNodeElement::hasVisibled() const {
-	return _visibled;
-}
-
-void TreeNodeElement::setVisible(bool value) {
-	_visibled = value;
 }
 
 NAMESPACE_END(webcore)

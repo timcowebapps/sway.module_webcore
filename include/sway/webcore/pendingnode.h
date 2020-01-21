@@ -15,7 +15,7 @@ struct PendingNode {
 	RegionPtr_t region;
 
 	PendingNode(TreeNodeElement * parent, TreeNodeElement * node, RegionPtr_t region)
-		: element(std::make_pair(node->getNodeId(), node))
+		: element(std::make_pair(node->getNodeUid(), node))
 		, parentElement(parent)
 		, region(region) {
 		// Empty

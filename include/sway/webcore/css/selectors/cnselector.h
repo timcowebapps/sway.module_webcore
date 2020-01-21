@@ -3,7 +3,7 @@
 
 #include <sway/webcore/css/selector.h>
 #include <sway/webcore/css/selectors/cnselectorchain.h>
-#include <sway/webcore/treenodeelementcreateinfo.h>
+#include <sway/webcore/treenodeelementdescriptor.h>
 #include <sway/webcore/prereqs.h>
 
 NAMESPACE_BEGIN(sway)
