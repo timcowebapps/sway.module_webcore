@@ -1,29 +1,35 @@
-#include <sway/webcore/css/stylesheet.h>
+#include <sway/webcore/css/stylesheet.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 NAMESPACE_BEGIN(css)
 
-void StyleSheet::registerEmscriptenClass(lpcstr_t classname) {
-	emscripten::class_<StyleSheet>(classname)
-		.constructor<emscripten::val>()
-		.function("getClassName", &StyleSheet::getClassName);
+void StyleSheet::registerEmClass() {
+#ifdef _EMSCRIPTEN
+  emscripten::class_<StyleSheet>("StyleSheet")
+      .constructor<emscripten::val>()
+      .function("getClassName", &StyleSheet::getClassName);
+#endif
 }
 
-StyleSheet::StyleSheet(const emscripten::val & mapper)
-	: _mapper(mapper) {
-	// Empty
+StyleSheet::StyleSheet(const Mapper_t &mapper)
+    : mapper_(std::move(mapper)) {
 }
 
-std::string StyleSheet::getClassName(const std::string & classnameKey) const {
-	if (EmscriptenUtil::isNone(_mapper) || EmscriptenUtil::isNone(_mapper[classnameKey.c_str()])) {
-		EM_ASM({
-			console.warn("'" + UTF8ToString($0) + "' must be not null");
-		}, classnameKey.c_str());
-		return "";
-	}
+std::string StyleSheet::getClassName(const std::string &classnameKey) const {
+  auto mpr = mapper_;
+  lpcstr_t key = classnameKey.c_str();
 
-	return _mapper[classnameKey.c_str()].as<std::string>();
+#ifdef _EMSCRIPTEN
+  if ( EmscriptenUtil::isNone(mpr) || EmscriptenUtil::isNone(mpr[key]) ) {
+    EM_ASM({ console.warn("'" + UTF8ToString($0) + "' must be not null"); }, key);
+    return "";
+  }
+
+  return mpr[key].as<std::string>();
+#else
+  return mpr[key];
+#endif
 }
 
 NAMESPACE_END(css)

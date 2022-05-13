@@ -1,16 +1,18 @@
-#include <sway/webcore/css/selectors/idselector.h>
+#include <sway/webcore/css/selectors/idselector.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 NAMESPACE_BEGIN(css)
 
-void IdSelector::registerEmscriptenClass(lpcstr_t classname) {
-	emscripten::class_<IdSelector, emscripten::base<Selector>>(classname)
-		.constructor<std::string>();
+void IdSelector::registerEmClass() {
+#ifdef _EMSCRIPTEN
+  emscripten::class_<IdSelector, emscripten::base<Selector>>("IdSelector").constructor<std::string>();
+#endif
 }
 
-IdSelector::IdSelector(const std::string & name) : Selector(SelectorTypes_t::kId) {
-	setName(name);
+IdSelector::IdSelector(const std::string &name)
+    : Selector(SelectorType::ID) {
+  setName(name);
 }
 
 NAMESPACE_END(css)

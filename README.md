@@ -15,17 +15,12 @@ git clone --recursive https://github.com/timcogames/sway.module_webcore.git
 mkdir build && cd ./build
 ```
 
-Активируем PATH и переменные окружения EMSDK в текущем терминале
-
-```console
-source ~/Documents/emsdk/emsdk_env.sh
-em++ --clear-cache
-```
-
 Конфигурируем проект для сборки
 
+#### для Google тестов
+
 ```console
-cmake -DMODULE_CORE_EMSCRIPTEN:BOOL=ON -GNinja ./..
+cmake -DCMAKE_BUILD_TYPE=Release -DCUSTOM_GTEST_ROOT_DIR=/Users/apriori85/Documents/Third-party/googletest -DMODULE_WEBCORE_ENABLE_TESTS=ON ../
 ```
 
 Запускаем сборку

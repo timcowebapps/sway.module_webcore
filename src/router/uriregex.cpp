@@ -1,4 +1,4 @@
-#include <sway/webcore/router/uriregex.h>
+#include <sway/webcore/router/uriregex.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
@@ -7,15 +7,15 @@ NAMESPACE_BEGIN(router)
 lpcstr_t const UriRegex::expression = "^(([^:/?#]+):)?((//([^/?#]*))?([^?#]*)([?]([^#]*))?(#(.*))?)";
 
 UriRegex::UriRegex() {
-	regcomp(&_preg, UriRegex::expression, REG_EXTENDED);
+  regcomp(&preg_, UriRegex::expression, REG_EXTENDED);
 }
 
 UriRegex::~UriRegex() {
-	regfree(&_preg);
+  regfree(&preg_);
 }
 
 int UriRegex::exec(lpcstr_t str, size_t nmatch, regmatch_t pmatch[], int eflags) {
-	return regexec(&_preg, str, nmatch, pmatch, eflags);
+  return regexec(&preg_, str, nmatch, pmatch, eflags);
 }
 
 NAMESPACE_END(router)

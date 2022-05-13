@@ -1,49 +1,46 @@
-#include <sway/webcore/nodeelementupdater.h>
-#include <sway/webcore/dom/htmldocument.h>
-#include <sway/webcore/dom/htmlelement.h>
+#include <sway/webcore/dom/htmldocument.hpp>
+#include <sway/webcore/dom/htmlelement.hpp>
+#include <sway/webcore/nodeelementupdater.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 
-NodeElementUpdater::NodeElementUpdater() {
-	// Empty
-}
+u32_t NodeElementUpdater::visit(core::utils::Visitable *guest) {
+  // TreeNodeElement *parent = (TreeNodeElement *)guest->getParentNode();
+  //  if (!parent)
+  //  	return core::container::TraversalAction_t::Abort;
 
-core::containers::TraversalAction_t NodeElementUpdater::visit(core::containers::HierarchyNode * node) {
-	TreeNodeElement * parent = (TreeNodeElement *) node->getParentNode();
-	// if (!parent)
-	// 	return core::containers::TraversalAction_t::Abort;
+  // EM_ASM(
+  //     {
+  //         console.groupCollapsed("ELEMENT " + UTF8ToString($0));
+  //         console.log("NODE_INDEX " + UTF8ToString($1));
+  //         console.groupEnd();
+  //     },
+  //     guest->getNodeUid().c_str(), std::to_string<core::container::NodeIdx>(guest->getNodeIdx()).c_str());
 
-	EM_ASM({
-		console.groupCollapsed("ELEMENT " + UTF8ToString($0));
-		console.log("NODE_INDEX " + UTF8ToString($1));
-		console.groupEnd();
-	}, node->getNodeUid().c_str(), std::to_string<core::containers::HierarchyNodeIdx>(node->getNodeIdx()).c_str());
+  // if (parent) {
+  //     auto region = parent->getRegionByNodeId("guest->getNodeUid()");
+  //     pendingUpdateNodes_.emplace_back(parent, (TreeNodeElement *)guest, region);
+  // }
 
-	if (parent) {
-		RegionPtr_t region = parent->getRegionByNodeId(node->getNodeUid());
-		_pendingUpdateNodes.emplace_back(parent, (TreeNodeElement *) node, region);
-	}
-
-	return core::containers::TraversalAction_t::Continue;
+  return core::detail::toUnderlying(core::utils::Traverser::Action::CONTINUE);
 }
 
 void NodeElementUpdater::forceUpdate() {
-	const size_t numUpdates = _pendingUpdateNodes.size();
-	if (numUpdates == 0)
-		return;
+  const size_t numUpdates = pendingUpdateNodes_.size();
+  if ( numUpdates == 0 ) {
+    return;
+  }
 
-	//std::reverse(_pendingUpdateNodes.begin(), _pendingUpdateNodes.end());
+  // std::reverse(pendingUpdateNodes_.begin(), pendingUpdateNodes_.end());
 
-	while (!_pendingUpdateNodes.empty()) {
-		PendingNode pendingNode = _pendingUpdateNodes.front();
-		_synchronizer.applyPendingUpdate(pendingNode);
-		_pendingUpdateNodes.erase(
-			std::remove_if(_pendingUpdateNodes.begin(), _pendingUpdateNodes.end(), [&](PendingNode node) {
-				return node.element.first == pendingNode.element.first;
-			}), _pendingUpdateNodes.end()
-		);
-	}
+  while ( !pendingUpdateNodes_.empty() ) {
+    PendingNode pendingNode = pendingUpdateNodes_.front();
+    synchronizer_.applyPendingUpdate(pendingNode);
+    pendingUpdateNodes_.erase(std::remove_if(pendingUpdateNodes_.begin(), pendingUpdateNodes_.end(),
+                                  [&](PendingNode node) { return node.element.first == pendingNode.element.first; }),
+        pendingUpdateNodes_.end());
+  }
 }
 
 NAMESPACE_END(webcore)

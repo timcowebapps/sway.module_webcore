@@ -1,15 +1,20 @@
-#include <sway/webcore/eventlistener.h>
+#include <sway/webcore/eventlistener.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 
 EventListener::EventListener(EventCallback_t callback)
-	: _callback(callback) {
-	// Empty
+    : callback_(callback) {
 }
 
-void EventListener::handleEvent(emscripten::val value) {
-	_callback(value);
+void EventListener::handleEvent(
+#ifdef _EMSCRIPTEN
+    emscripten::val value
+#endif
+) {
+#ifdef _EMSCRIPTEN
+  callback_(value);
+#endif
 }
 
 NAMESPACE_END(webcore)

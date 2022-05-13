@@ -1,29 +1,38 @@
-#include <sway/webcore/eventtarget.h>
-#include <sway/webcore/dom/htmldocument.h>
+#include <sway/webcore/dom/htmldocument.hpp>
+#include <sway/webcore/eventtarget.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 
 EventTarget::EventTarget(EventCallback_t callback)
-	: _listener(EventListener(callback)) {
-	// Empty
+#ifdef _EMSCRIPTEN
+    : listener_(EventListener(callback))
+#endif
+{
 }
 
 EventTarget::~EventTarget() {
-	for (TargetEventPair_t & event: _events)
-		event.first.call<void>("removeEventListener", event.second, _listener);
+#ifdef _EMSCRIPTEN
+  for ( TargetEventPair_t &event : events_ ) {
+    event.first.call<void>("removeEventListener", event.second, listener_);
+  }
 
-	_listener.call<void>("delete");
+  listener_.call<void>("delete");
+#endif
 }
 
-void EventTarget::addEventListener(const std::string & targetId, const std::string & type) {
-	emscripten::val target = dom::HtmlDocument::getElementById(targetId);
-	target.call<void>("addEventListener", type, _listener);
-	_events.emplace_back(target, type);
+void EventTarget::addEventListener(const std::string &targetId, const std::string &type) {
+#ifdef _EMSCRIPTEN
+  emscripten::val target = dom::HtmlDocument::getElementById(targetId);
+  target.call<void>("addEventListener", type, listener_);
+  events_.emplace_back(target, type);
+#endif
 }
 
 void EventTarget::setCallback(EventCallback_t callback) {
-	_listener.as<EventListener &>()._callback = callback;
+#ifdef _EMSCRIPTEN
+  listener_.as<EventListener &>().callback_ = callback;
+#endif
 }
 
 NAMESPACE_END(webcore)

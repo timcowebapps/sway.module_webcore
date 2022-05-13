@@ -1,5 +1,5 @@
-"use strict";
+'use strict';
 
 export interface IWebappBridgeModule {
-	[name: string]: any;
+  [name: string]: any;
 };

@@ -1,32 +1,33 @@
-#include <sway/webcore/css/selector.h>
+#include <sway/webcore/css/selector.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 NAMESPACE_BEGIN(css)
 
-void Selector::registerEmscriptenClass(lpcstr_t classname) {
-	emscripten::class_<Selector>(classname)
-		//.constructor<SelectorTypes_t>()
-		.smart_ptr<SelectorSmartPtr_t>(core::misc::format("%sSmartPtr", classname).c_str())
-		.function("getType", &Selector::getType)
-		.function("getName", &Selector::getName);
+void Selector::registerEmClass() {
+#ifdef _EMSCRIPTEN
+  emscripten::class_<Selector>("Selector")
+      //.constructor<SelectorType>()
+      .smart_ptr<std::shared_ptr<Selector>>("SelectorSmartPtr")
+      .function("getType", &Selector::getType)
+      .function("getName", &Selector::getName);
+#endif
 }
 
-Selector::Selector(SelectorTypes_t type)
-	: _type(type) {
-	// Empty
+Selector::Selector(SelectorType type)
+    : type_(type) {
 }
 
-SelectorTypes_t Selector::getType() const {
-	return _type;
+SelectorType Selector::getType() const {
+  return type_;
 }
 
 std::string Selector::getName() const {
-	return _name;
+  return name_;
 }
 
-void Selector::setName(const std::string & name) {
-	_name = name;
+void Selector::setName(const std::string &name) {
+  name_ = name;
 }
 
 NAMESPACE_END(css)

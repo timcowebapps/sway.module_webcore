@@ -1,16 +1,16 @@
-#ifndef _SWAY_WEBCORE_H
-#define _SWAY_WEBCORE_H
+#ifndef SWAY_WEBCORE_HPP
+#define SWAY_WEBCORE_HPP
 
-#include <sway/webcore/router/uriregex.h>
-#include <sway/webcore/router/uri.h>
-#include <sway/webcore/router/router.h>
-#include <sway/webcore/css/selectors/idselector.h>
-#include <sway/webcore/css/selectors/cnselector.h>
-#include <sway/webcore/css/selectors/cnselectorchain.h>
-#include <sway/webcore/css/selectors/cnselectordescriptor.h>
-#include <sway/webcore/css/stylesheet.h>
-#include <sway/webcore/eventlistener.h>
-#include <sway/webcore/eventtarget.h>
-#include <sway/webcore/eventhandler.h>
+#include <sway/webcore/css/selectors/cnselector.hpp>
+#include <sway/webcore/css/selectors/cnselectorchain.hpp>
+#include <sway/webcore/css/selectors/cnselectordescriptor.hpp>
+#include <sway/webcore/css/selectors/idselector.hpp>
+#include <sway/webcore/css/stylesheet.hpp>
+#include <sway/webcore/eventhandler.hpp>
+#include <sway/webcore/eventlistener.hpp>
+#include <sway/webcore/eventtarget.hpp>
+#include <sway/webcore/router/router.hpp>
+#include <sway/webcore/router/uri.hpp>
+#include <sway/webcore/router/uriregex.hpp>
 
-#endif // _SWAY_WEBCORE_H
+#endif

@@ -1,48 +1,50 @@
-"use strict";
+'use strict';
 
-import { IWebappBridgeModule } from "./webappbridgemodule";
+import { IWebappBridgeModule } from './webappbridgemodule';
 
 export class WebappBridge {
-	public module: IWebappBridgeModule = null;
+  public module: IWebappBridgeModule = null;
 
-	private static instance: WebappBridge;
-	static getInstance(moduleObj: any): WebappBridge {
-		WebappBridge.instance = WebappBridge.instance || new WebappBridge(moduleObj);
-		return WebappBridge.instance;
-	}
+  private static instance: WebappBridge;
+  static getInstance(moduleObj: any): WebappBridge {
+    WebappBridge.instance = WebappBridge.instance || new WebappBridge(moduleObj);
+    return WebappBridge.instance;
+  }
 
-	private _isInitialized: boolean = false;
+  private _isInitialized: boolean = false;
 
-	constructor(moduleObj: any) {
-		if (WebappBridge.instance)
-			throw new Error("Error - use Singleton.getInstance()");
+  constructor(moduleObj: any) {
+    if (WebappBridge.instance) {
+      throw new Error('Error - use Singleton.getInstance()');
+    }
 
-		this.module = moduleObj;
-	}
+    this.module = moduleObj;
+  }
 
-	public initialize(timeout: number = 3000): Promise<boolean> {
-		if (this._isInitialized)
-			return Promise.resolve(true);
+  public initialize(timeout: number = 3000): Promise<boolean> {
+    if (this._isInitialized) {
+      return Promise.resolve(true);
+    }
 
-		return new Promise((resolve, reject) => {
-			const timeoutId = setTimeout(() => resolve(false), timeout);
+    return new Promise((resolve, reject) => {
+      const timeoutId = setTimeout(() => resolve(false), timeout);
 
-			this.module.onAbort = (reason: Error | any) => {
-				if (this._isInitialized) {
-					// Empty
-				} else {
-					clearTimeout(timeoutId);
-					console.log(`initializeRuntime: failed to initialize module`, reason);
-					throw reason instanceof Error ? reason : new Error(reason);
-				}
-			}
+      this.module.onAbort = (reason: Error | any) => {
+        if (this._isInitialized) {
+          // Empty
+        } else {
+          clearTimeout(timeoutId);
+          console.log(`initializeRuntime: failed to initialize module`, reason);
+          throw reason instanceof Error ? reason : new Error(reason);
+        }
+      }
 
-			this.module.onRuntimeInitialized = () => {
-				clearTimeout(timeoutId);
-				this._isInitialized = true;
-				console.log(`initializeRuntime: successfully initialized module`);
-				resolve(true);
-			}
-		});
-	}
+      this.module.onRuntimeInitialized = () => {
+        clearTimeout(timeoutId);
+        this._isInitialized = true;
+        console.log(`initializeRuntime: successfully initialized module`);
+        resolve(true);
+      }
+    });
+  }
 };

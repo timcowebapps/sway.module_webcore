@@ -1,27 +1,31 @@
-#include <sway/webcore/css/selectors/cnselector.h>
+#include <sway/webcore/css/selectors/cnselector.hpp>
 
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 NAMESPACE_BEGIN(css)
 
-void CnSelector::registerEmscriptenClass(lpcstr_t classname) {
-	emscripten::class_<CnSelector, emscripten::base<Selector>>(classname)
-		.constructor<CnSelectorChain>()
-		.function("getMods", &CnSelector::getMods);
+void CnSelector::registerEmClass() {
+#ifdef _EMSCRIPTEN
+  emscripten::class_<CnSelector, emscripten::base<Selector>>("CnSelector")
+      .constructor<CnSelectorChain>()
+      .function("getMods", &CnSelector::getMods);
+#endif
 }
 
-CnSelector::CnSelector(const CnSelectorChain & chain) : Selector(SelectorTypes_t::kCn)
-	, _chain(chain) {
+CnSelector::CnSelector(const CnSelectorChain &chain)
+    : Selector(SelectorType::CN)
+    , chain_(chain) {
+  std::string name = chain_.elem.empty() ? chain_.block : chain_.block + "__" + chain_.elem;
 
-	std::string name = _chain.elem.empty()
-		? _chain.block
-		: _chain.block + "__" + _chain.elem;
-
-	setName(name);
+  setName(name);
 }
 
 std::vector<std::string> CnSelector::getMods() const {
-	return emscripten::vecFromJSArray<std::string>(_chain.mods);
+#ifdef _EMSCRIPTEN
+  return emscripten::vecFromJSArray<std::string>(chain_.mods);
+#else
+  return chain_.mods;
+#endif
 }
 
 NAMESPACE_END(css)
