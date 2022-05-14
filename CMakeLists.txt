@@ -56,12 +56,12 @@ set(MODULE_WEBCORE_DIR ${CMAKE_CURRENT_LIST_DIR})
 
 # Добавляем пути для поиска хедеров
 include_directories("${EMSCRIPTEN_PREFIX}/system/include")
-include_directories("${MODULE_WEBCORE_DIR}/include")
 include_directories("${MODULE_WEBCORE_DIR}/submodules/sway.module_core/lib/include")
+include_directories("${MODULE_WEBCORE_DIR}/lib/include")
 
 # Получаем пути ко всем хедерам и исходникам библиотеки
-file(GLOB_RECURSE MODULE_WEBCORE_HEADERS "${MODULE_WEBCORE_DIR}/include/*.*")
-file(GLOB_RECURSE MODULE_WEBCORE_SOURCE "${MODULE_WEBCORE_DIR}/src/*.*")
+file(GLOB_RECURSE MODULE_WEBCORE_HEADERS "${MODULE_WEBCORE_DIR}/lib/include/*.*")
+file(GLOB_RECURSE MODULE_WEBCORE_SOURCE "${MODULE_WEBCORE_DIR}/lib/src/*.*")
 
 if (MODULE_WEBCORE_SHARED_LIB)
     add_executable(${META_WEBCORE_LIBNAME} ${MODULE_WEBCORE_SOURCE})
@@ -82,6 +82,6 @@ if (MODULE_WEBCORE_ENABLE_TESTS)
         message(STATUS "[${META_WEBCORE_PRJNAME}]: Tests are only allowed with a static lib")
     else ()
         message(STATUS "[${META_WEBCORE_PRJNAME}]:Tests have been enabled")
-        add_subdirectory(tests/google)
+        add_subdirectory(lib/tests/google)
     endif ()
 endif ()

@@ -10,7 +10,7 @@ u32_t NodeElementMounter::visit(core::utils::Visitable *guest) {
   auto parentNode = node->getParentNode();
   if ( parentNode != std::nullopt ) {
     auto *parentNodeElem = (TreeNodeElement *)parentNode.value().get();
-    auto region = parentNodeElem->getRegionByNodeIdx(node->getNodeIdx().toStr());
+    auto region = parentNodeElem->getRegionByNodeIdx(node->getNodeIdx());
 
     pendingUpdateNodes_.emplace_back(
         (struct PendingNode){ .element = std::make_pair("node->getNodeUid()", parentNodeElem),

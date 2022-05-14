@@ -22,7 +22,7 @@ public:
 
   void detachView(TreeNodeElement *node);
 
-  std::string getAttachedNodeIdx() const;
+  core::container::NodeIdx getAttachedNodeIdx() const;
 
   std::string getHtmlElementId() const;
 
@@ -31,7 +31,7 @@ public:
 
 private:
   std::shared_ptr<TreeNodeElement> parent_;
-  std::string attachedNodeIdx_;
+  core::container::NodeIdx attachedNodeIdx_;
   std::string htmlElementId_;
   bool htmlElementReplace_;
   bool attached_;

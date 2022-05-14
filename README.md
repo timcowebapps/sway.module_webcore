@@ -20,7 +20,7 @@ mkdir build && cd ./build
 #### для Google тестов
 
 ```console
-cmake -DCMAKE_BUILD_TYPE=Release -DCUSTOM_GTEST_ROOT_DIR=/Users/apriori85/Documents/Third-party/googletest -DMODULE_WEBCORE_ENABLE_TESTS=ON ../
+cmake -DCUSTOM_GTEST_ROOT_DIR=/Users/apriori85/Documents/Third-party/googletest -DMODULE_WEBCORE_ENABLE_TESTS=ON ../
 ```
 
 Запускаем сборку
@@ -29,13 +29,7 @@ cmake -DCMAKE_BUILD_TYPE=Release -DCUSTOM_GTEST_ROOT_DIR=/Users/apriori85/Docume
 cmake --build ./
 ```
 
-## Разное
-
-```console
-~/Documents/emsdk/emsdk list
-~/Documents/emsdk/emsdk install sdk-incoming-64bit
-~/Documents/emsdk/emsdk activate --build=Release sdk-incoming-64bit binaryen-master-64bit
-```
 
 [license-svg]: https://img.shields.io/github/license/mashape/apistatus.svg
 [license-url]: LICENSE
+

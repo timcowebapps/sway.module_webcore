@@ -23,7 +23,7 @@ public:
 
   std::shared_ptr<Region> getRegion(const std::string &name) const;
 
-  std::shared_ptr<Region> getRegionByNodeIdx(const std::string &nodeIdx) const;
+  std::shared_ptr<Region> getRegionByNodeIdx(const core::container::NodeIdx &nodeIdx) const;
 
   RegionMap_t getRegions();
 
@@ -51,8 +51,6 @@ public:
   std::string getHtmlContent() const;
 
   void setHtmlContent(const std::string &content);
-
-#pragma endregion
 
 private:
   RegionMap_t regions_; /*!< Карта регионов. */

@@ -40,10 +40,10 @@ std::shared_ptr<Region> TreeNodeElement::getRegion(const std::string &name) cons
   return nullptr;
 }
 
-std::shared_ptr<Region> TreeNodeElement::getRegionByNodeIdx(const std::string &nodeIdx) const {
+std::shared_ptr<Region> TreeNodeElement::getRegionByNodeIdx(const core::container::NodeIdx &nodeIdx) const {
   for ( auto const &item : regions_ ) {
     auto region = item.second;
-    if ( region->getAttachedNodeIdx() == nodeIdx ) {
+    if ( region->getAttachedNodeIdx().equal(nodeIdx) ) {
       return region;
     }
   }

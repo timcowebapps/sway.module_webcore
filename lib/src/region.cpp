@@ -25,7 +25,7 @@ Region::Region(std::shared_ptr<TreeNodeElement> parent, const RegionCreateInfo &
 }
 
 void Region::attachView(std::shared_ptr<TreeNodeElement> node) {
-  attachedNodeIdx_ = node->getNodeIdx().toStr();
+  attachedNodeIdx_ = node->getNodeIdx();
   parent_->addChildNode(node);
   attached_ = true;
 }
@@ -40,7 +40,7 @@ void Region::detachView(TreeNodeElement *node) {
   }
 }
 
-std::string Region::getAttachedNodeIdx() const {
+core::container::NodeIdx Region::getAttachedNodeIdx() const {
   return attachedNodeIdx_;
 }
 
