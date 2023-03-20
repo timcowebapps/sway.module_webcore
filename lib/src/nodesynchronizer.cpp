@@ -12,7 +12,7 @@ NodeSynchronizer::NodeSynchronizer() {
 }
 
 NodeSynchronizer::~NodeSynchronizer() {
-  SAFE_DELETE(htmlBuilder_);
+  SAFE_DELETE_OBJECT(htmlBuilder_);
 }
 
 void NodeSynchronizer::insertNode(PendingNode node) {

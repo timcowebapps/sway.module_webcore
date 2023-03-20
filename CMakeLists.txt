@@ -15,12 +15,13 @@ set(META_WEBCORE_VERSION ${META_WEBCORE_VERSION_MAJOR}.${META_WEBCORE_VERSION_MI
 # Опции сборки
 option(MODULE_WEBCORE_SHARED_LIB "Build shared library (.so)" OFF)
 option(MODULE_WEBCORE_ENABLE_TESTS "Enable test builds" OFF)
-option(MODULE_USE_EMSCRIPTEN "Using emscripten compiler" OFF)
+option(GLOBAL_EMSCRIPTEN_PLATFORM "Using emscripten compiler" OFF)
+option(GLOBAL_EMSCRIPTEN_USE_BINDING "Using emscripten binding" OFF)
 option(CUSTOM_EMSCRIPTEN_ROOT_DIR "Emscripten root directory" OFF)
 option(CUSTOM_BOOST_ROOT_DIR "Boost root directory" OFF)
 option(CUSTOM_GTEST_ROOT_DIR "GTest root directory" OFF)
 
-if (NOT DEFINED CMAKE_TOOLCHAIN_FILE AND MODULE_USE_EMSCRIPTEN)
+if (NOT DEFINED CMAKE_TOOLCHAIN_FILE AND GLOBAL_EMSCRIPTEN_PLATFORM)
     set(CMAKE_TOOLCHAIN_FILE "${CUSTOM_EMSCRIPTEN_ROOT_DIR}/cmake/Modules/Platform/Emscripten.cmake")
     include(${CMAKE_TOOLCHAIN_FILE})
 endif ()
@@ -34,7 +35,7 @@ project(${META_WEBCORE_PRJNAME} VERSION ${META_WEBCORE_VERSION} LANGUAGES CXX)
 # Подмодули
 custom_add_subdirectory("libmodule_core" submodules/sway.module_core)
 
-if (MODULE_USE_EMSCRIPTEN)
+if (GLOBAL_EMSCRIPTEN_PLATFORM)
     set(CMAKE_CXX_COMPILER "${CUSTOM_EMSCRIPTEN_ROOT_DIR}/em++")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --bind -Os")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_EMSCRIPTEN")
