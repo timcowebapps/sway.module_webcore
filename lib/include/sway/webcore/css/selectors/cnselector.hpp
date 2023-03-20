@@ -15,6 +15,7 @@ public:
   static void registerEmClass();
 
   CnSelector(const CnSelectorChain &chain);
+
   virtual ~CnSelector() = default;
 
   [[nodiscard]] std::vector<std::string> getMods() const;

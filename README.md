@@ -29,7 +29,6 @@ cmake -DCUSTOM_GTEST_ROOT_DIR=/Users/apriori85/Documents/Third-party/googletest 
 cmake --build ./
 ```
 
-
 [license-svg]: https://img.shields.io/github/license/mashape/apistatus.svg
 [license-url]: LICENSE
 
