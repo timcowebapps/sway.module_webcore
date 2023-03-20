@@ -5,6 +5,6 @@
 using namespace sway::webcore;
 
 TEST(CnSelectorTest, getName) {
-  auto cn = std::make_shared<css::CnSelector>((struct css::CnSelectorChain){ .block = "block", .elem = "elm" });
+  auto cn = std::make_shared<css::CnSelector>((struct css::CnSelectorChain){.block = "block", .elem = "elm"});
   ASSERT_STREQ(cn->getName().c_str(), "block__elm");
 }

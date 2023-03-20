@@ -28,13 +28,13 @@ u32_t NodeElementUpdater::visit(core::utils::Visitable *guest) {
 
 void NodeElementUpdater::forceUpdate() {
   const size_t numUpdates = pendingUpdateNodes_.size();
-  if ( numUpdates == 0 ) {
+  if (numUpdates == 0) {
     return;
   }
 
   // std::reverse(pendingUpdateNodes_.begin(), pendingUpdateNodes_.end());
 
-  while ( !pendingUpdateNodes_.empty() ) {
+  while (!pendingUpdateNodes_.empty()) {
     PendingNode pendingNode = pendingUpdateNodes_.front();
     synchronizer_.applyPendingUpdate(pendingNode);
     pendingUpdateNodes_.erase(std::remove_if(pendingUpdateNodes_.begin(), pendingUpdateNodes_.end(),

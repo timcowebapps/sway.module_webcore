@@ -14,6 +14,7 @@ public:
   static lpcstr_t const expression;
 
   UriRegex();
+
   ~UriRegex();
 
   int exec(lpcstr_t str, size_t nmatch, regmatch_t pmatch[], int eflags);

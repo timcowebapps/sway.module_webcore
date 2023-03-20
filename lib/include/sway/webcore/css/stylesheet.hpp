@@ -6,18 +6,16 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 
-#ifdef _EMSCRIPTEN
+#ifdef EMSCRIPTEN_PLATFORM
 class EmscriptenUtil {
 public:
-  static bool isNone(emscripten::val const &val) {
-    return val.isNull() || val.isUndefined();
-  }
+  static bool isNone(emscripten::val const &val) { return val.isNull() || val.isUndefined(); }
 };
 #endif
 
 NAMESPACE_BEGIN(css)
 
-#ifdef _EMSCRIPTEN
+#ifdef EMSCRIPTEN_PLATFORM
 using Mapper_t = emscripten::val;
 #else
 using Mapper_t = std::map<std::string, std::string>;
@@ -28,6 +26,7 @@ public:
   static void registerEmClass();
 
   StyleSheet(const Mapper_t &mapper);
+
   ~StyleSheet() = default;
 
   [[nodiscard]] std::string getClassName(const std::string &classnameKey) const;

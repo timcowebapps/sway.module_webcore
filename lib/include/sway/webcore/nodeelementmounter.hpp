@@ -10,6 +10,7 @@ NAMESPACE_BEGIN(webcore)
 class NodeElementMounter : public core::utils::Traverser {
 public:
   NodeElementMounter() = default;
+
   virtual ~NodeElementMounter() = default;
 
   MTHD_OVERRIDE(u32_t visit(core::utils::Visitable *guest));

@@ -13,6 +13,7 @@ public:
   static void registerEmClass();
 
   Router() = default;
+
   ~Router();
 
   void addRoute(const std::string &route, RouteCallback_t callback);

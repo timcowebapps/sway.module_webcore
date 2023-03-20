@@ -5,7 +5,7 @@ NAMESPACE_BEGIN(webcore)
 NAMESPACE_BEGIN(css)
 
 void CnSelector::registerEmClass() {
-#ifdef _EMSCRIPTEN
+#ifdef EMSCRIPTEN_PLATFORM
   emscripten::class_<CnSelector, emscripten::base<Selector>>("CnSelector")
       .constructor<CnSelectorChain>()
       .function("getMods", &CnSelector::getMods);
@@ -21,7 +21,7 @@ CnSelector::CnSelector(const CnSelectorChain &chain)
 }
 
 std::vector<std::string> CnSelector::getMods() const {
-#ifdef _EMSCRIPTEN
+#ifdef EMSCRIPTEN_PLATFORM
   return emscripten::vecFromJSArray<std::string>(chain_.mods);
 #else
   return chain_.mods;

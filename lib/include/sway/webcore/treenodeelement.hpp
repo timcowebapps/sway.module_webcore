@@ -17,6 +17,7 @@ public:
   static void registerEmClass();
 
   TreeNodeElement(const TreeNodeElementDescriptor &createInfo);
+
   virtual ~TreeNodeElement() = default;
 
   void addRegion(const std::string &name, const RegionCreateInfo &createInfo);
@@ -28,7 +29,7 @@ public:
   RegionMap_t getRegions();
 
   void addEvent(const std::string &targetId, const std::string &type
-#ifdef _EMSCRIPTEN
+#ifdef EMSCRIPTEN_PLATFORM
       ,
       emscripten::val callback
 #endif
@@ -53,11 +54,11 @@ public:
   void setHtmlContent(const std::string &content);
 
 private:
-  RegionMap_t regions_; /*!< Карта регионов. */
+  RegionMap_t regions_;  // Карта регионов.
   std::vector<EventHandler> handlers_;
-  std::string htmlElementTagname_; /*!< Имя тега. */
+  std::string htmlElementTagname_;  // Имя тега.
   std::vector<std::string> htmlElementClasses_;
-  std::string htmlElementId_; /*!< Уникальный идентификатор. */
+  std::string htmlElementId_;  // Уникальный идентификатор.
   std::string htmlContent_;
 };
 

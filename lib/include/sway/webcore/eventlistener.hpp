@@ -11,7 +11,7 @@ public:
   EventListener(EventCallback_t callback);
 
   void handleEvent(
-#ifdef _EMSCRIPTEN
+#ifdef EMSCRIPTEN_PLATFORM
       emscripten::val value
 #endif
   );

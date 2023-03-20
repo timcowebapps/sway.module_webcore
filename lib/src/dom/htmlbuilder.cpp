@@ -10,7 +10,7 @@ NAMESPACE_BEGIN(dom)
 HtmlElement HtmlBuilder::createHtmlElement(TreeNodeElement *element) {
   auto htmlElement = HtmlDocument::createElement(element->getHtmlElementTagname());
   htmlElement.setAttribute("id", element->getHtmlElementId());
-  for ( std::string cn : element->getHtmlElementClasses() ) {
+  for (std::string cn : element->getHtmlElementClasses()) {
     htmlElement.addClassName(cn);
   }
 

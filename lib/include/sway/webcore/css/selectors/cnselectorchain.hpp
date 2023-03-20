@@ -7,7 +7,7 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 NAMESPACE_BEGIN(css)
 
-#ifdef _EMSCRIPTEN
+#ifdef EMSCRIPTEN_PLATFORM
 using ModifierSet_t = emscripten::val;
 #else
 using ModifierSet_t = std::vector<std::string>;

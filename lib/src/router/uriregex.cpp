@@ -6,13 +6,9 @@ NAMESPACE_BEGIN(router)
 
 lpcstr_t const UriRegex::expression = "^(([^:/?#]+):)?((//([^/?#]*))?([^?#]*)([?]([^#]*))?(#(.*))?)";
 
-UriRegex::UriRegex() {
-  regcomp(&preg_, UriRegex::expression, REG_EXTENDED);
-}
+UriRegex::UriRegex() { regcomp(&preg_, UriRegex::expression, REG_EXTENDED); }
 
-UriRegex::~UriRegex() {
-  regfree(&preg_);
-}
+UriRegex::~UriRegex() { regfree(&preg_); }
 
 int UriRegex::exec(lpcstr_t str, size_t nmatch, regmatch_t pmatch[], int eflags) {
   return regexec(&preg_, str, nmatch, pmatch, eflags);

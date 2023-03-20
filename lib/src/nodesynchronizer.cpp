@@ -7,13 +7,9 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 
-NodeSynchronizer::NodeSynchronizer() {
-  htmlBuilder_ = new dom::HtmlBuilder();
-}
+NodeSynchronizer::NodeSynchronizer() { htmlBuilder_ = new dom::HtmlBuilder(); }
 
-NodeSynchronizer::~NodeSynchronizer() {
-  SAFE_DELETE_OBJECT(htmlBuilder_);
-}
+NodeSynchronizer::~NodeSynchronizer() { SAFE_DELETE_OBJECT(htmlBuilder_); }
 
 void NodeSynchronizer::insertNode(PendingNode node) {
   dom::HtmlElement parentHtmlElement = dom::HtmlDocument::getElementById(node.parentElement->getHtmlElementId());

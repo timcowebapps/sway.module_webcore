@@ -12,7 +12,7 @@
 #include <sstream>
 #include <vector>
 
-#ifdef _EMSCRIPTEN
+#ifdef EMSCRIPTEN_PLATFORM
 #  include <emscripten/bind.h>
 #  include <emscripten/emscripten.h>
 #  include <emscripten/html5.h>
@@ -22,7 +22,7 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 
-#ifdef _EMSCRIPTEN
+#ifdef EMSCRIPTEN_PLATFORM
 typedef std::function<void(emscripten::val)> EventCallback_t;
 typedef std::pair<emscripten::val, std::string> TargetEventPair_t;
 #else

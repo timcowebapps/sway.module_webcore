@@ -13,6 +13,7 @@ class Uri {
 
 public:
   Uri(const std::string &str);
+
   ~Uri();
 
   [[nodiscard]] const std::string getPath() const;

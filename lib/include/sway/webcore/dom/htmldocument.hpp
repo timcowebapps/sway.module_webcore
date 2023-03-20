@@ -11,7 +11,7 @@ NAMESPACE_BEGIN(dom)
 class HtmlDocument {
 public:
   static HtmlElement createElement(const std::string &tagname) {
-#ifdef _EMSCRIPTEN
+#ifdef EMSCRIPTEN_PLATFORM
     return emscripten::val::global("document").call<emscripten::val>("createElement", emscripten::val(tagname));
 #else
     return HtmlElement();
@@ -19,7 +19,7 @@ public:
   }
 
   static HtmlElement getElementById(const std::string &id) {
-#ifdef _EMSCRIPTEN
+#ifdef EMSCRIPTEN_PLATFORM
     return emscripten::val::global("document").call<emscripten::val>("getElementById", id);
 #else
     return HtmlElement();
@@ -27,7 +27,7 @@ public:
   }
 
   static HtmlElement getElementBySelector(const std::string &selector) {
-#ifdef _EMSCRIPTEN
+#ifdef EMSCRIPTEN_PLATFORM
     return emscripten::val::global("document").call<emscripten::val>("querySelector", selector);
 #else
     return HtmlElement();

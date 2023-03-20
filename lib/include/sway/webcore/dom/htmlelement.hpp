@@ -10,9 +10,11 @@ NAMESPACE_BEGIN(dom)
 class HtmlElement {
 public:
   HtmlElement();
-#ifdef _EMSCRIPTEN
+
+#ifdef EMSCRIPTEN_PLATFORM
   HtmlElement(const emscripten::val &value);
 #endif
+
   ~HtmlElement() = default;
 
   HtmlElement getParentElement() const;
@@ -31,10 +33,8 @@ public:
 
   [[nodiscard]] std::string toString() const;
 
-#ifdef _EMSCRIPTEN
-  operator emscripten::val() const {
-    return val_;
-  }
+#ifdef EMSCRIPTEN_PLATFORM
+  operator emscripten::val() const { return val_; }
 
   emscripten::val val_;
 #endif

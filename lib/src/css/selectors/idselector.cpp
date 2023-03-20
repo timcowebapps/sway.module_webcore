@@ -5,7 +5,7 @@ NAMESPACE_BEGIN(webcore)
 NAMESPACE_BEGIN(css)
 
 void IdSelector::registerEmClass() {
-#ifdef _EMSCRIPTEN
+#ifdef EMSCRIPTEN_PLATFORM
   emscripten::class_<IdSelector, emscripten::base<Selector>>("IdSelector").constructor<std::string>();
 #endif
 }

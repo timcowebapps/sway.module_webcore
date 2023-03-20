@@ -4,7 +4,7 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 
 void TreeNodeElement::registerEmClass() {
-#ifdef _EMSCRIPTEN
+#ifdef EMSCRIPTEN_PLATFORM
   emscripten::class_<TreeNodeElement, emscripten::base<core::container::Node>>("TreeNodeElement")
       .constructor<core::container::Node *, core::container::NodeIdx, TreeNodeElementDescriptor>()
       .function("addRegion", &TreeNodeElement::addRegion)
@@ -24,8 +24,7 @@ void TreeNodeElement::registerEmClass() {
 
 TreeNodeElement::TreeNodeElement(const TreeNodeElementDescriptor &createInfo)
     : htmlElementTagname_(createInfo.tagname)
-    , htmlElementId_(createInfo.id) {
-}
+    , htmlElementId_(createInfo.id) {}
 
 void TreeNodeElement::addRegion(const std::string &name, const RegionCreateInfo &createInfo) {
   regions_.insert(std::make_pair(name, std::make_shared<Region>(sharedFrom<TreeNodeElement>(this), createInfo)));
@@ -33,7 +32,7 @@ void TreeNodeElement::addRegion(const std::string &name, const RegionCreateInfo 
 
 std::shared_ptr<Region> TreeNodeElement::getRegion(const std::string &name) const {
   RegionMapIterator_t iter = regions_.find(name);
-  if ( iter != regions_.end() ) {
+  if (iter != regions_.end()) {
     return iter->second;
   }
 
@@ -41,9 +40,9 @@ std::shared_ptr<Region> TreeNodeElement::getRegion(const std::string &name) cons
 }
 
 std::shared_ptr<Region> TreeNodeElement::getRegionByNodeIdx(const core::container::NodeIdx &nodeIdx) const {
-  for ( auto const &item : regions_ ) {
+  for (auto const &item : regions_) {
     auto region = item.second;
-    if ( region->getAttachedNodeIdx().equal(nodeIdx) ) {
+    if (region->getAttachedNodeIdx().equal(nodeIdx)) {
       return region;
     }
   }
@@ -51,61 +50,43 @@ std::shared_ptr<Region> TreeNodeElement::getRegionByNodeIdx(const core::containe
   return nullptr;
 }
 
-RegionMap_t TreeNodeElement::getRegions() {
-  return regions_;
-}
+RegionMap_t TreeNodeElement::getRegions() { return regions_; }
 
 void TreeNodeElement::addEvent(const std::string &targetId, const std::string &type
-#ifdef _EMSCRIPTEN
+#ifdef EMSCRIPTEN_PLATFORM
     ,
     emscripten::val callback
 #endif
 ) {
-#ifdef _EMSCRIPTEN
+#ifdef EMSCRIPTEN_PLATFORM
   handlers_.push_back(
-      (struct EventHandler){ .targetId = targetId, .target = new EventTarget([](emscripten::val) {}), .type = type });
+      (struct EventHandler){.targetId = targetId, .target = new EventTarget([](emscripten::val) {}), .type = type});
 
   handlers_.back().target->setCallback(callback);
 #endif
 }
 
 void TreeNodeElement::bindEvents() {
-  for ( EventHandler event : handlers_ ) {
+  for (EventHandler event : handlers_) {
     event.target->addEventListener(event.targetId, event.type);
   }
 }
 
-std::string TreeNodeElement::getHtmlElementTagname() const {
-  return htmlElementTagname_;
-}
+std::string TreeNodeElement::getHtmlElementTagname() const { return htmlElementTagname_; }
 
-void TreeNodeElement::setHtmlElementTagname(const std::string &tagname) {
-  htmlElementTagname_ = tagname;
-}
+void TreeNodeElement::setHtmlElementTagname(const std::string &tagname) { htmlElementTagname_ = tagname; }
 
-std::vector<std::string> TreeNodeElement::getHtmlElementClasses() const {
-  return htmlElementClasses_;
-}
+std::vector<std::string> TreeNodeElement::getHtmlElementClasses() const { return htmlElementClasses_; }
 
-void TreeNodeElement::setHtmlElementClasses(const std::vector<std::string> &classes) {
-  htmlElementClasses_ = classes;
-}
+void TreeNodeElement::setHtmlElementClasses(const std::vector<std::string> &classes) { htmlElementClasses_ = classes; }
 
-std::string TreeNodeElement::getHtmlElementId() const {
-  return htmlElementId_;
-}
+std::string TreeNodeElement::getHtmlElementId() const { return htmlElementId_; }
 
-void TreeNodeElement::setHtmlElementId(const std::string &id) {
-  htmlElementId_ = id;
-}
+void TreeNodeElement::setHtmlElementId(const std::string &id) { htmlElementId_ = id; }
 
-std::string TreeNodeElement::getHtmlContent() const {
-  return htmlContent_;
-}
+std::string TreeNodeElement::getHtmlContent() const { return htmlContent_; }
 
-void TreeNodeElement::setHtmlContent(const std::string &content) {
-  htmlContent_ = content;
-}
+void TreeNodeElement::setHtmlContent(const std::string &content) { htmlContent_ = content; }
 
 NAMESPACE_END(webcore)
 NAMESPACE_END(sway)

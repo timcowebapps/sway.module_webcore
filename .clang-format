@@ -41,11 +41,3 @@ TypenameMacros:
   - MTHD_OVERRIDE
   - DECLARE_EVENT
 AlwaysBreakTemplateDeclarations: true
-
-Cpp11BracedListStyle: false
-SpacesInConditionalStatement: true
-
-AllowShortFunctionsOnASingleLine: false
-AllowAllArgumentsOnNextLine: false
-BinPackArguments: true
-AlignConsecutiveMacros: true

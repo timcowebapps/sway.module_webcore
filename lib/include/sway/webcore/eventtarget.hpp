@@ -10,6 +10,7 @@ NAMESPACE_BEGIN(webcore)
 class EventTarget {
 public:
   EventTarget(EventCallback_t callback);
+
   ~EventTarget();
 
   void addEventListener(const std::string &targetId, const std::string &type);
@@ -18,7 +19,7 @@ public:
 
 private:
   TargetEventVec_t events_;
-#ifdef _EMSCRIPTEN
+#ifdef EMSCRIPTEN_PLATFORM
   emscripten::val listener_;
 #endif
 };

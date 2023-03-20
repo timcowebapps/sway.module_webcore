@@ -10,6 +10,7 @@ NAMESPACE_BEGIN(webcore)
 class NodeElementUpdater : public core::utils::Traverser {
 public:
   NodeElementUpdater() = default;
+
   virtual ~NodeElementUpdater() = default;
 
   MTHD_OVERRIDE(u32_t visit(core::utils::Visitable *guest));

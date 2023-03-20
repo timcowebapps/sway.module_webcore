@@ -13,6 +13,7 @@ public:
   static void registerEmClass();
 
   Selector(SelectorType type);
+
   virtual ~Selector() = default;
 
   [[nodiscard]] SelectorType getType() const;

@@ -5,15 +5,15 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 
 EventTarget::EventTarget(EventCallback_t callback)
-#ifdef _EMSCRIPTEN
+#ifdef EMSCRIPTEN_PLATFORM
     : listener_(EventListener(callback))
 #endif
 {
 }
 
 EventTarget::~EventTarget() {
-#ifdef _EMSCRIPTEN
-  for ( TargetEventPair_t &event : events_ ) {
+#ifdef EMSCRIPTEN_PLATFORM
+  for (TargetEventPair_t &event : events_) {
     event.first.call<void>("removeEventListener", event.second, listener_);
   }
 
@@ -22,7 +22,7 @@ EventTarget::~EventTarget() {
 }
 
 void EventTarget::addEventListener(const std::string &targetId, const std::string &type) {
-#ifdef _EMSCRIPTEN
+#ifdef EMSCRIPTEN_PLATFORM
   emscripten::val target = dom::HtmlDocument::getElementById(targetId);
   target.call<void>("addEventListener", type, listener_);
   events_.emplace_back(target, type);
@@ -30,7 +30,7 @@ void EventTarget::addEventListener(const std::string &targetId, const std::strin
 }
 
 void EventTarget::setCallback(EventCallback_t callback) {
-#ifdef _EMSCRIPTEN
+#ifdef EMSCRIPTEN_PLATFORM
   listener_.as<EventListener &>().callback_ = callback;
 #endif
 }

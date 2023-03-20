@@ -4,15 +4,14 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 
 EventListener::EventListener(EventCallback_t callback)
-    : callback_(callback) {
-}
+    : callback_(callback) {}
 
 void EventListener::handleEvent(
-#ifdef _EMSCRIPTEN
+#ifdef EMSCRIPTEN_PLATFORM
     emscripten::val value
 #endif
 ) {
-#ifdef _EMSCRIPTEN
+#ifdef EMSCRIPTEN_PLATFORM
   callback_(value);
 #endif
 }

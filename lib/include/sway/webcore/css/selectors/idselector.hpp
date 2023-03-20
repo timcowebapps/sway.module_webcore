@@ -13,6 +13,7 @@ public:
   static void registerEmClass();
 
   IdSelector(const std::string &name);
+
   virtual ~IdSelector() = default;
 };
 

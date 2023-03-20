@@ -7,7 +7,7 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 
 struct RegionCreateInfo {
-  std::string id; /*!< Уникальный идентификатор. */
+  std::string id;  // Уникальный идентификатор.
   bool replace;
 };
 

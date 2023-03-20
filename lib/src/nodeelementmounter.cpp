@@ -8,17 +8,17 @@ NAMESPACE_BEGIN(webcore)
 u32_t NodeElementMounter::visit(core::utils::Visitable *guest) {
   auto *node = static_cast<core::container::Node *>(guest);
   auto parentNode = node->getParentNode();
-  if ( parentNode != std::nullopt ) {
+  if (parentNode != std::nullopt) {
     auto *parentNodeElem = (TreeNodeElement *)parentNode.value().get();
     auto region = parentNodeElem->getRegionByNodeIdx(node->getNodeIdx());
 
     pendingUpdateNodes_.emplace_back(
-        (struct PendingNode){ .element = std::make_pair("node->getNodeUid()", parentNodeElem),
+        (struct PendingNode){.element = std::make_pair("node->getNodeUid()", parentNodeElem),
             .parentElement = (TreeNodeElement *)node,
-            .region = region });
+            .region = region});
   }
 
-#ifdef _EMSCRIPTEN
+#ifdef EMSCRIPTEN_PLATFORM
   //  if (!parentNodeElem)
   //  	return core::container::TraversalAction_t::Abort;
 
@@ -41,13 +41,13 @@ u32_t NodeElementMounter::visit(core::utils::Visitable *guest) {
 
 void NodeElementMounter::forceUpdate() {
   const size_t numUpdates = pendingUpdateNodes_.size();
-  if ( numUpdates == 0 ) {
+  if (numUpdates == 0) {
     return;
   }
 
   // std::reverse(pendingUpdateNodes_.begin(), pendingUpdateNodes_.end());
 
-  while ( !pendingUpdateNodes_.empty() ) {
+  while (!pendingUpdateNodes_.empty()) {
     PendingNode pendingNode = pendingUpdateNodes_.front();
     synchronizer_.applyPendingUpdate(pendingNode);
     pendingUpdateNodes_.erase(std::remove_if(pendingUpdateNodes_.begin(), pendingUpdateNodes_.end(),

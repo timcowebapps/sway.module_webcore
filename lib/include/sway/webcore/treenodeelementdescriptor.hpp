@@ -8,11 +8,11 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 
 struct TreeNodeElementDescriptor {
-  std::string tagname; /*!< Имя тега. */
-  std::string id; /*!< Уникальный идентификатор. */
-#ifdef _EMSCRIPTEN
-  emscripten::val stylesheet; /*!< Ассоциативный массив стилей. */
-  emscripten::val classes; /*!< std::vector<css::CnSelectorDescriptor> */
+  std::string tagname;  // Имя тега.
+  std::string id;  // Уникальный идентификатор.
+#ifdef EMSCRIPTEN_PLATFORM
+  emscripten::val stylesheet;  // Ассоциативный массив стилей.
+  emscripten::val classes;  // std::vector<css::CnSelectorDescriptor>
 #else
   std::map<std::string, std::string> stylesheet;
   std::vector<css::CnSelectorDescriptor> classes;

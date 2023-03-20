@@ -12,6 +12,7 @@ NAMESPACE_BEGIN(dom)
 class HtmlBuilder {
 public:
   HtmlBuilder() = default;
+
   virtual ~HtmlBuilder() = default;
 
   HtmlElement createHtmlElement(TreeNodeElement *element);
