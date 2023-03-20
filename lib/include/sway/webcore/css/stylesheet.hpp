@@ -1,6 +1,7 @@
 #ifndef SWAY_WEBCORE_CSS_STYLESHEET_HPP
 #define SWAY_WEBCORE_CSS_STYLESHEET_HPP
 
+#include <sway/emscriptenmacros.hpp>
 #include <sway/webcore/prereqs.hpp>
 
 NAMESPACE_BEGIN(sway)
@@ -23,13 +24,13 @@ using Mapper_t = std::map<std::string, std::string>;
 
 class StyleSheet {
 public:
-  static void registerEmClass();
+  DECLARE_EMSCRIPTEN_BINDING()
 
   StyleSheet(const Mapper_t &mapper);
 
   ~StyleSheet() = default;
 
-  [[nodiscard]] std::string getClassName(const std::string &classnameKey) const;
+  [[nodiscard]] auto getClassName(const std::string &classnameKey) const -> std::string;
 
 private:
   Mapper_t mapper_;

@@ -1,6 +1,7 @@
 #ifndef SWAY_WEBCORE_CSS_SELECTOR_HPP
 #define SWAY_WEBCORE_CSS_SELECTOR_HPP
 
+#include <sway/emscriptenmacros.hpp>
 #include <sway/webcore/css/selectortypes.hpp>
 #include <sway/webcore/prereqs.hpp>
 
@@ -10,15 +11,15 @@ NAMESPACE_BEGIN(css)
 
 class Selector {
 public:
-  static void registerEmClass();
+  DECLARE_EMSCRIPTEN_BINDING()
 
   Selector(SelectorType type);
 
   virtual ~Selector() = default;
 
-  [[nodiscard]] SelectorType getType() const;
+  [[nodiscard]] auto getType() const -> SelectorType;
 
-  [[nodiscard]] std::string getName() const;
+  [[nodiscard]] auto getName() const -> std::string;
 
   void setName(const std::string &name);
 

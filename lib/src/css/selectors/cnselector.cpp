@@ -4,23 +4,24 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 NAMESPACE_BEGIN(css)
 
-void CnSelector::registerEmClass() {
+EMSCRIPTEN_BINDING_BEGIN(CnSelector)
 #ifdef EMSCRIPTEN_PLATFORM
-  emscripten::class_<CnSelector, emscripten::base<Selector>>("CnSelector")
-      .constructor<CnSelectorChain>()
-      .function("getMods", &CnSelector::getMods);
+emscripten::class_<CnSelector, emscripten::base<Selector>>("CnSelector")
+    .constructor<CnSelectorChain>()
+    .function("getMods", &CnSelector::getMods);
 #endif
-}
+EMSCRIPTEN_BINDING_END()
 
 CnSelector::CnSelector(const CnSelectorChain &chain)
     : Selector(SelectorType::CN)
     , chain_(chain) {
-  std::string name = chain_.elem.empty() ? chain_.block : chain_.block + "__" + chain_.elem;
-
-  setName(name);
+  // clang-format off
+  setName(chain_.elem.empty()
+    ? chain_.block
+    : chain_.block + "__" + chain_.elem);  // clang-format on
 }
 
-std::vector<std::string> CnSelector::getMods() const {
+auto CnSelector::getMods() const -> std::vector<std::string> {
 #ifdef EMSCRIPTEN_PLATFORM
   return emscripten::vecFromJSArray<std::string>(chain_.mods);
 #else

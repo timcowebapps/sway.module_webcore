@@ -1,6 +1,7 @@
 #ifndef SWAY_WEBCORE_TREENODEELEMENT_HPP
 #define SWAY_WEBCORE_TREENODEELEMENT_HPP
 
+#include <sway/emscriptenmacros.hpp>
 #include <sway/webcore/css/selector.hpp>
 #include <sway/webcore/eventhandler.hpp>
 #include <sway/webcore/eventtarget.hpp>
@@ -14,7 +15,7 @@ NAMESPACE_BEGIN(webcore)
 
 class TreeNodeElement : public core::container::Node {
 public:
-  static void registerEmClass();
+  DECLARE_EMSCRIPTEN_BINDING()
 
   TreeNodeElement(const TreeNodeElementDescriptor &createInfo);
 

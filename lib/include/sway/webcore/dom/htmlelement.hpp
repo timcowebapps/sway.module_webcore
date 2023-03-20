@@ -17,13 +17,13 @@ public:
 
   ~HtmlElement() = default;
 
-  HtmlElement getParentElement() const;
+  auto getParentElement() const -> HtmlElement;
 
-  HtmlElement appendChild(const HtmlElement &child);
+  auto appendChild(const HtmlElement &child) -> HtmlElement;
 
-  HtmlElement replaceChild(HtmlElement newnode, HtmlElement oldnode);
+  auto replaceChild(HtmlElement newnode, HtmlElement oldnode) -> HtmlElement;
 
-  HtmlElement removeChild(const HtmlElement &child);
+  auto removeChild(const HtmlElement &child) -> HtmlElement;
 
   void setInnerContent(const std::string &content, bool dirty = true);
 
@@ -31,7 +31,7 @@ public:
 
   void addClassName(const std::string &name);
 
-  [[nodiscard]] std::string toString() const;
+  [[nodiscard]] auto toString() const -> std::string;
 
 #ifdef EMSCRIPTEN_PLATFORM
   operator emscripten::val() const { return val_; }

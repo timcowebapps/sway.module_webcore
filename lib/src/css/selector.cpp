@@ -4,22 +4,22 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 NAMESPACE_BEGIN(css)
 
-void Selector::registerEmClass() {
+EMSCRIPTEN_BINDING_BEGIN(Selector)
 #ifdef EMSCRIPTEN_PLATFORM
-  emscripten::class_<Selector>("Selector")
-      //.constructor<SelectorType>()
-      .smart_ptr<std::shared_ptr<Selector>>("SelectorSmartPtr")
-      .function("getType", &Selector::getType)
-      .function("getName", &Selector::getName);
+emscripten::class_<Selector>("Selector")
+    //.constructor<SelectorType>()
+    .smart_ptr<std::shared_ptr<Selector>>("SelectorSmartPtr")
+    .function("getType", &Selector::getType)
+    .function("getName", &Selector::getName);
 #endif
-}
+EMSCRIPTEN_BINDING_END()
 
 Selector::Selector(SelectorType type)
     : type_(type) {}
 
-SelectorType Selector::getType() const { return type_; }
+auto Selector::getType() const -> SelectorType { return type_; }
 
-std::string Selector::getName() const { return name_; }
+auto Selector::getName() const -> std::string { return name_; }
 
 void Selector::setName(const std::string &name) { name_ = name; }
 

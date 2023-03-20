@@ -16,7 +16,7 @@ HtmlElement::HtmlElement(const emscripten::val &value)
     : val_(value) {}
 #endif
 
-HtmlElement HtmlElement::getParentElement() const {
+auto HtmlElement::getParentElement() const -> HtmlElement {
 #ifdef EMSCRIPTEN_PLATFORM
   return val_["parentElement"].as<emscripten::val>();
 #else
@@ -24,7 +24,7 @@ HtmlElement HtmlElement::getParentElement() const {
 #endif
 }
 
-HtmlElement HtmlElement::appendChild(const HtmlElement &child) {
+auto HtmlElement::appendChild(const HtmlElement &child) -> HtmlElement {
 #ifdef EMSCRIPTEN_PLATFORM
   return val_.call<emscripten::val>("appendChild", child.val_);
 #else
@@ -32,7 +32,7 @@ HtmlElement HtmlElement::appendChild(const HtmlElement &child) {
 #endif
 }
 
-HtmlElement HtmlElement::replaceChild(HtmlElement newnode, HtmlElement oldnode) {
+auto HtmlElement::replaceChild(HtmlElement newnode, HtmlElement oldnode) -> HtmlElement {
 #ifdef EMSCRIPTEN_PLATFORM
   return val_.call<emscripten::val>("replaceChild", newnode.val_, oldnode.val_);
 #else
@@ -40,7 +40,7 @@ HtmlElement HtmlElement::replaceChild(HtmlElement newnode, HtmlElement oldnode) 
 #endif
 }
 
-HtmlElement HtmlElement::removeChild(const HtmlElement &child) {
+auto HtmlElement::removeChild(const HtmlElement &child) -> HtmlElement {
 #ifdef EMSCRIPTEN_PLATFORM
   return val_.call<emscripten::val>("removeChild", child.val_);
 #else
@@ -70,7 +70,7 @@ void HtmlElement::addClassName(const std::string &className) {
 #endif
 }
 
-std::string HtmlElement::toString() const {
+auto HtmlElement::toString() const -> std::string {
 #ifdef EMSCRIPTEN_PLATFORM
   return val_.call<std::string>("toString");
 #else

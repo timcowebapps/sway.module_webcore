@@ -7,7 +7,7 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 NAMESPACE_BEGIN(dom)
 
-HtmlElement HtmlBuilder::createHtmlElement(TreeNodeElement *element) {
+auto HtmlBuilder::createHtmlElement(TreeNodeElement *element) -> HtmlElement {
   auto htmlElement = HtmlDocument::createElement(element->getHtmlElementTagname());
   htmlElement.setAttribute("id", element->getHtmlElementId());
   for (std::string cn : element->getHtmlElementClasses()) {

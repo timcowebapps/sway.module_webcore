@@ -1,6 +1,7 @@
 #ifndef SWAY_WEBCORE_CSS_IDSELECTOR_HPP
 #define SWAY_WEBCORE_CSS_IDSELECTOR_HPP
 
+#include <sway/emscriptenmacros.hpp>
 #include <sway/webcore/css/selector.hpp>
 #include <sway/webcore/prereqs.hpp>
 
@@ -10,7 +11,7 @@ NAMESPACE_BEGIN(css)
 
 class IdSelector final : public Selector {
 public:
-  static void registerEmClass();
+  DECLARE_EMSCRIPTEN_BINDING()
 
   IdSelector(const std::string &name);
 

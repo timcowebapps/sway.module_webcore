@@ -15,7 +15,7 @@ public:
 
   virtual ~HtmlBuilder() = default;
 
-  HtmlElement createHtmlElement(TreeNodeElement *element);
+  auto createHtmlElement(TreeNodeElement *element) -> HtmlElement;
 };
 
 NAMESPACE_END(dom)

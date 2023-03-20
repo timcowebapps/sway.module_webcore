@@ -1,6 +1,7 @@
 #ifndef SWAY_WEBCORE_REGION_HPP
 #define SWAY_WEBCORE_REGION_HPP
 
+#include <sway/emscriptenmacros.hpp>
 #include <sway/webcore/prereqs.hpp>
 #include <sway/webcore/regioncreateinfo.hpp>
 
@@ -13,7 +14,7 @@ typedef RegionMap_t::const_iterator RegionMapIterator_t;
 class TreeNodeElement;
 class Region {
 public:
-  static void registerEmClass();
+  DECLARE_EMSCRIPTEN_BINDING()
 
   Region(std::shared_ptr<TreeNodeElement> parent, const RegionCreateInfo &createInfo);
   virtual ~Region() = default;

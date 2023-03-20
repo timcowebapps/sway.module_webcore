@@ -1,6 +1,7 @@
 #ifndef SWAY_WEBCORE_CSS_CNSELECTOR_HPP
 #define SWAY_WEBCORE_CSS_CNSELECTOR_HPP
 
+#include <sway/emscriptenmacros.hpp>
 #include <sway/webcore/css/selector.hpp>
 #include <sway/webcore/css/selectors/cnselectorchain.hpp>
 #include <sway/webcore/prereqs.hpp>
@@ -12,13 +13,13 @@ NAMESPACE_BEGIN(css)
 
 class CnSelector final : public Selector {
 public:
-  static void registerEmClass();
+  DECLARE_EMSCRIPTEN_BINDING()
 
   CnSelector(const CnSelectorChain &chain);
 
   virtual ~CnSelector() = default;
 
-  [[nodiscard]] std::vector<std::string> getMods() const;
+  [[nodiscard]] auto getMods() const -> std::vector<std::string>;
 
 private:
   CnSelectorChain chain_;

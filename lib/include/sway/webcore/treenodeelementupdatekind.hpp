@@ -7,7 +7,7 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 
-enum class TreeNodeElementUpdateKind : u32_t { Insert, Delete };
+enum class TreeNodeElementUpdateKind : u32_t { INSERT, DELETE };
 
 NAMESPACE_END(webcore)
 NAMESPACE_END(sway)

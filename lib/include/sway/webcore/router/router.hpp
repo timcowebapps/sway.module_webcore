@@ -1,6 +1,7 @@
 #ifndef SWAY_WEBCORE_ROUTER_ROUTER_HPP
 #define SWAY_WEBCORE_ROUTER_ROUTER_HPP
 
+#include <sway/emscriptenmacros.hpp>
 #include <sway/webcore/prereqs.hpp>
 #include <sway/webcore/router/httproute.hpp>
 
@@ -10,7 +11,7 @@ NAMESPACE_BEGIN(router)
 
 class Router {
 public:
-  static void registerEmClass();
+  DECLARE_EMSCRIPTEN_BINDING()
 
   Router() = default;
 

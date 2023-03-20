@@ -6,16 +6,16 @@
 NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 
-void Region::registerEmClass() {
+EMSCRIPTEN_BINDING_BEGIN(Region)
 #ifdef EMSCRIPTEN_PLATFORM
-  emscripten::class_<Region>("Region")
-      .constructor<core::container::Hierarchy *, core::container::NodeIdx, RegionCreateInfo>()
-      .smart_ptr<std::shared_ptr<Region>>("RegionSmartPtr")
-      .function("attachView", &Region::attachView, emscripten::allow_raw_pointers())
-      .function("detachView", &Region::detachView, emscripten::allow_raw_pointers())
-      .function("getHtmlElementId", &Region::getHtmlElementId);
+emscripten::class_<Region>("Region")
+    .constructor<core::container::Hierarchy *, core::container::NodeIdx, RegionCreateInfo>()
+    .smart_ptr<std::shared_ptr<Region>>("RegionSmartPtr")
+    .function("attachView", &Region::attachView, emscripten::allow_raw_pointers())
+    .function("detachView", &Region::detachView, emscripten::allow_raw_pointers())
+    .function("getHtmlElementId", &Region::getHtmlElementId);
 #endif
-}
+EMSCRIPTEN_BINDING_END()
 
 Region::Region(std::shared_ptr<TreeNodeElement> parent, const RegionCreateInfo &createInfo)
     : parent_(parent)
@@ -39,13 +39,13 @@ void Region::detachView(TreeNodeElement *node) {
   }
 }
 
-core::container::NodeIdx Region::getAttachedNodeIdx() const { return attachedNodeIdx_; }
+auto Region::getAttachedNodeIdx() const -> core::container::NodeIdx { return attachedNodeIdx_; }
 
-std::string Region::getHtmlElementId() const { return htmlElementId_; }
+auto Region::getHtmlElementId() const -> std::string { return htmlElementId_; }
 
-bool Region::hasHtmlElementReplaced() const { return htmlElementReplace_; }
+auto Region::hasHtmlElementReplaced() const -> bool { return htmlElementReplace_; }
 
-bool Region::hasAttached() const { return attached_; }
+auto Region::hasAttached() const -> bool { return attached_; }
 
 NAMESPACE_END(webcore)
 NAMESPACE_END(sway)

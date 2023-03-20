@@ -19,15 +19,15 @@ Uri::Uri(const std::string &str)
 
 Uri::~Uri() { free(pmatch_); }
 
-const std::string Uri::getPath() const {
+auto Uri::getPath() const -> const std::string {
   return (pmatch_[6].rm_so > -1) ? str_.substr(pmatch_[6].rm_so, pmatch_[6].rm_eo - pmatch_[6].rm_so) : std::string();
 }
 
-const std::string Uri::getQuery() const {
+auto Uri::getQuery() const -> const std::string {
   return (pmatch_[7].rm_so > -1) ? str_.substr(pmatch_[7].rm_so, pmatch_[7].rm_eo - pmatch_[7].rm_so) : std::string();
 }
 
-const std::string Uri::getFragment() const {
+auto Uri::getFragment() const -> const std::string {
   return (pmatch_[10].rm_so > -1) ? str_.substr(pmatch_[10].rm_so, pmatch_[10].rm_eo - pmatch_[10].rm_so)
                                   : std::string();
 }

@@ -4,14 +4,14 @@ NAMESPACE_BEGIN(sway)
 NAMESPACE_BEGIN(webcore)
 NAMESPACE_BEGIN(router)
 
-void Router::registerEmClass() {
+EMSCRIPTEN_BINDING_BEGIN(Router)
 #ifdef EMSCRIPTEN_PLATFORM
-  emscripten::class_<Router>("Router")
-      .constructor()
-      .function("addRoute", &Router::addRoute)
-      .function("navigate", &Router::navigate);
+emscripten::class_<Router>("Router")
+    .constructor()
+    .function("addRoute", &Router::addRoute)
+    .function("navigate", &Router::navigate);
 #endif
-}
+EMSCRIPTEN_BINDING_END()
 
 Router::~Router() { routes_.clear(); }
 
