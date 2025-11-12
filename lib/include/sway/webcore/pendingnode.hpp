@@ -6,21 +6,19 @@
 #include <sway/webcore/treenodeelement.hpp>
 #include <sway/webcore/treenodeelementupdatekind.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(webcore)
+namespace sway::webcore {
 
 struct PendingNode {
   std::pair<std::string, TreeNodeElement *> element;
   TreeNodeElement *parentElement;
   std::shared_ptr<Region> region;
 
-  // PendingNode(TreeNodeElement *parent, TreeNodeElement *node, std::shared_ptr<Region> region)
-  //     : element(std::make_pair("node->getNodeUid()", node))
-  //     , parentElement(parent)
-  //     , region(region) {}
+  PendingNode(TreeNodeElement *parent, TreeNodeElement *node, std::shared_ptr<Region> region)
+      : element(std::make_pair(Representation<core::NodeIndex>::get(node->getNodeIndex()).c_str(), node))
+      , parentElement(parent)
+      , region(region) {}
 };
 
-NAMESPACE_END(webcore)
-NAMESPACE_END(sway)
+}  // namespace sway::webcore
 
 #endif

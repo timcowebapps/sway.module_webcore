@@ -3,13 +3,12 @@
 
 #include <memory>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(webcore)
+namespace sway::webcore {
 
 EMSCRIPTEN_BINDING_BEGIN(Region)
 #ifdef EMSCRIPTEN_PLATFORM
 emscripten::class_<Region>("Region")
-    .constructor<core::container::Hierarchy *, core::container::NodeIdx, RegionCreateInfo>()
+    .constructor<core::Hierarchy *, core::NodeIndex, RegionCreateInfo>()
     .smart_ptr<std::shared_ptr<Region>>("RegionSmartPtr")
     .function("attachView", &Region::attachView, emscripten::allow_raw_pointers())
     .function("detachView", &Region::detachView, emscripten::allow_raw_pointers())
@@ -24,22 +23,22 @@ Region::Region(std::shared_ptr<TreeNodeElement> parent, const RegionCreateInfo &
     , attached_(false) {}
 
 void Region::attachView(std::shared_ptr<TreeNodeElement> node) {
-  attachedNodeIdx_ = node->getNodeIdx();
+  attachedNodeIdx_ = node->getNodeIndex();
   parent_->addChildNode(node);
   attached_ = true;
 }
 
 void Region::detachView(TreeNodeElement *node) {
   if (attached_) {
-    std::shared_ptr<core::container::Node> other_ptr(node);
-    core::container::Hierarchy::findNode(node->getParentNode().value(), parent_->getNodeIdx())
+    std::shared_ptr<core::Node> other_ptr(node);
+    core::Hierarchy::findNode(node->getParentNode().value(), parent_->getNodeIndex())
         .value()
         ->removeChildNode(other_ptr);
     attached_ = false;
   }
 }
 
-auto Region::getAttachedNodeIdx() const -> core::container::NodeIdx { return attachedNodeIdx_; }
+auto Region::getAttachedNodeIdx() const -> core::NodeIndex { return attachedNodeIdx_; }
 
 auto Region::getHtmlElementId() const -> std::string { return htmlElementId_; }
 
@@ -47,5 +46,4 @@ auto Region::hasHtmlElementReplaced() const -> bool { return htmlElementReplace_
 
 auto Region::hasAttached() const -> bool { return attached_; }
 
-NAMESPACE_END(webcore)
-NAMESPACE_END(sway)
+}  // namespace sway::webcore

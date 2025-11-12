@@ -1,8 +1,7 @@
 #include <sway/webcore/dom/htmldocument.hpp>
 #include <sway/webcore/eventtarget.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(webcore)
+namespace sway::webcore {
 
 EventTarget::EventTarget(EventCallback_t callback)
 #ifdef EMSCRIPTEN_PLATFORM
@@ -35,5 +34,4 @@ void EventTarget::setCallback(EventCallback_t callback) {
 #endif
 }
 
-NAMESPACE_END(webcore)
-NAMESPACE_END(sway)
+}  // namespace sway::webcore

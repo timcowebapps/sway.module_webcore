@@ -1,7 +1,6 @@
 #include <sway/webcore/eventlistener.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(webcore)
+namespace sway::webcore {
 
 EventListener::EventListener(EventCallback_t callback)
     : callback_(callback) {}
@@ -16,5 +15,4 @@ void EventListener::handleEvent(
 #endif
 }
 
-NAMESPACE_END(webcore)
-NAMESPACE_END(sway)
+}  // namespace sway::webcore

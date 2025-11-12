@@ -1,8 +1,8 @@
 # Запрашиваем минимальную версию CMake
 cmake_minimum_required(VERSION 3.14.3 FATAL_ERROR)
 
-include("${CMAKE_CURRENT_SOURCE_DIR}/submodules/sway.module_core/cmakehelpers/custom_add_subdirectory.cmake")
-include("${CMAKE_CURRENT_SOURCE_DIR}/submodules/sway.module_core/cmakehelpers/custom_enable_cxx17.cmake")
+include("${CMAKE_CURRENT_SOURCE_DIR}/submodules/sway.module_core/cmake_modules/add_submodule.cmake")
+include("${CMAKE_CURRENT_SOURCE_DIR}/submodules/sway.module_core/cmake_modules/enable_cxx17.cmake")
 
 # Мета-информация о проекте
 set(META_WEBCORE_PRJNAME "module_webcore")
@@ -33,7 +33,7 @@ endif ()
 project(${META_WEBCORE_PRJNAME} VERSION ${META_WEBCORE_VERSION} LANGUAGES CXX)
 
 # Подмодули
-custom_add_subdirectory("libmodule_core" submodules/sway.module_core)
+add_subdirectory(submodules/sway.module_core)
 
 if (GLOBAL_EMSCRIPTEN_PLATFORM)
     set(CMAKE_CXX_COMPILER "${CUSTOM_EMSCRIPTEN_ROOT_DIR}/em++")
@@ -57,7 +57,7 @@ set(MODULE_WEBCORE_DIR ${CMAKE_CURRENT_LIST_DIR})
 
 # Добавляем пути для поиска хедеров
 include_directories("${EMSCRIPTEN_PREFIX}/system/include")
-include_directories("${MODULE_WEBCORE_DIR}/submodules/sway.module_core/lib/include")
+include_directories("${MODULE_WEBCORE_DIR}/submodules/sway.module_core/lib/cxx/include")
 include_directories("${MODULE_WEBCORE_DIR}/lib/include")
 
 # Получаем пути ко всем хедерам и исходникам библиотеки
@@ -74,7 +74,7 @@ else ()
     set_target_properties(${META_WEBCORE_LIBNAME} PROPERTIES SUFFIX ".a.${META_WEBCORE_VERSION}")
 endif ()
 
-custom_enable_cxx17(${META_WEBCORE_LIBNAME})
+enable_cxx17(${META_WEBCORE_LIBNAME})
 target_link_libraries(${META_WEBCORE_LIBNAME})
 
 # Добавляем построение тестов

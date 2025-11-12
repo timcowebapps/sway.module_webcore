@@ -4,12 +4,10 @@
 #include <sway/namespacemacros.hpp>
 #include <sway/types.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(webcore)
+namespace sway::webcore {
 
 enum class TreeNodeElementUpdateKind : u32_t { INSERT, DELETE };
 
-NAMESPACE_END(webcore)
-NAMESPACE_END(sway)
+}  // namespace sway::webcore
 
 #endif

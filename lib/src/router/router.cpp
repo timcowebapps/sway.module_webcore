@@ -1,8 +1,6 @@
 #include <sway/webcore/router/router.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(webcore)
-NAMESPACE_BEGIN(router)
+namespace sway::webcore {
 
 EMSCRIPTEN_BINDING_BEGIN(Router)
 #ifdef EMSCRIPTEN_PLATFORM
@@ -36,6 +34,4 @@ void Router::navigate(const std::string &fragment) {
 #endif
 }
 
-NAMESPACE_END(router)
-NAMESPACE_END(webcore)
-NAMESPACE_END(sway)
+}  // namespace sway::webcore

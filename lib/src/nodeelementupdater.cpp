@@ -2,13 +2,16 @@
 #include <sway/webcore/dom/htmlelement.hpp>
 #include <sway/webcore/nodeelementupdater.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(webcore)
+namespace sway::webcore {
 
-u32_t NodeElementUpdater::visit(core::utils::Visitable *guest) {
-  // TreeNodeElement *parent = (TreeNodeElement *)guest->getParentNode();
-  //  if (!parent)
-  //  	return core::container::TraversalAction_t::Abort;
+auto NodeElementUpdater::visit(core::typedefs::VisitablePtr_t guest) -> u32_t {
+  auto *node = static_cast<TreeNodeElement *>(guest);
+  core::NodeOptionalSharedPtr_t parentOpt = node->getParentNode();
+  if (!parentOpt.has_value()) {
+    return core::toBase(core::TraverserAction::Enum::ABORT);
+  }
+
+  TreeNodeElement *parent = (TreeNodeElement *)parentOpt.value().get();
 
   // EM_ASM(
   //     {
@@ -16,14 +19,14 @@ u32_t NodeElementUpdater::visit(core::utils::Visitable *guest) {
   //         console.log("NODE_INDEX " + UTF8ToString($1));
   //         console.groupEnd();
   //     },
-  //     guest->getNodeUid().c_str(), std::to_string<core::container::NodeIdx>(guest->getNodeIdx()).c_str());
+  //     guest->getNodeUid().c_str(), std::to_string<core::NodeIndex>(guest->getNodeIndex()).c_str());
 
-  // if (parent) {
-  //     auto region = parent->getRegionByNodeId("guest->getNodeUid()");
-  //     pendingUpdateNodes_.emplace_back(parent, (TreeNodeElement *)guest, region);
-  // }
+  if (parent) {
+    auto region = parent->getRegionByNodeIdx(node->getNodeIndex());
+    pendingUpdateNodes_.emplace_back(parent, node, region);
+  }
 
-  return core::detail::toUnderlying(core::utils::Traverser::Action::CONTINUE);
+  return core::toBase(core::TraverserAction::Enum::CONTINUE);
 }
 
 void NodeElementUpdater::forceUpdate() {
@@ -43,5 +46,4 @@ void NodeElementUpdater::forceUpdate() {
   }
 }
 
-NAMESPACE_END(webcore)
-NAMESPACE_END(sway)
+}  // namespace sway::webcore

@@ -4,21 +4,20 @@
 #include <sway/webcore/nodesynchronizer.hpp>
 #include <sway/webcore/region.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(webcore)
+namespace sway::webcore {
 
-NodeSynchronizer::NodeSynchronizer() { htmlBuilder_ = new dom::HtmlBuilder(); }
+NodeSynchronizer::NodeSynchronizer() { htmlBuilder_ = new HtmlBuilder(); }
 
-NodeSynchronizer::~NodeSynchronizer() { SAFE_DELETE_OBJECT(htmlBuilder_); }
+NodeSynchronizer::~NodeSynchronizer() { core::safeDelete<HtmlBuilder *>(htmlBuilder_); }
 
 void NodeSynchronizer::insertNode(PendingNode node) {
-  dom::HtmlElement parentHtmlElement = dom::HtmlDocument::getElementById(node.parentElement->getHtmlElementId());
+  HtmlElement parentHtmlElement = HtmlDocument::getElementById(node.parentElement->getHtmlElementId());
   // if (parentHtmlElement.val_.isNull())
   //     return;
 
   // if (node.region) {
-  //     dom::HtmlElement regionHtmlElement =
-  //     dom::HtmlDocument::getElementById(node.region.get()->getHtmlElementId()); if
+  //     HtmlElement regionHtmlElement =
+  //     HtmlDocument::getElementById(node.region.get()->getHtmlElementId()); if
   //     (regionHtmlElement.val_.isNull()) {
   //         return;
   //     }
@@ -42,19 +41,19 @@ void NodeSynchronizer::removeNode(PendingNode node) {
   //     return;
   // }
 
-  // dom::HtmlElement current = dom::HtmlDocument::getElementById(node.element.second->getHtmlElementId());
+  // HtmlElement current = HtmlDocument::getElementById(node.element.second->getHtmlElementId());
   // if (current.val_.isNull()) {
   //     return;
   // }
 
-  // dom::HtmlElement parent = current.getParentElement();
+  // HtmlElement parent = current.getParentElement();
   // if (parent.val_.isNull()) {
   //     return;
   // }
 
   // if (node.region) {
-  //     dom::HtmlElement regionHtmlElement =
-  //     dom::HtmlDocument::getElementById(node.region.get()->getHtmlElementId()); if
+  //     HtmlElement regionHtmlElement =
+  //     HtmlDocument::getElementById(node.region.get()->getHtmlElementId()); if
   //     (regionHtmlElement.val_.isNull()) {
   //         return;
   //     }
@@ -77,5 +76,4 @@ void NodeSynchronizer::applyPendingUpdate(PendingNode node) {
   insertNode(node);
 }
 
-NAMESPACE_END(webcore)
-NAMESPACE_END(sway)
+}  // namespace sway::webcore

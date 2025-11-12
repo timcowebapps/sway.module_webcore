@@ -3,8 +3,7 @@
 
 #include <sway/webcore/prereqs.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(webcore)
+namespace sway::webcore {
 
 class EventListener {
 public:
@@ -20,7 +19,6 @@ public:
   EventCallback_t callback_;
 };
 
-NAMESPACE_END(webcore)
-NAMESPACE_END(sway)
+}  // namespace sway::webcore
 
 #endif

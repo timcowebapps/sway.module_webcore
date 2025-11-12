@@ -4,8 +4,7 @@
 #include <sway/webcore/eventlistener.hpp>
 #include <sway/webcore/prereqs.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(webcore)
+namespace sway::webcore {
 
 class EventTarget {
 public:
@@ -24,7 +23,6 @@ private:
 #endif
 };
 
-NAMESPACE_END(webcore)
-NAMESPACE_END(sway)
+}  // namespace sway::webcore
 
 #endif

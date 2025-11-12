@@ -1,8 +1,6 @@
 #include <sway/webcore/router/uriregex.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(webcore)
-NAMESPACE_BEGIN(router)
+namespace sway::webcore {
 
 lpcstr_t const UriRegex::expression = "^(([^:/?#]+):)?((//([^/?#]*))?([^?#]*)([?]([^#]*))?(#(.*))?)";
 
@@ -14,6 +12,4 @@ auto UriRegex::exec(lpcstr_t str, size_t nmatch, regmatch_t pmatch[], int eflags
   return regexec(&preg_, str, nmatch, pmatch, eflags);
 }
 
-NAMESPACE_END(router)
-NAMESPACE_END(webcore)
-NAMESPACE_END(sway)
+}  // namespace sway::webcore

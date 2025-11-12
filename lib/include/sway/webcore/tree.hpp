@@ -9,24 +9,22 @@
 #include <sway/webcore/regioncreateinfo.hpp>
 #include <sway/webcore/treenodeelementdescriptor.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(webcore)
+namespace sway::webcore {
 
 class TreeListener {
-  virtual void onNodeAdded(const core::container::NodeIdx &nodeIdx);
+  virtual void onNodeAdded(const core::NodeIndex &nodeIdx);
 
-  virtual void onNodeRemoved(core::container::Node parent, core::container::Node child);
+  virtual void onNodeRemoved(core::Node parent, core::Node child);
 
-  virtual void onNodeUpdated(const core::container::NodeIdx &nodeIdx);
+  virtual void onNodeUpdated(const core::NodeIndex &nodeIdx);
 };
 
-class Tree : public core::container::Hierarchy {
+class Tree : public core::Hierarchy {
 public:
   Tree();
   virtual ~Tree() = default;
 };
 
-NAMESPACE_END(webcore)
-NAMESPACE_END(sway)
+}  // namespace sway::webcore
 
 #endif

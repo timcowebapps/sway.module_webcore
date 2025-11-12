@@ -1,8 +1,6 @@
 #include <sway/webcore/css/selector.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(webcore)
-NAMESPACE_BEGIN(css)
+namespace sway::webcore {
 
 EMSCRIPTEN_BINDING_BEGIN(Selector)
 #ifdef EMSCRIPTEN_PLATFORM
@@ -23,6 +21,4 @@ auto Selector::getName() const -> std::string { return name_; }
 
 void Selector::setName(const std::string &name) { name_ = name; }
 
-NAMESPACE_END(css)
-NAMESPACE_END(webcore)
-NAMESPACE_END(sway)
+}  // namespace sway::webcore

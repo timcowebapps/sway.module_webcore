@@ -4,9 +4,7 @@
 #include <sway/webcore/prereqs.hpp>
 #include <sway/webcore/router/uriregex.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(webcore)
-NAMESPACE_BEGIN(router)
+namespace sway::webcore {
 
 class Uri {
   enum { nmatch = 11 };
@@ -28,8 +26,6 @@ private:
   std::string str_;
 };
 
-NAMESPACE_END(router)
-NAMESPACE_END(webcore)
-NAMESPACE_END(sway)
+}  // namespace sway::webcore
 
 #endif

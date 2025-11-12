@@ -4,8 +4,7 @@
 #include <sway/emscriptenmacros.hpp>
 #include <sway/webcore/prereqs.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(webcore)
+namespace sway::webcore {
 
 #ifdef EMSCRIPTEN_PLATFORM
 class EmscriptenUtil {
@@ -13,8 +12,6 @@ public:
   static bool isNone(emscripten::val const &val) { return val.isNull() || val.isUndefined(); }
 };
 #endif
-
-NAMESPACE_BEGIN(css)
 
 #ifdef EMSCRIPTEN_PLATFORM
 using Mapper_t = emscripten::val;
@@ -36,8 +33,6 @@ private:
   Mapper_t mapper_;
 };
 
-NAMESPACE_END(css)
-NAMESPACE_END(webcore)
-NAMESPACE_END(sway)
+}  // namespace sway::webcore
 
 #endif

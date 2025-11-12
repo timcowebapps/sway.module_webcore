@@ -5,9 +5,7 @@
 #include <sway/webcore/prereqs.hpp>
 #include <sway/webcore/treenodeelement.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(webcore)
-NAMESPACE_BEGIN(dom)
+namespace sway::webcore {
 
 class HtmlBuilder {
 public:
@@ -18,8 +16,6 @@ public:
   auto createHtmlElement(TreeNodeElement *element) -> HtmlElement;
 };
 
-NAMESPACE_END(dom)
-NAMESPACE_END(webcore)
-NAMESPACE_END(sway)
+}  // namespace sway::webcore
 
 #endif

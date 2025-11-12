@@ -5,9 +5,7 @@
 #include <sway/webcore/css/selectortypes.hpp>
 #include <sway/webcore/prereqs.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(webcore)
-NAMESPACE_BEGIN(css)
+namespace sway::webcore {
 
 class Selector {
 public:
@@ -28,8 +26,6 @@ private:
   std::string name_;
 };
 
-NAMESPACE_END(css)
-NAMESPACE_END(webcore)
-NAMESPACE_END(sway)
+}  // namespace sway::webcore
 
 #endif

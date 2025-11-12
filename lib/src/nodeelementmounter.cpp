@@ -1,26 +1,25 @@
+#include <sway/core/utilities/visitor/traverseractions.hpp>
 #include <sway/webcore/dom/htmldocument.hpp>
 #include <sway/webcore/dom/htmlelement.hpp>
 #include <sway/webcore/nodeelementmounter.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(webcore)
+namespace sway::webcore {
 
-u32_t NodeElementMounter::visit(core::utils::Visitable *guest) {
-  auto *node = static_cast<core::container::Node *>(guest);
-  auto parentNode = node->getParentNode();
-  if (parentNode != std::nullopt) {
-    auto *parentNodeElem = (TreeNodeElement *)parentNode.value().get();
-    auto region = parentNodeElem->getRegionByNodeIdx(node->getNodeIdx());
-
-    pendingUpdateNodes_.emplace_back(
-        (struct PendingNode){.element = std::make_pair("node->getNodeUid()", parentNodeElem),
-            .parentElement = (TreeNodeElement *)node,
-            .region = region});
+u32_t NodeElementMounter::visit(core::Visitable *guest) {
+  auto *node = static_cast<TreeNodeElement *>(guest);
+  auto parentOptional = node->getParentNode();
+  if (!parentOptional.has_value()) {
+    return core::toBase(core::TraverserAction::Enum::ABORT);
   }
+
+  auto parent = static_cast<TreeNodeElement *>(parentOptional.value().get());
+  auto region = parent->getRegionByNodeIdx(node->getNodeIndex());
+
+  pendingUpdateNodes_.emplace_back(parent, node, region);
 
 #ifdef EMSCRIPTEN_PLATFORM
   //  if (!parentNodeElem)
-  //  	return core::container::TraversalAction_t::Abort;
+  //  	return core::TraversarAction_t::Enum::ABORT;
 
   // EM_ASM(
   //     {
@@ -28,7 +27,7 @@ u32_t NodeElementMounter::visit(core::utils::Visitable *guest) {
   //         console.log("NODE_INDEX " + UTF8ToString($1));
   //         console.groupEnd();
   //     },
-  //     node->getNodeUid().c_str(), std::to_string<core::container::NodeIdx>(node->getNodeIdx()).c_str());
+  //     node->getNodeUid().c_str(), std::to_string<core::NodeIndex>(node->getNodeIndex()).c_str());
 
   // if (parentNodeElem) {
   //     auto region = parentNodeElem->getRegionByNodeId(node->getNodeUid());
@@ -36,7 +35,7 @@ u32_t NodeElementMounter::visit(core::utils::Visitable *guest) {
   // }
 #endif
 
-  return core::detail::toUnderlying(core::utils::Traverser::Action::CONTINUE);
+  return core::toBase(core::TraverserAction::Enum::CONTINUE);
 }
 
 void NodeElementMounter::forceUpdate() {
@@ -56,5 +55,4 @@ void NodeElementMounter::forceUpdate() {
   }
 }
 
-NAMESPACE_END(webcore)
-NAMESPACE_END(sway)
+}  // namespace sway::webcore

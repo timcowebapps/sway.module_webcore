@@ -7,9 +7,7 @@
 #include <sway/webcore/prereqs.hpp>
 #include <sway/webcore/treenodeelementdescriptor.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(webcore)
-NAMESPACE_BEGIN(css)
+namespace sway::webcore {
 
 class CnSelector final : public Selector {
 public:
@@ -25,8 +23,6 @@ private:
   CnSelectorChain chain_;
 };
 
-NAMESPACE_END(css)
-NAMESPACE_END(webcore)
-NAMESPACE_END(sway)
+}  // namespace sway::webcore
 
 #endif

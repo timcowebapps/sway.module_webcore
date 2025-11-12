@@ -3,9 +3,7 @@
 #include <sway/webcore/dom/htmldocument.hpp>
 #include <sway/webcore/dom/htmlelement.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(webcore)
-NAMESPACE_BEGIN(dom)
+namespace sway::webcore {
 
 auto HtmlBuilder::createHtmlElement(TreeNodeElement *element) -> HtmlElement {
   auto htmlElement = HtmlDocument::createElement(element->getHtmlElementTagname());
@@ -18,6 +16,4 @@ auto HtmlBuilder::createHtmlElement(TreeNodeElement *element) -> HtmlElement {
   return htmlElement;
 }
 
-NAMESPACE_END(dom)
-NAMESPACE_END(webcore)
-NAMESPACE_END(sway)
+}  // namespace sway::webcore

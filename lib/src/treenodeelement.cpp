@@ -1,12 +1,11 @@
 #include <sway/webcore/treenodeelement.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(webcore)
+namespace sway::webcore {
 
 EMSCRIPTEN_BINDING_BEGIN(TreeNodeElement)
 #ifdef EMSCRIPTEN_PLATFORM
-emscripten::class_<TreeNodeElement, emscripten::base<core::container::Node>>("TreeNodeElement")
-    .constructor<core::container::Node *, core::container::NodeIdx, TreeNodeElementDescriptor>()
+emscripten::class_<TreeNodeElement, emscripten::base<core::Node>>("TreeNodeElement")
+    .constructor<core::Node *, core::NodeIndex, TreeNodeElementDescriptor>()
     .function("addRegion", &TreeNodeElement::addRegion)
     .function("getRegion", &TreeNodeElement::getRegion, emscripten::allow_raw_pointers())
     .function("addEvent", &TreeNodeElement::addEvent, emscripten::allow_raw_pointers())
@@ -27,7 +26,10 @@ TreeNodeElement::TreeNodeElement(const TreeNodeElementDescriptor &createInfo)
     , htmlElementId_(createInfo.id) {}
 
 void TreeNodeElement::addRegion(const std::string &name, const RegionCreateInfo &createInfo) {
-  regions_.insert(std::make_pair(name, std::make_shared<Region>(sharedFrom<TreeNodeElement>(this), createInfo)));
+  regions_.insert(
+      std::make_pair(name, std::make_shared<Region>(std::static_pointer_cast<TreeNodeElement>(
+                                                        static_cast<TreeNodeElement *>(this)->shared_from_this()),
+                               createInfo)));
 }
 
 auto TreeNodeElement::getRegion(const std::string &name) const -> std::shared_ptr<Region> {
@@ -39,7 +41,7 @@ auto TreeNodeElement::getRegion(const std::string &name) const -> std::shared_pt
   return nullptr;
 }
 
-auto TreeNodeElement::getRegionByNodeIdx(const core::container::NodeIdx &nodeIdx) const -> std::shared_ptr<Region> {
+auto TreeNodeElement::getRegionByNodeIdx(const core::NodeIndex &nodeIdx) const -> std::shared_ptr<Region> {
   for (auto const &item : regions_) {
     auto region = item.second;
     if (region->getAttachedNodeIdx().equal(nodeIdx)) {
@@ -88,5 +90,4 @@ auto TreeNodeElement::getHtmlContent() const -> std::string { return htmlContent
 
 void TreeNodeElement::setHtmlContent(const std::string &content) { htmlContent_ = content; }
 
-NAMESPACE_END(webcore)
-NAMESPACE_END(sway)
+}  // namespace sway::webcore

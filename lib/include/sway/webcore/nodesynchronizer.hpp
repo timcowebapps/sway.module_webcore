@@ -5,8 +5,7 @@
 #include <sway/webcore/pendingnode.hpp>
 #include <sway/webcore/prereqs.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(webcore)
+namespace sway::webcore {
 
 class NodeSynchronizer {
 public:
@@ -20,10 +19,9 @@ public:
   void applyPendingUpdate(PendingNode node);
 
 private:
-  dom::HtmlBuilder *htmlBuilder_;
+  HtmlBuilder *htmlBuilder_;
 };
 
-NAMESPACE_END(webcore)
-NAMESPACE_END(sway)
+}  // namespace sway::webcore
 
 #endif

@@ -10,10 +10,9 @@
 #include <sway/webcore/regioncreateinfo.hpp>
 #include <sway/webcore/treenodeelementdescriptor.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(webcore)
+namespace sway::webcore {
 
-class TreeNodeElement : public core::container::Node {
+class TreeNodeElement : public core::Node {
 public:
   DECLARE_EMSCRIPTEN_BINDING()
 
@@ -25,7 +24,7 @@ public:
 
   std::shared_ptr<Region> getRegion(const std::string &name) const;
 
-  std::shared_ptr<Region> getRegionByNodeIdx(const core::container::NodeIdx &nodeIdx) const;
+  std::shared_ptr<Region> getRegionByNodeIdx(const core::NodeIndex &nodeIdx) const;
 
   RegionMap_t getRegions();
 
@@ -38,32 +37,31 @@ public:
 
   void bindEvents();
 
-  std::string getHtmlElementTagname() const;
+  auto getHtmlElementTagname() const -> std::string;
 
   void setHtmlElementTagname(const std::string &tagname);
 
-  std::vector<std::string> getHtmlElementClasses() const;
+  auto getHtmlElementClasses() const -> std::vector<std::string>;
 
   void setHtmlElementClasses(const std::vector<std::string> &classes);
 
-  std::string getHtmlElementId() const;
+  auto getHtmlElementId() const -> std::string;
 
   void setHtmlElementId(const std::string &id);
 
-  std::string getHtmlContent() const;
+  auto getHtmlContent() const -> std::string;
 
   void setHtmlContent(const std::string &content);
 
 private:
-  RegionMap_t regions_;  // Карта регионов.
+  RegionMap_t regions_;  //!< Карта регионов.
   std::vector<EventHandler> handlers_;
-  std::string htmlElementTagname_;  // Имя тега.
+  std::string htmlElementTagname_;  //!< Имя тега.
   std::vector<std::string> htmlElementClasses_;
-  std::string htmlElementId_;  // Уникальный идентификатор.
+  std::string htmlElementId_;  //!< Уникальный идентификатор.
   std::string htmlContent_;
 };
 
-NAMESPACE_END(webcore)
-NAMESPACE_END(sway)
+}  // namespace sway::webcore
 
 #endif

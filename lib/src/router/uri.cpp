@@ -1,8 +1,6 @@
 #include <sway/webcore/router/uri.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(webcore)
-NAMESPACE_BEGIN(router)
+namespace sway::webcore {
 
 Uri::Uri(const std::string &str)
     : regex_(UriRegex())
@@ -32,6 +30,4 @@ auto Uri::getFragment() const -> const std::string {
                                   : std::string();
 }
 
-NAMESPACE_END(router)
-NAMESPACE_END(webcore)
-NAMESPACE_END(sway)
+}  // namespace sway::webcore

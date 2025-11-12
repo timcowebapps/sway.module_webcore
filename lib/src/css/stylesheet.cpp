@@ -1,8 +1,6 @@
 #include <sway/webcore/css/stylesheet.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(webcore)
-NAMESPACE_BEGIN(css)
+namespace sway::webcore {
 
 EMSCRIPTEN_BINDING_BEGIN(StyleSheet)
 #ifdef EMSCRIPTEN_PLATFORM
@@ -31,6 +29,4 @@ auto StyleSheet::getClassName(const std::string &classnameKey) const -> std::str
 #endif
 }
 
-NAMESPACE_END(css)
-NAMESPACE_END(webcore)
-NAMESPACE_END(sway)
+}  // namespace sway::webcore

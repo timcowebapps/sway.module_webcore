@@ -19,8 +19,7 @@
 #  include <emscripten/val.h>
 #endif
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(webcore)
+namespace sway::webcore {
 
 #ifdef EMSCRIPTEN_PLATFORM
 typedef std::function<void(emscripten::val)> EventCallback_t;
@@ -32,7 +31,6 @@ typedef std::pair<std::string, std::string> TargetEventPair_t;
 
 typedef std::vector<TargetEventPair_t> TargetEventVec_t;
 
-NAMESPACE_END(webcore)
-NAMESPACE_END(sway)
+}  // namespace sway::webcore
 
 #endif

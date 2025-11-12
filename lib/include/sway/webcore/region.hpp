@@ -5,8 +5,7 @@
 #include <sway/webcore/prereqs.hpp>
 #include <sway/webcore/regioncreateinfo.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(webcore)
+namespace sway::webcore {
 
 typedef std::map<std::string, std::shared_ptr<class Region>> RegionMap_t;
 typedef RegionMap_t::const_iterator RegionMapIterator_t;
@@ -23,7 +22,7 @@ public:
 
   void detachView(TreeNodeElement *node);
 
-  core::container::NodeIdx getAttachedNodeIdx() const;
+  core::NodeIndex getAttachedNodeIdx() const;
 
   std::string getHtmlElementId() const;
 
@@ -32,13 +31,12 @@ public:
 
 private:
   std::shared_ptr<TreeNodeElement> parent_;
-  core::container::NodeIdx attachedNodeIdx_;
+  core::NodeIndex attachedNodeIdx_;
   std::string htmlElementId_;
   bool htmlElementReplace_;
   bool attached_;
 };
 
-NAMESPACE_END(webcore)
-NAMESPACE_END(sway)
+}  // namespace sway::webcore
 
 #endif

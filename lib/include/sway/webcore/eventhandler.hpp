@@ -4,8 +4,7 @@
 #include <sway/webcore/eventtarget.hpp>
 #include <sway/webcore/prereqs.hpp>
 
-NAMESPACE_BEGIN(sway)
-NAMESPACE_BEGIN(webcore)
+namespace sway::webcore {
 
 struct EventHandler {
   std::string type; /* Тип события. */
@@ -13,7 +12,6 @@ struct EventHandler {
   webcore::EventTarget *target;
 };
 
-NAMESPACE_END(webcore)
-NAMESPACE_END(sway)
+}  // namespace sway::webcore
 
 #endif
