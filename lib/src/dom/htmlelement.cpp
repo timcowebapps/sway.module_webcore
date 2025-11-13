@@ -48,7 +48,7 @@ auto HtmlElement::removeChild(const HtmlElement &child) -> HtmlElement {
 
 void HtmlElement::setInnerContent(const std::string &content, bool dirty) {
 #ifdef EMSCRIPTEN_PLATFORM
-  val_.set(core::misc::format("inner%s", dirty ? "HTML" : "Text"), content);
+  val_.set(core::format("inner%s", dirty ? "HTML" : "Text"), content);
 #endif
 }
 
