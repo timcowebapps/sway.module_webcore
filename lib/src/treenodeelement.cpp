@@ -5,7 +5,7 @@ namespace sway::webcore {
 EMSCRIPTEN_BINDING_BEGIN(TreeNodeElement)
 #ifdef EMSCRIPTEN_PLATFORM
 emscripten::class_<TreeNodeElement, emscripten::base<core::Node>>("TreeNodeElement")
-    .constructor<core::Node *, core::NodeIndex, TreeNodeElementDescriptor>()
+    .constructor<TreeNodeElementDescriptor>()
     .function("addRegion", &TreeNodeElement::addRegion)
     .function("getRegion", &TreeNodeElement::getRegion, emscripten::allow_raw_pointers())
     .function("addEvent", &TreeNodeElement::addEvent, emscripten::allow_raw_pointers())

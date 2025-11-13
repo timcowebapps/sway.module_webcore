@@ -8,7 +8,7 @@ namespace sway::webcore {
 EMSCRIPTEN_BINDING_BEGIN(Region)
 #ifdef EMSCRIPTEN_PLATFORM
 emscripten::class_<Region>("Region")
-    .constructor<core::Hierarchy *, core::NodeIndex, RegionCreateInfo>()
+    .constructor<std::shared_ptr<TreeNodeElement>, RegionCreateInfo>()
     .smart_ptr<std::shared_ptr<Region>>("RegionSmartPtr")
     .function("attachView", &Region::attachView, emscripten::allow_raw_pointers())
     .function("detachView", &Region::detachView, emscripten::allow_raw_pointers())

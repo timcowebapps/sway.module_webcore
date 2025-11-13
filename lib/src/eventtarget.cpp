@@ -22,7 +22,7 @@ EventTarget::~EventTarget() {
 
 void EventTarget::addEventListener(const std::string &targetId, const std::string &type) {
 #ifdef EMSCRIPTEN_PLATFORM
-  emscripten::val target = dom::HtmlDocument::getElementById(targetId);
+  emscripten::val target = HtmlDocument::getElementById(targetId);
   target.call<void>("addEventListener", type, listener_);
   events_.emplace_back(target, type);
 #endif
