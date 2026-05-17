@@ -8,16 +8,18 @@
 namespace sway::webcore {
 
 class Selector {
-public:
   DECLARE_EMSCRIPTEN_BINDING()
 
+public:
   Selector(SelectorType type);
 
   virtual ~Selector() = default;
 
-  [[nodiscard]] auto getType() const -> SelectorType;
+  [[nodiscard]]
+  auto getType() const -> SelectorType;
 
-  [[nodiscard]] auto getName() const -> std::string;
+  [[nodiscard]]
+  auto getName() const -> std::string;
 
   void setName(const std::string &name);
 

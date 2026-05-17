@@ -8,9 +8,9 @@
 namespace sway::webcore {
 
 class Router {
-public:
   DECLARE_EMSCRIPTEN_BINDING()
 
+public:
   Router() = default;
 
   ~Router();

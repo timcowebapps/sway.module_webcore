@@ -5,7 +5,7 @@
 
 namespace sway::webcore {
 
-u32_t NodeElementMounter::visit(core::Visitable *guest) {
+auto NodeElementMounter::visit(core::Visitable *guest) -> u32_t {
   auto *node = static_cast<TreeNodeElement *>(guest);
   auto parentOptional = node->getParentNode();
   if (!parentOptional.has_value()) {

@@ -13,20 +13,20 @@
 namespace sway::webcore {
 
 class TreeNodeElement : public core::Node {
-public:
   DECLARE_EMSCRIPTEN_BINDING()
 
+public:
   TreeNodeElement(const TreeNodeElementDescriptor &createInfo);
 
   virtual ~TreeNodeElement() = default;
 
   void addRegion(const std::string &name, const RegionCreateInfo &createInfo);
 
-  std::shared_ptr<Region> getRegion(const std::string &name) const;
+  auto getRegion(const std::string &name) const -> std::shared_ptr<Region>;
 
-  std::shared_ptr<Region> getRegionByNodeIdx(const core::NodeIndex &nodeIdx) const;
+  auto getRegionByNodeIdx(const core::NodeIndex &nodeIdx) const -> std::shared_ptr<Region>;
 
-  RegionMap_t getRegions();
+  auto getRegions() -> RegionMap_t;
 
   void addEvent(const std::string &targetId, const std::string &type
 #ifdef EMSCRIPTEN_PLATFORM

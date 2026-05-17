@@ -10,14 +10,15 @@
 namespace sway::webcore {
 
 class CnSelector final : public Selector {
-public:
   DECLARE_EMSCRIPTEN_BINDING()
 
+public:
   CnSelector(const CnSelectorChain &chain);
 
   virtual ~CnSelector() = default;
 
-  [[nodiscard]] auto getMods() const -> std::vector<std::string>;
+  [[nodiscard]]
+  auto getMods() const -> std::vector<std::string>;
 
 private:
   CnSelectorChain chain_;

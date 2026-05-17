@@ -12,9 +12,9 @@ typedef RegionMap_t::const_iterator RegionMapIterator_t;
 
 class TreeNodeElement;
 class Region {
-public:
   DECLARE_EMSCRIPTEN_BINDING()
 
+public:
   Region(std::shared_ptr<TreeNodeElement> parent, const RegionCreateInfo &createInfo);
   virtual ~Region() = default;
 
@@ -22,12 +22,13 @@ public:
 
   void detachView(TreeNodeElement *node);
 
-  core::NodeIndex getAttachedNodeIdx() const;
+  auto getAttachedNodeIdx() const -> core::NodeIndex;
 
-  std::string getHtmlElementId() const;
+  auto getHtmlElementId() const -> std::string;
 
-  bool hasHtmlElementReplaced() const;
-  bool hasAttached() const;
+  auto hasHtmlElementReplaced() const -> bool;
+
+  auto hasAttached() const -> bool;
 
 private:
   std::shared_ptr<TreeNodeElement> parent_;

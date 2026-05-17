@@ -14,11 +14,14 @@ public:
 
   ~Uri();
 
-  [[nodiscard]] const std::string getPath() const;
+  [[nodiscard]]
+  auto getPath() const -> const std::string;
 
-  [[nodiscard]] const std::string getQuery() const;
+  [[nodiscard]]
+  auto getQuery() const -> const std::string;
 
-  [[nodiscard]] const std::string getFragment() const;
+  [[nodiscard]]
+  auto getFragment() const -> const std::string;
 
 private:
   UriRegex regex_;

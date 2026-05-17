@@ -8,9 +8,9 @@
 namespace sway::webcore {
 
 class IdSelector final : public Selector {
-public:
   DECLARE_EMSCRIPTEN_BINDING()
 
+public:
   IdSelector(const std::string &name);
 
   virtual ~IdSelector() = default;

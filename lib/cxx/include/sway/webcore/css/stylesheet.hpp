@@ -9,7 +9,7 @@ namespace sway::webcore {
 #ifdef EMSCRIPTEN_PLATFORM
 class EmscriptenUtil {
 public:
-  static bool isNone(emscripten::val const &val) { return val.isNull() || val.isUndefined(); }
+  static auto isNone(emscripten::val const &val) -> bool { return val.isNull() || val.isUndefined(); }
 };
 #endif
 
@@ -20,14 +20,15 @@ using Mapper_t = std::map<std::string, std::string>;
 #endif
 
 class StyleSheet {
-public:
   DECLARE_EMSCRIPTEN_BINDING()
 
+public:
   StyleSheet(const Mapper_t &mapper);
 
   ~StyleSheet() = default;
 
-  [[nodiscard]] auto getClassName(const std::string &classnameKey) const -> std::string;
+  [[nodiscard]]
+  auto getClassName(const std::string &classnameKey) const -> std::string;
 
 private:
   Mapper_t mapper_;
