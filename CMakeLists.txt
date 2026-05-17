@@ -1,88 +1,112 @@
-# Запрашиваем минимальную версию CMake
-cmake_minimum_required(VERSION 3.14.3 FATAL_ERROR)
+#--------------------------------------------------------------------------------
+# CMake version
+#--------------------------------------------------------------------------------
 
-include("${CMAKE_CURRENT_SOURCE_DIR}/submodules/sway.module_core/cmake_modules/add_submodule.cmake")
-include("${CMAKE_CURRENT_SOURCE_DIR}/submodules/sway.module_core/cmake_modules/enable_cxx17.cmake")
+cmake_minimum_required(VERSION 3.25.0 FATAL_ERROR)
 
-# Мета-информация о проекте
-set(META_WEBCORE_PRJNAME "module_webcore")
-set(META_WEBCORE_LIBNAME "lib${META_WEBCORE_PRJNAME}")
-set(META_WEBCORE_VERSION_MAJOR 0)
-set(META_WEBCORE_VERSION_MINOR 1)
-set(META_WEBCORE_VERSION_PATCH 0)
-set(META_WEBCORE_VERSION ${META_WEBCORE_VERSION_MAJOR}.${META_WEBCORE_VERSION_MINOR}.${META_WEBCORE_VERSION_PATCH})
+#--------------------------------------------------------------------------------
+# Project directories
+#--------------------------------------------------------------------------------
 
-# Опции сборки
+set(MODULE_WEBCORE_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
+set(MODULE_WEBCORE_LIST_DIR "${CMAKE_CURRENT_LIST_DIR}")
+set(MODULE_WEBCORE_CMAKE_DIR "${MODULE_WEBCORE_ROOT_DIR}/submodules/sway.module_core/cmake_modules")
+set(MODULE_WEBCORE_LIB_DIR "${MODULE_WEBCORE_ROOT_DIR}/lib")
+set(MODULE_WEBCORE_BIN_DIR "${CMAKE_SOURCE_DIR}/bin")
+
+set(SYSTEM_INC_DIR "/opt/X11/include")
+set(SYSTEM_LIB_DIR "/opt/X11/lib")
+
+#--------------------------------------------------------------------------------
+# Include CMake modules
+#--------------------------------------------------------------------------------
+
+include("${MODULE_WEBCORE_CMAKE_DIR}/options.cmake")
+include("${MODULE_WEBCORE_CMAKE_DIR}/set_output_dir.cmake")
+include("${MODULE_WEBCORE_CMAKE_DIR}/add_submodule.cmake")
+include("${MODULE_WEBCORE_CMAKE_DIR}/project_metadata.cmake")
+include("${MODULE_WEBCORE_CMAKE_DIR}/enable_cxx17.cmake")
+include("${MODULE_WEBCORE_CMAKE_DIR}/enable_coverage.cmake")
+include("${MODULE_WEBCORE_CMAKE_DIR}/modules/logger.cmake")
+include("${MODULE_WEBCORE_CMAKE_DIR}/modules/create_object_library.cmake")
+include("${MODULE_WEBCORE_CMAKE_DIR}/modules/create_interface.cmake")
+include("${MODULE_WEBCORE_CMAKE_DIR}/modules/compiler/clang/create_library.cmake")
+include("${MODULE_WEBCORE_CMAKE_DIR}/modules/compiler/emscripten/setup.cmake")
+include("${MODULE_WEBCORE_CMAKE_DIR}/modules/compiler/emscripten/create_library.cmake")
+include("${MODULE_WEBCORE_CMAKE_DIR}/modules/compiler/emscripten/gen_target_name.cmake")
+include("${MODULE_WEBCORE_CMAKE_DIR}/modules/compiler/emscripten/set_optimization.cmake")
+include("${MODULE_WEBCORE_CMAKE_DIR}/modules/compiler/emscripten/set_environment.cmake")
+include("${MODULE_WEBCORE_CMAKE_DIR}/modules/compiler/emscripten/set_compilation.cmake")
+include("${MODULE_WEBCORE_CMAKE_DIR}/modules/compiler/emscripten/set_modularize.cmake")
+
+#--------------------------------------------------------------------------------
+# Options
+#--------------------------------------------------------------------------------
+
+set_glob_options()
+
 option(MODULE_WEBCORE_SHARED_LIB "Build shared library (.so)" OFF)
 option(MODULE_WEBCORE_ENABLE_TESTS "Enable test builds" OFF)
-option(GLOBAL_EMSCRIPTEN_PLATFORM "Using emscripten compiler" OFF)
-option(GLOBAL_EMSCRIPTEN_USE_BINDING "Using emscripten binding" OFF)
 option(CUSTOM_EMSCRIPTEN_ROOT_DIR "Emscripten root directory" OFF)
 option(CUSTOM_BOOST_ROOT_DIR "Boost root directory" OFF)
 option(CUSTOM_GTEST_ROOT_DIR "GTest root directory" OFF)
 
-if (NOT DEFINED CMAKE_TOOLCHAIN_FILE AND GLOBAL_EMSCRIPTEN_PLATFORM)
-    set(CMAKE_TOOLCHAIN_FILE "${CUSTOM_EMSCRIPTEN_ROOT_DIR}/cmake/Modules/Platform/Emscripten.cmake")
-    include(${CMAKE_TOOLCHAIN_FILE})
-endif ()
+#--------------------------------------------------------------------------------
+# [EMSCRIPTEN]: Setup
+#--------------------------------------------------------------------------------
 
-if (NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Choose the type of build" FORCE)
-endif ()
+if(GLOB_EMSCRIPTEN_PLATFORM)
+  emscripten_setup()
+endif()
 
-project(${META_WEBCORE_PRJNAME} VERSION ${META_WEBCORE_VERSION} LANGUAGES CXX)
+#--------------------------------------------------------------------------------
+# Project
+#--------------------------------------------------------------------------------
 
-# Подмодули
-add_subdirectory(submodules/sway.module_core)
+project_metadata("module_webcore" 0.1.0)
+project(${MODULE_WEBCORE_PROJ_NAME} VERSION ${MODULE_WEBCORE_VERSION} LANGUAGES CXX)
 
-if (GLOBAL_EMSCRIPTEN_PLATFORM)
-    set(CMAKE_CXX_COMPILER "${CUSTOM_EMSCRIPTEN_ROOT_DIR}/em++")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --bind -Os")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DEMSCRIPTEN_PLATFORM")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wno-unknown-pragmas -Wno-unicode-whitespace \
-        -Wno-unused-local-typedef -Wno-invalid-noreturn -Wno-unused-command-line-argument")
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -s WASM=1 -s MODULARIZE=1")
-endif ()
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=default -fPIE")
 
-# Определяем каталог вывода по умолчанию
-if (CMAKE_BUILD_TYPE MATCHES Debug)
-    set(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin/dbg)
-    set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin/dbg)
-else ()
-    set(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
-    set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
-endif ()
+#---------------------------------------------------------------------------------
+# Submodules
+#---------------------------------------------------------------------------------
 
-set(MODULE_WEBCORE_DIR ${CMAKE_CURRENT_LIST_DIR})
+add_submodule("module_core" submodules/sway.module_core)
 
-# Добавляем пути для поиска хедеров
-include_directories("${EMSCRIPTEN_PREFIX}/system/include")
-include_directories("${MODULE_WEBCORE_DIR}/submodules/sway.module_core/lib/cxx/include")
-include_directories("${MODULE_WEBCORE_DIR}/lib/include")
+#--------------------------------------------------------------------------------
+# Executable output path
+#--------------------------------------------------------------------------------
 
-# Получаем пути ко всем хедерам и исходникам библиотеки
-file(GLOB_RECURSE MODULE_WEBCORE_HEADERS "${MODULE_WEBCORE_DIR}/lib/include/*.*")
-file(GLOB_RECURSE MODULE_WEBCORE_SOURCE "${MODULE_WEBCORE_DIR}/lib/src/*.*")
+set_output_dir(${MODULE_WEBCORE_BIN_DIR})
 
-if (MODULE_WEBCORE_SHARED_LIB)
-    add_executable(${META_WEBCORE_LIBNAME} ${MODULE_WEBCORE_SOURCE})
-    set_target_properties(${META_WEBCORE_LIBNAME} PROPERTIES OUTPUT_NAME ${META_WEBCORE_PRJNAME})
-    set_target_properties(${META_WEBCORE_LIBNAME} PROPERTIES SUFFIX ".${META_WEBCORE_VERSION}.js")
-else ()
-    add_library(${META_WEBCORE_LIBNAME} STATIC ${MODULE_WEBCORE_SOURCE})
-    set_target_properties(${META_WEBCORE_LIBNAME} PROPERTIES OUTPUT_NAME ${META_WEBCORE_PRJNAME})
-    set_target_properties(${META_WEBCORE_LIBNAME} PROPERTIES SUFFIX ".a.${META_WEBCORE_VERSION}")
-endif ()
+#---------------------------------------------------------------------------------
+# Include project headers
+#---------------------------------------------------------------------------------
 
-enable_cxx17(${META_WEBCORE_LIBNAME})
-target_link_libraries(${META_WEBCORE_LIBNAME})
+if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+  include_directories("/usr/local/include/c++/v1")
+endif()
 
-# Добавляем построение тестов
+include_directories("${SYSTEM_INC_DIR}")
+include_directories("${MODULE_WEBCORE_LIST_DIR}/lib/cxx/include")
+include_directories("${MODULE_WEBCORE_LIST_DIR}/submodules/sway.module_core/lib/cxx/include")
+
+#---------------------------------------------------------------------------------
+# Library
+#---------------------------------------------------------------------------------
+
+add_subdirectory(lib/cxx)
+
+#---------------------------------------------------------------------------------
+# Tests
+#---------------------------------------------------------------------------------
+
 if (MODULE_WEBCORE_ENABLE_TESTS)
     if (MODULE_WEBCORE_SHARED_LIB)
         message(STATUS "[${META_WEBCORE_PRJNAME}]: Tests are only allowed with a static lib")
     else ()
-        message(STATUS "[${META_WEBCORE_PRJNAME}]:Tests have been enabled")
-        add_subdirectory(lib/tests/google)
+        message(STATUS "[${META_WEBCORE_PRJNAME}]: Tests have been enabled")
+        add_subdirectory(lib/cxx/tests/google)
     endif ()
 endif ()

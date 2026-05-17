@@ -1,6 +1,6 @@
 'use strict';
 
-import { IWebappBridgeModule } from './webappbridgemodule';
+import { IWebappBridgeModule } from './bridgemodule';
 
 export class WebappBridge {
   public module: IWebappBridgeModule = null;
