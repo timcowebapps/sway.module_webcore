@@ -2,6 +2,21 @@
 
 namespace sway::webcore {
 
+EMSCRIPTEN_BINDING_BEGIN(HtmlElement)
+emscripten::class_<HtmlElement>("HtmlElement")
+    .smart_ptr<std::shared_ptr<HtmlElement>>("HtmlElementSmartPtr")
+    // .function("getParentElement", &HtmlElement::getParentElement)
+    .function("appendChild", &HtmlElement::appendChild)
+    // .function("replaceChild", &HtmlElement::replaceChild)
+    // .function("removeChild", &HtmlElement::removeChild)
+    // .function("setInnerContent", &HtmlElement::setInnerContent)
+    // .function("setAttribute", &HtmlElement::setAttribute)
+    // .function("addClassName", &HtmlElement::addClassName)
+    // .function("removeClassName", &HtmlElement::removeClassName)
+    // .function("hasClassName", &HtmlElement::hasClassName)
+    .function("toString", &HtmlElement::toString);
+EMSCRIPTEN_BINDING_END()
+
 HtmlElement::HtmlElement() noexcept
     : jsValue_(emscripten::val::null()) {}
 
@@ -22,7 +37,7 @@ HtmlElement &HtmlElement::operator=(HtmlElement &&other) noexcept {
   return *this;
 }
 
-auto HtmlElement::getParentElement() const -> HtmlElementTypedefs::UniquePtr_t {
+auto HtmlElement::getParentElement() const -> HtmlElementTypedefs::SharedPtr_t {
   emscripten::val parent = jsValue_["parentElement"];
   if (parent.isNull() || parent.isUndefined()) {
     return HtmlElement::makeUniquePtr();
@@ -31,7 +46,7 @@ auto HtmlElement::getParentElement() const -> HtmlElementTypedefs::UniquePtr_t {
   return HtmlElement::makeUniquePtr(parent);
 }
 
-auto HtmlElement::appendChild(HtmlElementTypedefs::UniquePtr_t child) -> HtmlElementTypedefs::UniquePtr_t {
+auto HtmlElement::appendChild(HtmlElementTypedefs::SharedPtr_t child) -> HtmlElementTypedefs::SharedPtr_t {
   HtmlElement *concreteChild = dynamic_cast<HtmlElement *>(child.get());
   if (!concreteChild) {
     throw std::runtime_error("HtmlElement: Child is not of type HtmlElement");
@@ -45,8 +60,8 @@ auto HtmlElement::appendChild(HtmlElementTypedefs::UniquePtr_t child) -> HtmlEle
   return HtmlElement::makeUniquePtr(result);
 }
 
-auto HtmlElement::replaceChild(HtmlElementTypedefs::UniquePtr_t newChild, HtmlElementTypedefs::UniquePtr_t oldChild)
-    -> HtmlElementTypedefs::UniquePtr_t {
+auto HtmlElement::replaceChild(HtmlElementTypedefs::SharedPtr_t newChild, HtmlElementTypedefs::SharedPtr_t oldChild)
+    -> HtmlElementTypedefs::SharedPtr_t {
   HtmlElement *concreteNewChild = dynamic_cast<HtmlElement *>(newChild.get());
   HtmlElement *concreteOldChild = dynamic_cast<HtmlElement *>(oldChild.get());
   if (!concreteNewChild || !concreteOldChild) {
@@ -62,7 +77,7 @@ auto HtmlElement::replaceChild(HtmlElementTypedefs::UniquePtr_t newChild, HtmlEl
   return HtmlElement::makeUniquePtr(result);
 }
 
-auto HtmlElement::removeChild(HtmlElementTypedefs::UniquePtr_t child) -> HtmlElementTypedefs::UniquePtr_t {
+auto HtmlElement::removeChild(HtmlElementTypedefs::SharedPtr_t child) -> HtmlElementTypedefs::SharedPtr_t {
   HtmlElement *concreteChild = dynamic_cast<HtmlElement *>(child.get());
   if (!concreteChild) {
     throw std::runtime_error("HtmlElement: Child is not of type HtmlElement");

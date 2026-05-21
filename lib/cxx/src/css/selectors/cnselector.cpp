@@ -3,11 +3,9 @@
 namespace sway::webcore {
 
 EMSCRIPTEN_BINDING_BEGIN(CnSelector)
-#ifdef EMSCRIPTEN_PLATFORM
 emscripten::class_<CnSelector, emscripten::base<Selector>>("CnSelector")
     .constructor<CnSelectorChain>()
     .function("getMods", &CnSelector::getMods);
-#endif
 EMSCRIPTEN_BINDING_END()
 
 CnSelector::CnSelector(const CnSelectorChain &chain)
@@ -20,11 +18,7 @@ CnSelector::CnSelector(const CnSelectorChain &chain)
 }
 
 auto CnSelector::getMods() const -> std::vector<std::string> {
-#ifdef EMSCRIPTEN_PLATFORM
   return emscripten::vecFromJSArray<std::string>(chain_.mods);
-#else
-  return chain_.mods;
-#endif
 }
 
 }  // namespace sway::webcore

@@ -13,7 +13,7 @@ public:
 
   virtual ~HtmlBuilder() = default;
 
-  auto createHtmlElement(TreeNodeElement *element) -> HtmlElement;
+  auto createHtmlElement(TreeNodeElement *element) -> HtmlElementTypedefs::SharedPtr_t;
 };
 
 }  // namespace sway::webcore

@@ -5,14 +5,14 @@
 
 namespace sway::webcore {
 
-auto HtmlBuilder::createHtmlElement(TreeNodeElement *element) -> HtmlElement {
+auto HtmlBuilder::createHtmlElement(TreeNodeElement *element) -> HtmlElementTypedefs::SharedPtr_t {
   auto htmlElement = HtmlDocument::createElement(element->getHtmlElementTagname());
-  htmlElement.setAttribute("id", element->getHtmlElementId());
+  htmlElement->setAttribute("id", element->getHtmlElementId());
   for (std::string cn : element->getHtmlElementClasses()) {
-    htmlElement.addClassName(cn);
+    htmlElement->addClassName(cn);
   }
 
-  htmlElement.setInnerContent(element->getHtmlContent());
+  htmlElement->setInnerContent(element->getHtmlContent());
   return htmlElement;
 }
 

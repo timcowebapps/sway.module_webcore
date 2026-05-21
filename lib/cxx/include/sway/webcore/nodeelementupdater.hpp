@@ -7,12 +7,14 @@
 namespace sway::webcore {
 
 class NodeElementUpdater : public core::Traverser {
+  DECLARE_EMSCRIPTEN_BINDING()
+
 public:
   NodeElementUpdater() = default;
 
   virtual ~NodeElementUpdater() = default;
 
-  MTHD_OVERRIDE(u32_t visit(core::Visitable *guest));
+  auto visit(core::Visitable *guest) -> u32_t override;
 
   void forceUpdate();
 

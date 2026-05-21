@@ -16,11 +16,13 @@ class TreeNodeElement : public core::Node {
   DECLARE_EMSCRIPTEN_BINDING()
 
 public:
-  TreeNodeElement(const TreeNodeElementDescriptor &createInfo);
+  TreeNodeElement(const TreeNodeElementDescriptor &descriptor);
 
   virtual ~TreeNodeElement() = default;
 
-  void addRegion(const std::string &name, const RegionCreateInfo &createInfo);
+  void addRegionImpl(const std::string &name, const RegionCreateInfo &createInfo);
+
+  void addRegion(const std::string &name, emscripten::val createInfo);
 
   auto getRegion(const std::string &name) const -> std::shared_ptr<Region>;
 
@@ -28,12 +30,7 @@ public:
 
   auto getRegions() -> RegionMap_t;
 
-  void addEvent(const std::string &targetId, const std::string &type
-#ifdef EMSCRIPTEN_PLATFORM
-      ,
-      emscripten::val callback
-#endif
-  );
+  void addEvent(const std::string &targetId, const std::string &type, emscripten::val callback);
 
   void bindEvents();
 

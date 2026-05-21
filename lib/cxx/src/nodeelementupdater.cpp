@@ -4,6 +4,13 @@
 
 namespace sway::webcore {
 
+EMSCRIPTEN_BINDING_BEGIN(NodeElementUpdater)
+emscripten::class_<NodeElementUpdater, emscripten::base<core::Traverser>>("NodeElementUpdater")
+    .smart_ptr<std::shared_ptr<NodeElementUpdater>>("NodeElementUpdaterSmartPtr")
+    .constructor<>()
+    .function("forceUpdate", &NodeElementUpdater::forceUpdate);
+EMSCRIPTEN_BINDING_END()
+
 auto NodeElementUpdater::visit(core::typedefs::VisitablePtr_t guest) -> u32_t {
   auto *node = static_cast<TreeNodeElement *>(guest);
   core::NodeOptionalSharedPtr_t parentOpt = node->getParentNode();
@@ -13,13 +20,13 @@ auto NodeElementUpdater::visit(core::typedefs::VisitablePtr_t guest) -> u32_t {
 
   TreeNodeElement *parent = (TreeNodeElement *)parentOpt.value().get();
 
-  // EM_ASM(
-  //     {
-  //         console.groupCollapsed("ELEMENT " + UTF8ToString($0));
-  //         console.log("NODE_INDEX " + UTF8ToString($1));
-  //         console.groupEnd();
-  //     },
-  //     guest->getNodeUid().c_str(), std::to_string<core::NodeIndex>(guest->getNodeIndex()).c_str());
+  EM_ASM(
+      {
+        console.groupCollapsed("ELEMENT " + UTF8ToString($0));
+        console.log("NODE_INDEX " + UTF8ToString($1));
+        console.groupEnd();
+      },
+      node->getHtmlElementId().c_str(), Representation<core::NodeIndex>::get(node->getNodeIndex()).c_str());
 
   if (parent) {
     auto region = parent->getRegionByNodeIdx(node->getNodeIndex());
@@ -31,6 +38,8 @@ auto NodeElementUpdater::visit(core::typedefs::VisitablePtr_t guest) -> u32_t {
 
 void NodeElementUpdater::forceUpdate() {
   const size_t numUpdates = pendingUpdateNodes_.size();
+  EM_ASM_INT({ console.log("NUM UPDATES " + $0); }, numUpdates);
+
   if (numUpdates == 0) {
     return;
   }

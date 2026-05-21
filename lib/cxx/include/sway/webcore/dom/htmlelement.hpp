@@ -5,47 +5,23 @@
 
 namespace sway::webcore {
 
-class IHtmlElement {
-public:
-  virtual ~IHtmlElement() = default;
-
-  [[nodiscard]]
-  virtual auto getParentElement() const -> std::unique_ptr<IHtmlElement> = 0;
-
-  virtual auto appendChild(std::unique_ptr<IHtmlElement> child) -> std::unique_ptr<IHtmlElement> = 0;
-
-  virtual auto replaceChild(std::unique_ptr<IHtmlElement> newChild, std::unique_ptr<IHtmlElement> oldChild)
-      -> std::unique_ptr<IHtmlElement> = 0;
-
-  virtual auto removeChild(std::unique_ptr<IHtmlElement> child) -> std::unique_ptr<IHtmlElement> = 0;
-
-  virtual void setInnerContent(const std::string &content, bool dirty = true) = 0;
-
-  virtual void setAttribute(const std::string &key, const std::string &value) = 0;
-
-  virtual void addClassName(const std::string &name) = 0;
-
-  virtual void removeClassName(const std::string &name) = 0;
-
-  [[nodiscard]]
-  virtual auto hasClassName(const std::string &name) const -> bool = 0;
-
-  [[nodiscard]]
-  virtual auto toString() const -> std::string = 0;
-};
+class HtmlElement;
 
 namespace HtmlElementTypedefs {
-using UniquePtr_t = std::unique_ptr<IHtmlElement>;
-}
+using UniquePtr_t = std::unique_ptr<HtmlElement>;
+using SharedPtr_t = std::shared_ptr<HtmlElement>;
+}  // namespace HtmlElementTypedefs
 
-class HtmlElement : public IHtmlElement {
+class HtmlElement {
+  DECLARE_EMSCRIPTEN_BINDING()
+
 public:
-  static auto makeUniquePtr(const emscripten::val &val = emscripten::val::null()) -> HtmlElementTypedefs::UniquePtr_t {
+  static auto makeUniquePtr(const emscripten::val &val = emscripten::val::null()) -> HtmlElementTypedefs::SharedPtr_t {
     if (val.isNull() || val.isUndefined()) {
-      return HtmlElementTypedefs::UniquePtr_t(new HtmlElement());
+      return HtmlElementTypedefs::SharedPtr_t(new HtmlElement());
     }
 
-    return HtmlElementTypedefs::UniquePtr_t(new HtmlElement(val));
+    return HtmlElementTypedefs::SharedPtr_t(new HtmlElement(val));
   }
 
   HtmlElement() noexcept;
@@ -58,31 +34,31 @@ public:
 
   HtmlElement &operator=(HtmlElement &&other) noexcept;
 
-  ~HtmlElement() override = default;
+  ~HtmlElement() = default;
 
   [[nodiscard]]
-  auto getParentElement() const -> HtmlElementTypedefs::UniquePtr_t override;
+  auto getParentElement() const -> HtmlElementTypedefs::SharedPtr_t;
 
-  auto appendChild(HtmlElementTypedefs::UniquePtr_t child) -> HtmlElementTypedefs::UniquePtr_t override;
+  auto appendChild(HtmlElementTypedefs::SharedPtr_t child) -> HtmlElementTypedefs::SharedPtr_t;
 
-  auto replaceChild(HtmlElementTypedefs::UniquePtr_t newChild, HtmlElementTypedefs::UniquePtr_t oldChild)
-      -> HtmlElementTypedefs::UniquePtr_t override;
+  auto replaceChild(HtmlElementTypedefs::SharedPtr_t newChild, HtmlElementTypedefs::SharedPtr_t oldChild)
+      -> HtmlElementTypedefs::SharedPtr_t;
 
-  auto removeChild(HtmlElementTypedefs::UniquePtr_t child) -> HtmlElementTypedefs::UniquePtr_t override;
+  auto removeChild(HtmlElementTypedefs::SharedPtr_t child) -> HtmlElementTypedefs::SharedPtr_t;
 
-  void setInnerContent(const std::string &content, bool dirty = true) override;
+  void setInnerContent(const std::string &content, bool dirty = true);
 
-  void setAttribute(const std::string &key, const std::string &value) override;
+  void setAttribute(const std::string &key, const std::string &value);
 
-  void addClassName(const std::string &name) override;
+  void addClassName(const std::string &name);
 
-  void removeClassName(const std::string &name) override;
-
-  [[nodiscard]]
-  auto hasClassName(const std::string &name) const -> bool override;
+  void removeClassName(const std::string &name);
 
   [[nodiscard]]
-  auto toString() const -> std::string override;
+  auto hasClassName(const std::string &name) const -> bool;
+
+  [[nodiscard]]
+  auto toString() const -> std::string;
 
   [[nodiscard]]
   auto getJsValue() const -> const emscripten::val & {

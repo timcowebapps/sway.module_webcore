@@ -3,12 +3,10 @@
 namespace sway::webcore {
 
 EMSCRIPTEN_BINDING_BEGIN(Router)
-#ifdef EMSCRIPTEN_PLATFORM
 emscripten::class_<Router>("Router")
     .constructor()
     .function("addRoute", &Router::addRoute)
     .function("navigate", &Router::navigate);
-#endif
 EMSCRIPTEN_BINDING_END()
 
 Router::~Router() { routes_.clear(); }
@@ -18,7 +16,6 @@ void Router::addRoute(const std::string &route, RouteCallback_t callback) {
 }
 
 void Router::navigate(const std::string &fragment) {
-#ifdef EMSCRIPTEN_PLATFORM
   emscripten::val history = emscripten::val::global("history");
   history.call<void>("replaceState", emscripten::val::object(), emscripten::val::global("document")["title"],
       emscripten::val(fragment.c_str()));
@@ -31,7 +28,6 @@ void Router::navigate(const std::string &fragment) {
       route.callback();
     }
   }
-#endif
 }
 
 }  // namespace sway::webcore

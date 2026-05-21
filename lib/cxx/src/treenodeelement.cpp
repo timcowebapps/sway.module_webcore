@@ -2,34 +2,45 @@
 
 namespace sway::webcore {
 
-EMSCRIPTEN_BINDING_BEGIN(TreeNodeElement)
-#ifdef EMSCRIPTEN_PLATFORM
-emscripten::class_<TreeNodeElement, emscripten::base<core::Node>>("TreeNodeElement")
-    .constructor<TreeNodeElementDescriptor>()
-    .function("addRegion", &TreeNodeElement::addRegion)
-    .function("getRegion", &TreeNodeElement::getRegion, emscripten::allow_raw_pointers())
-    .function("addEvent", &TreeNodeElement::addEvent, emscripten::allow_raw_pointers())
-    .function("bindEvents", &TreeNodeElement::bindEvents)
-    .function("getHtmlElementTagname", &TreeNodeElement::getHtmlElementTagname)
-    .function("setHtmlElementTagname", &TreeNodeElement::setHtmlElementTagname)
-    .function("getHtmlElementClasses", &TreeNodeElement::getHtmlElementClasses)
-    .function("setHtmlElementClasses", &TreeNodeElement::setHtmlElementClasses)
-    .function("getHtmlElementId", &TreeNodeElement::getHtmlElementId)
-    .function("setHtmlElementId", &TreeNodeElement::setHtmlElementId)
-    .function("getHtmlContent", &TreeNodeElement::getHtmlContent)
-    .function("setHtmlContent", &TreeNodeElement::setHtmlContent);
-#endif
+EMSCRIPTEN_BINDING_BEGIN(TreeNodeElement) {
+  emscripten::class_<TreeNodeElement, emscripten::base<core::Node>>("TreeNodeElement")
+      .smart_ptr<std::shared_ptr<TreeNodeElement>>("TreeNodeElementSmartPtr")
+      .constructor<TreeNodeElementDescriptor>()
+      .function("addRegion", &TreeNodeElement::addRegion)
+      .function("getRegion", &TreeNodeElement::getRegion, emscripten::allow_raw_pointers())
+      .function("addEvent", &TreeNodeElement::addEvent, emscripten::allow_raw_pointers())
+      .function("bindEvents", &TreeNodeElement::bindEvents)
+      .function("getHtmlElementTagname", &TreeNodeElement::getHtmlElementTagname)
+      .function("setHtmlElementTagname", &TreeNodeElement::setHtmlElementTagname)
+      .function("getHtmlElementClasses", &TreeNodeElement::getHtmlElementClasses)
+      .function("setHtmlElementClasses", &TreeNodeElement::setHtmlElementClasses)
+      .function("getHtmlElementId", &TreeNodeElement::getHtmlElementId)
+      .function("setHtmlElementId", &TreeNodeElement::setHtmlElementId)
+      .function("getHtmlContent", &TreeNodeElement::getHtmlContent)
+      .function("setHtmlContent", &TreeNodeElement::setHtmlContent);
+}
 EMSCRIPTEN_BINDING_END()
 
-TreeNodeElement::TreeNodeElement(const TreeNodeElementDescriptor &createInfo)
-    : htmlElementTagname_(createInfo.tagname)
-    , htmlElementId_(createInfo.id) {}
+TreeNodeElement::TreeNodeElement(const TreeNodeElementDescriptor &descriptor)
+    : htmlElementTagname_(descriptor.tagname)
+    , htmlElementId_(descriptor.id) {}
 
-void TreeNodeElement::addRegion(const std::string &name, const RegionCreateInfo &createInfo) {
-  regions_.insert(
-      std::make_pair(name, std::make_shared<Region>(std::static_pointer_cast<TreeNodeElement>(
-                                                        static_cast<TreeNodeElement *>(this)->shared_from_this()),
-                               createInfo)));
+void TreeNodeElement::addRegionImpl(const std::string &name, const RegionCreateInfo &createInfo) {
+  auto self = std::static_pointer_cast<TreeNodeElement>(static_cast<TreeNodeElement *>(this)->shared_from_this());
+  regions_.insert(std::make_pair(name, std::make_shared<Region>(self, createInfo)));
+}
+
+void TreeNodeElement::addRegion(const std::string &name, emscripten::val createInfo) {
+  RegionCreateInfo info;
+  if (createInfo.hasOwnProperty("id")) {
+    info.id = createInfo["id"].as<std::string>();
+  }
+
+  if (createInfo.hasOwnProperty("replace")) {
+    info.replace = createInfo["replace"].as<bool>();
+  }
+
+  addRegionImpl(name, info);
 }
 
 auto TreeNodeElement::getRegion(const std::string &name) const -> std::shared_ptr<Region> {
@@ -54,18 +65,11 @@ auto TreeNodeElement::getRegionByNodeIdx(const core::NodeIndex &nodeIdx) const -
 
 auto TreeNodeElement::getRegions() -> RegionMap_t { return regions_; }
 
-void TreeNodeElement::addEvent(const std::string &targetId, const std::string &type
-#ifdef EMSCRIPTEN_PLATFORM
-    ,
-    emscripten::val callback
-#endif
-) {
-#ifdef EMSCRIPTEN_PLATFORM
+void TreeNodeElement::addEvent(const std::string &targetId, const std::string &type, emscripten::val callback) {
   handlers_.push_back(
-      (struct EventHandler){.targetId = targetId, .target = new EventTarget([](emscripten::val) {}), .type = type});
+      (struct EventHandler){.targetId = targetId, .type = type, .target = new EventTarget([](emscripten::val) {})});
 
   handlers_.back().target->setCallback(callback);
-#endif
 }
 
 void TreeNodeElement::bindEvents() {

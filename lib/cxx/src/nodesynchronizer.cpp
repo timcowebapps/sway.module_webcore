@@ -11,63 +11,65 @@ NodeSynchronizer::NodeSynchronizer() { htmlBuilder_ = new HtmlBuilder(); }
 NodeSynchronizer::~NodeSynchronizer() { core::safeDelete<HtmlBuilder *>(htmlBuilder_); }
 
 void NodeSynchronizer::insertNode(PendingNode node) {
-  HtmlElement parentHtmlElement = HtmlDocument::getElementById(node.parentElement->getHtmlElementId());
-  // if (parentHtmlElement.val_.isNull())
-  //     return;
+  HtmlElementTypedefs::SharedPtr_t parentHtmlElement =
+      HtmlDocument::getElementById(node.parentElement->getHtmlElementId());
+  if (parentHtmlElement->getJsValue().isNull()) {
+    return;
+  }
 
-  // if (node.region) {
-  //     HtmlElement regionHtmlElement =
-  //     HtmlDocument::getElementById(node.region.get()->getHtmlElementId()); if
-  //     (regionHtmlElement.val_.isNull()) {
-  //         return;
-  //     }
+  if (node.region) {
+    HtmlElementTypedefs::SharedPtr_t regionHtmlElement =
+        HtmlDocument::getElementById(node.region.get()->getHtmlElementId());
+    if (regionHtmlElement->getJsValue().isNull()) {
+      return;
+    }
 
-  //     if (node.region->hasHtmlElementReplaced()) {
-  //         auto parentRegionHtmlElement = regionHtmlElement.getParentElement();
-  //         parentRegionHtmlElement.replaceChild(
-  //             htmlBuilder_->createHtmlElement(node.element.second), regionHtmlElement);
-  //     } else {
-  //         parentHtmlElement.appendChild(htmlBuilder_->createHtmlElement(node.element.second));
-  //     }
-  // } else {
-  //     parentHtmlElement.appendChild(htmlBuilder_->createHtmlElement(node.element.second));
-  // }
+    if (node.region->hasHtmlElementReplaced()) {
+      auto parentRegionHtmlElement = regionHtmlElement->getParentElement();
+      parentRegionHtmlElement->replaceChild(
+          htmlBuilder_->createHtmlElement(node.element.second), std::move(regionHtmlElement));
+    } else {
+      parentHtmlElement->appendChild(htmlBuilder_->createHtmlElement(node.element.second));
+    }
+  } else {
+    parentHtmlElement->appendChild(htmlBuilder_->createHtmlElement(node.element.second));
+  }
 
-  // node.element.second->bindEvents();
+  node.element.second->bindEvents();
 }
 
 void NodeSynchronizer::removeNode(PendingNode node) {
-  // if (node.region && !node.region->hasAttached()) {
-  //     return;
-  // }
+  if (node.region && !node.region->hasAttached()) {
+    return;
+  }
 
-  // HtmlElement current = HtmlDocument::getElementById(node.element.second->getHtmlElementId());
-  // if (current.val_.isNull()) {
-  //     return;
-  // }
+  HtmlElementTypedefs::SharedPtr_t current = HtmlDocument::getElementById(node.element.second->getHtmlElementId());
+  if (current->getJsValue().isNull()) {
+    return;
+  }
 
-  // HtmlElement parent = current.getParentElement();
-  // if (parent.val_.isNull()) {
-  //     return;
-  // }
+  HtmlElement *parent = dynamic_cast<HtmlElement *>(current->getParentElement().get());
+  if (parent->getJsValue().isNull()) {
+    return;
+  }
 
-  // if (node.region) {
-  //     HtmlElement regionHtmlElement =
-  //     HtmlDocument::getElementById(node.region.get()->getHtmlElementId()); if
-  //     (regionHtmlElement.val_.isNull()) {
-  //         return;
-  //     }
+  if (node.region) {
+    HtmlElementTypedefs::SharedPtr_t regionHtmlElement =
+        HtmlDocument::getElementById(node.region.get()->getHtmlElementId());
+    if (regionHtmlElement->getJsValue().isNull()) {
+      return;
+    }
 
-  //     if (node.region->hasHtmlElementReplaced()) {
-  //         auto parentRegionHtmlElement = regionHtmlElement.getParentElement();
-  //         parentRegionHtmlElement.replaceChild(
-  //             htmlBuilder_->createHtmlElement(node.element.second), regionHtmlElement);
-  //     } else {
-  //         parent.removeChild(current);
-  //     }
-  // } else {
-  //     parent.removeChild(current);
-  // }
+    if (node.region->hasHtmlElementReplaced()) {
+      auto parentRegionHtmlElement = regionHtmlElement->getParentElement();
+      parentRegionHtmlElement->replaceChild(
+          htmlBuilder_->createHtmlElement(node.element.second), std::move(regionHtmlElement));
+    } else {
+      parent->removeChild(std::move(current));
+    }
+  } else {
+    parent->removeChild(std::move(current));
+  }
 }
 
 void NodeSynchronizer::applyPendingUpdate(PendingNode node) {
