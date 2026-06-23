@@ -5,6 +5,7 @@
 #include <sway/webcore/nodeelementupdater.hpp>
 #include <sway/webcore/region.hpp>
 #include <sway/webcore/router/router.hpp>
+#include <sway/webcore/tree.hpp>
 #include <sway/webcore/treenodeelement.hpp>
 
 using namespace sway;
@@ -68,6 +69,7 @@ EMSCRIPTEN_BINDINGS(sway_webcore_html) {
 
   Region::bindEmscriptenClass();
   TreeNodeElement::bindEmscriptenClass();
+  Tree::bindEmscriptenClass();
   NodeElementUpdater::bindEmscriptenClass();
   HtmlDocument::bindEmscriptenClass();
 }

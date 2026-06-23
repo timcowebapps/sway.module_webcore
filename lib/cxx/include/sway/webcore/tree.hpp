@@ -12,6 +12,8 @@
 namespace sway::webcore {
 
 class TreeListener {
+  DECLARE_EMSCRIPTEN_BINDING()
+
   virtual void onNodeAdded(const core::NodeIndex &nodeIdx);
 
   virtual void onNodeRemoved(core::Node parent, core::Node child);
@@ -20,8 +22,11 @@ class TreeListener {
 };
 
 class Tree : public core::Hierarchy {
+  DECLARE_EMSCRIPTEN_BINDING()
+
 public:
   Tree();
+
   virtual ~Tree() = default;
 };
 
